@@ -4,7 +4,7 @@ import {Product} from '../../core/models/product';
 @Component({
   selector: 'app-post-list',
   templateUrl: './products-table.component.html',
-  styleUrls: ['./products-table.component.css']
+  styleUrls: ['./products-table.component.scss']
 })
 export class ProductsTableComponent implements OnInit, OnDestroy {
   public dataSource = [

@@ -1,0 +1,100 @@
+$app-header-row-height: 56px;
+$app-row-height: 48px;
+$app-row-horizontal-padding: 24px;
+
+/**
+ * Flex-based table structure
+ */
+.app-table {
+  display: block;
+  background: darkred;
+  width: 900px;
+}
+
+.app-header-row {
+  min-height: $app-header-row-height;
+}
+
+.app-row, .app-footer-row {
+  min-height: $app-row-height;
+}
+
+.app-row, .app-header-row, .app-footer-row {
+  display: flex;
+  // Define a border style, but then widths default to 3px. Reset them to 0px except the bottom
+  // which should be 1px;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  align-items: center;
+  box-sizing: border-box;
+
+  // Workaround for https://goo.gl/pFmjJD in IE 11. Adds a pseudo
+  // element that will stretch the row the correct height. See:
+  // https://connect.microsoft.com/IE/feedback/details/802625
+  &::after {
+    display: inline-block;
+    min-height: inherit;
+    content: '';
+  }
+}
+
+.app-cell:first-child, .app-header-cell:first-child, .app-footer-cell:first-child {
+  padding-left: $app-row-horizontal-padding;
+
+  [dir='rtl'] & {
+    padding-left: 0;
+    padding-right: $app-row-horizontal-padding;
+  }
+}
+
+.app-cell:last-child, .app-header-cell:last-child, .app-footer-cell:last-child {
+  padding-right: $app-row-horizontal-padding;
+
+  [dir='rtl'] & {
+    padding-right: 0;
+    padding-left: $app-row-horizontal-padding;
+  }
+}
+
+.app-cell, .app-header-cell, .app-footer-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  word-wrap: break-word;
+  min-height: inherit;
+}
+
+/**
+ * Native HTML table structure
+ */
+table.app-table {
+  border-spacing: 0;
+}
+
+tr.app-header-row {
+  height: $app-header-row-height;
+}
+
+tr.app-row, tr.app-footer-row {
+  height: $app-row-height;
+}
+
+th.app-header-cell {
+  text-align: left;
+}
+
+th.app-header-cell, td.app-cell, td.app-footer-cell {
+  padding: 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+th.app-header-cell:first-child, td.app-cell:first-child, td.app-footer-cell:first-child {
+  padding-left: $app-row-horizontal-padding;
+}
+
+th.app-header-cell:last-child, td.app-cell:last-child, td.app-footer-cell:last-child {
+  padding-right: $app-row-horizontal-padding;
+}

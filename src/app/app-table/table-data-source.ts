@@ -282,13 +282,13 @@ export class MatTableDataSource<T> extends DataSource<T> {
   }
 
   /**
-   * Used by the MatTable. Called when it connects to the data source.
+   * Used by the AppTable. Called when it connects to the data source.
    * @docs-private
    */
   connect() { return this._renderData; }
 
   /**
-   * Used by the MatTable. Called when it is destroyed. No-op.
+   * Used by the AppTable. Called when it is destroyed. No-op.
    * @docs-private
    */
   disconnect() { }

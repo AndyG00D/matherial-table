@@ -23,20 +23,19 @@ import {Directionality} from '@angular/cdk/bidi';
  * Wrapper for the CdkTable with Material design styles.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'mat-table, table[mat-table]',
-  exportAs: 'matTable',
+  selector: 'app-table, table[app-table]',
+  exportAs: 'appTable',
   template: CDK_TABLE_TEMPLATE,
-  styleUrls: ['table.css'],
+  styleUrls: ['./table.scss'],
   host: {
-    'class': 'mat-table',
+    'class': 'app-table',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatTable<T> extends CdkTable<T> {
+export class AppTable<T> extends CdkTable<T> {
   /** Overrides the sticky CSS class set by the `CdkTable`. */
-  protected stickyCssClass = 'mat-table-sticky';
+  protected stickyCssClass = 'app-table-sticky';
 
   // TODO(andrewseguin): Remove this explicitly set constructor when the compiler knows how to
   // properly build the es6 version of the class. Currently sets ctorParameters to empty due to a

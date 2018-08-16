@@ -9,9 +9,15 @@ import {CommentItemComponent} from './components/comment-item/comment-item.compo
 import {ProductsRoutingModule} from './products-routing.module';
 import {CdkTableModule} from '@angular/cdk/table';
 import {ProductsService} from './products.service';
+import {AppTableModule} from '../app-table/table-module';
 
 @NgModule({
-  imports: [CommonModule, ProductsRoutingModule, CdkTableModule],
+  imports: [
+    CommonModule,
+    ProductsRoutingModule,
+    // CdkTableModule,
+    AppTableModule
+  ],
   declarations: [
     ProductsTableComponent,
     PostItemComponent,

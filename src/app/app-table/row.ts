@@ -13,7 +13,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {
-  CDK_ROW_TEMPLATE, CdkFooterRow, CdkFooterRowDef,
+  CDK_ROW_TEMPLATE,
+  CdkFooterRow,
+  CdkFooterRowDef,
   CdkHeaderRow,
   CdkHeaderRowDef,
   CdkRow,
@@ -21,83 +23,86 @@ import {
 } from '@angular/cdk/table';
 
 /**
- * Header row definition for the mat-table.
+ * Header row definition for the app-table.
  * Captures the header row's template and other header properties such as the columns to display.
  */
 @Directive({
-  selector: '[matHeaderRowDef]',
-  providers: [{provide: CdkHeaderRowDef, useExisting: MatHeaderRowDef}],
-  inputs: ['columns: matHeaderRowDef', 'sticky: matHeaderRowDefSticky'],
+  selector: '[appHeaderRowDef]',
+  providers: [{provide: CdkHeaderRowDef, useExisting: AppHeaderRowDef}],
+  inputs: ['columns: appHeaderRowDef', 'sticky: appHeaderRowDefSticky'],
 })
-export class MatHeaderRowDef extends CdkHeaderRowDef {}
+export class AppHeaderRowDef extends CdkHeaderRowDef {
+}
 
 /**
- * Footer row definition for the mat-table.
+ * Footer row definition for the app-table.
  * Captures the footer row's template and other footer properties such as the columns to display.
  */
 @Directive({
-  selector: '[matFooterRowDef]',
-  providers: [{provide: CdkFooterRowDef, useExisting: MatFooterRowDef}],
-  inputs: ['columns: matFooterRowDef', 'sticky: matFooterRowDefSticky'],
+  selector: '[appFooterRowDef]',
+  providers: [{provide: CdkFooterRowDef, useExisting: AppFooterRowDef}],
+  inputs: ['columns: appFooterRowDef', 'sticky: appFooterRowDefSticky'],
 })
-export class MatFooterRowDef extends CdkFooterRowDef {}
+export class AppFooterRowDef extends CdkFooterRowDef {
+}
 
 /**
- * Data row definition for the mat-table.
+ * Data row definition for the app-table.
  * Captures the footer row's template and other footer properties such as the columns to display and
  * a when predicate that describes when this row should be used.
  */
 @Directive({
-  selector: '[matRowDef]',
-  providers: [{provide: CdkRowDef, useExisting: MatRowDef}],
-  inputs: ['columns: matRowDefColumns', 'when: matRowDefWhen'],
+  selector: '[appRowDef]',
+  providers: [{provide: CdkRowDef, useExisting: AppRowDef}],
+  inputs: ['columns: appRowDefColumns', 'when: appRowDefWhen'],
 })
-export class MatRowDef<T> extends CdkRowDef<T> {}
+export class AppRowDef<T> extends CdkRowDef<T> {
+}
 
 /** Footer template container that contains the cell outlet. Adds the right class and role. */
 @Component({
-  moduleId: module.id,
-  selector: 'mat-header-row, tr[mat-header-row]',
+  selector: 'app-header-row, tr[app-header-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'mat-header-row',
+    'class': 'app-header-row',
     'role': 'row',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  exportAs: 'matHeaderRow',
-  providers: [{provide: CdkHeaderRow, useExisting: MatHeaderRow}],
+  exportAs: 'appHeaderRow',
+  providers: [{provide: CdkHeaderRow, useExisting: AppHeaderRow}],
 })
-export class MatHeaderRow extends CdkHeaderRow { }
+export class AppHeaderRow extends CdkHeaderRow {
+}
 
 /** Footer template container that contains the cell outlet. Adds the right class and role. */
 @Component({
-  moduleId: module.id,
-  selector: 'mat-footer-row, tr[mat-footer-row]',
+  selector: 'app-footer-row, tr[app-footer-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'mat-footer-row',
+    'class': 'app-footer-row',
     'role': 'row',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  exportAs: 'matFooterRow',
-  providers: [{provide: CdkFooterRow, useExisting: MatFooterRow}],
+  exportAs: 'appFooterRow',
+  providers: [{provide: CdkFooterRow, useExisting: AppFooterRow}],
 })
-export class MatFooterRow extends CdkFooterRow { }
+export class AppFooterRow extends CdkFooterRow {
+}
 
 /** Data row template container that contains the cell outlet. Adds the right class and role. */
 @Component({
-  moduleId: module.id,
-  selector: 'mat-row, tr[mat-row]',
+  selector: 'app-row, tr[app-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'mat-row',
+    'class': 'app-row',
     'role': 'row',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  exportAs: 'matRow',
-  providers: [{provide: CdkRow, useExisting: MatRow}],
+  exportAs: 'appRow',
+  providers: [{provide: CdkRow, useExisting: AppRow}],
 })
-export class MatRow extends CdkRow { }
+export class AppRow extends CdkRow {
+}

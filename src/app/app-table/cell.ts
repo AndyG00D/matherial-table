@@ -16,46 +16,46 @@ import {
 } from '@angular/cdk/table';
 
 /**
- * Cell definition for the mat-table.
+ * Cell definition for the app-table.
  * Captures the template of a column's data row cell as well as cell-specific properties.
  */
 @Directive({
-  selector: '[matCellDef]',
-  providers: [{provide: CdkCellDef, useExisting: MatCellDef}]
+  selector: '[appCellDef]',
+  providers: [{provide: CdkCellDef, useExisting: AppCellDef}]
 })
-export class MatCellDef extends CdkCellDef {}
+export class AppCellDef extends CdkCellDef {}
 
 /**
- * Header cell definition for the mat-table.
+ * Header cell definition for the app-table.
  * Captures the template of a column's header cell and as well as cell-specific properties.
  */
 @Directive({
-  selector: '[matHeaderCellDef]',
-  providers: [{provide: CdkHeaderCellDef, useExisting: MatHeaderCellDef}]
+  selector: '[appHeaderCellDef]',
+  providers: [{provide: CdkHeaderCellDef, useExisting: AppHeaderCellDef}]
 })
-export class MatHeaderCellDef extends CdkHeaderCellDef {}
+export class AppHeaderCellDef extends CdkHeaderCellDef {}
 
 /**
- * Footer cell definition for the mat-table.
+ * Footer cell definition for the app-table.
  * Captures the template of a column's footer cell and as well as cell-specific properties.
  */
 @Directive({
-  selector: '[matFooterCellDef]',
-  providers: [{provide: CdkFooterCellDef, useExisting: MatFooterCellDef}]
+  selector: '[appFooterCellDef]',
+  providers: [{provide: CdkFooterCellDef, useExisting: AppFooterCellDef}]
 })
-export class MatFooterCellDef extends CdkFooterCellDef {}
+export class AppFooterCellDef extends CdkFooterCellDef {}
 
 /**
- * Column definition for the mat-table.
+ * Column definition for the app-table.
  * Defines a set of cells available for a table column.
  */
 @Directive({
-  selector: '[matColumnDef]',
-  providers: [{provide: CdkColumnDef, useExisting: MatColumnDef}],
+  selector: '[appColumnDef]',
+  providers: [{provide: CdkColumnDef, useExisting: AppColumnDef}],
 })
-export class MatColumnDef extends CdkColumnDef {
+export class AppColumnDef extends CdkColumnDef {
   /** Unique name for this column. */
-  @Input('matColumnDef') name: string;
+  @Input('appColumnDef') name: string;
 
   /** Whether this column should be sticky positioned at the start of the row */
   @Input() sticky: boolean;
@@ -66,48 +66,48 @@ export class MatColumnDef extends CdkColumnDef {
 
 /** Header cell template container that adds the right classes and role. */
 @Directive({
-  selector: 'mat-header-cell, th[mat-header-cell]',
+  selector: 'app-header-cell, th[app-header-cell]',
   host: {
-    'class': 'mat-header-cell',
+    'class': 'app-header-cell',
     'role': 'columnheader',
   },
 })
-export class MatHeaderCell extends CdkHeaderCell {
+export class AppHeaderCell extends CdkHeaderCell {
   constructor(columnDef: CdkColumnDef,
               elementRef: ElementRef) {
     super(columnDef, elementRef);
-    elementRef.nativeElement.classList.add(`mat-column-${columnDef.cssClassFriendlyName}`);
+    elementRef.nativeElement.classList.add(`app-column-${columnDef.cssClassFriendlyName}`);
   }
 }
 
 /** Footer cell template container that adds the right classes and role. */
 @Directive({
-  selector: 'mat-footer-cell, td[mat-footer-cell]',
+  selector: 'app-footer-cell, td[app-footer-cell]',
   host: {
-    'class': 'mat-footer-cell',
+    'class': 'app-footer-cell',
     'role': 'gridcell',
   },
 })
-export class MatFooterCell extends CdkFooterCell {
+export class AppFooterCell extends CdkFooterCell {
   constructor(columnDef: CdkColumnDef,
               elementRef: ElementRef) {
     super(columnDef, elementRef);
-    elementRef.nativeElement.classList.add(`mat-column-${columnDef.cssClassFriendlyName}`);
+    elementRef.nativeElement.classList.add(`app-column-${columnDef.cssClassFriendlyName}`);
   }
 }
 
 /** Cell template container that adds the right classes and role. */
 @Directive({
-  selector: 'mat-cell, td[mat-cell]',
+  selector: 'app-cell, td[app-cell]',
   host: {
-    'class': 'mat-cell',
+    'class': 'app-cell',
     'role': 'gridcell',
   },
 })
-export class MatCell extends CdkCell {
+export class AppCell extends CdkCell {
   constructor(columnDef: CdkColumnDef,
               elementRef: ElementRef) {
     super(columnDef, elementRef);
-    elementRef.nativeElement.classList.add(`mat-column-${columnDef.cssClassFriendlyName}`);
+    elementRef.nativeElement.classList.add(`app-column-${columnDef.cssClassFriendlyName}`);
   }
 }
