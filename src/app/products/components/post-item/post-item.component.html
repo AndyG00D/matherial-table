@@ -1,0 +1,5 @@
+<h3 class="post-title"><a href="" [routerLink]="[post?.id]">{{post?.title| titlecase}}</a></h3>
+<p class="post-short">{{post?.body | slice: 0: 200}} <ng-container *ngIf="post?.body?.length > 200">...</ng-container></p>
+<p class="post-help">
+  Author: {{post?.user?.name}}
+</p>

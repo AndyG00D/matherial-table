@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  padding-bottom: .5em;
+  border-bottom: 1px solid #cccccc;
+}
+
+p {
+  margin: 0;
+}
+
+.comment-name {
+  font-size: 1.1em;
+  margin-bottom: .3em;
+}
+
+.comment-body {
+  font-size: .9em;
+}
+
+.comment-meta {
+  font-size: .7em;
+  color: #777777;
+  margin-top: .3em;
+}

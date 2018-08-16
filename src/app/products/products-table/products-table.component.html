@@ -1,0 +1,100 @@
+<h1>Products</h1>
+
+<table cdk-table [dataSource]="dataSource" class="cdk-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <!--<ng-container cdkColumnDef="position">-->
+  <!--<th cdk-header-cell *cdkHeaderCellDef> No. </th>-->
+  <!--<td cdk-cell *cdkCellDef="let row"> {{row.position}} </td>-->
+  <!--</ng-container>-->
+
+  <!-- Name Column -->
+  <ng-container cdkColumnDef="avatar">
+    <th cdk-header-cell *cdkHeaderCellDef>avatar</th>
+    <td cdk-cell *cdkCellDef="let row">
+      <img *ngIf="row.picture" [src]="row.picture" [alt]="row.name.first + ' ' +row.name.last">
+      <img *ngIf="!row.picture" src="http://placehold.it/32x32" [alt]="row.name.first + ' ' +row.name.last">
+    </td>
+  </ng-container>
+
+
+  <!-- Name Column -->
+  <ng-container cdkColumnDef="name">
+    <th cdk-header-cell *cdkHeaderCellDef>name</th>
+    <td cdk-cell *cdkCellDef="let row"> {{row.name.first}} {{row.name.last}}</td>
+  </ng-container>
+
+  <!-- balance Column -->
+  <ng-container cdkColumnDef="balance">
+    <th cdk-header-cell *cdkHeaderCellDef>balance</th>
+    <td cdk-cell *cdkCellDef="let row"> {{row.balance}}</td>
+  </ng-container>
+
+  <!-- isActive Column -->
+  <ng-container cdkColumnDef="isActive">
+    <th cdk-header-cell *cdkHeaderCellDef> isActive</th>
+    <td cdk-cell *cdkCellDef="let row">
+      <span *ngIf="row.isActive" class="">
+        <i class="fa fa-check-circle" aria-hidden="true"></i>
+      </span>
+
+      <span *ngIf="!row.isActive" class="">
+        <i class="fa fa-circle" aria-hidden="true"></i>
+      </span>
+
+    </td>
+  </ng-container>
+
+  <!-- company Column -->
+  <ng-container cdkColumnDef="company">
+    <th cdk-header-cell *cdkHeaderCellDef>company</th>
+    <td cdk-cell *cdkCellDef="let row"> {{row.company}}</td>
+  </ng-container>
+
+  <!-- company Column -->
+  <ng-container cdkColumnDef="action">
+    <th cdk-header-cell *cdkHeaderCellDef>Action</th>
+    <td cdk-cell *cdkCellDef="let row">
+
+     <span class="">
+        <i class="fa fa-remove" aria-hidden="true"></i>
+      </span>
+
+      <span class="">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+      </span>
+
+    </td>
+  </ng-container>
+
+
+  <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+  <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<!--<cdk-table [dataSource]="dataSource">-->
+<!--&lt;!&ndash; User name Definition &ndash;&gt;-->
+<!--<ng-container cdkColumnDef="id">-->
+<!--<cdk-header-cell *cdkHeaderCellDef> id </cdk-header-cell>-->
+<!--<cdk-cell *cdkCellDef="let row"> {{row.id}} </cdk-cell>-->
+<!--</ng-container>-->
+
+<!--&lt;!&ndash; Age Definition &ndash;&gt;-->
+<!--<ng-container cdkColumnDef="balance">-->
+<!--<cdk-header-cell *cdkHeaderCellDef> balance </cdk-header-cell>-->
+<!--<cdk-cell *cdkCellDef="let row"> {{row.balance}} </cdk-cell>-->
+<!--</ng-container>-->
+
+<!--&lt;!&ndash; Title Definition &ndash;&gt;-->
+<!--<ng-container cdkColumnDef="isActive">-->
+<!--<cdk-header-cell *cdkHeaderCellDef> isActive </cdk-header-cell>-->
+<!--<cdk-cell *cdkCellDef="let row"> {{row.isActive}} </cdk-cell>-->
+<!--</ng-container>-->
+
+<!--&lt;!&ndash; Header and Row Declarations &ndash;&gt;-->
+<!--<cdk-header-row *cdkHeaderRowDef="['id', 'balance', 'isActive']"></cdk-header-row>-->
+<!--<cdk-row *cdkRowDef="let row; columns: ['id', 'balance', 'isActive']"></cdk-row>-->
+<!--</cdk-table>-->
