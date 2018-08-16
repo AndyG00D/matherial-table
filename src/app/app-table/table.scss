@@ -6,9 +6,13 @@ $app-row-horizontal-padding: 24px;
  * Flex-based table structure
  */
 .app-table {
-  display: block;
-  background: darkred;
-  width: 900px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  width: 80%;
+  margin: 0 auto;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  color: darkslategrey;
 }
 
 .app-header-row {
@@ -24,8 +28,9 @@ $app-row-horizontal-padding: 24px;
   // Define a border style, but then widths default to 3px. Reset them to 0px except the bottom
   // which should be 1px;
   border-width: 0;
-  border-bottom-width: 1px;
-  border-style: solid;
+  //border-bottom-width: 1px;
+  //border-style: solid;
+  //border-color: #888888;
   align-items: center;
   box-sizing: border-box;
 
@@ -82,13 +87,18 @@ tr.app-row, tr.app-footer-row {
 }
 
 th.app-header-cell {
-  text-align: left;
+  text-align: center;
+  text-transform: uppercase;
 }
+
+th.app-header-cell{
+  border-bottom: 1px solid black;
+}
+
 
 th.app-header-cell, td.app-cell, td.app-footer-cell {
   padding: 0;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
+
 }
 
 th.app-header-cell:first-child, td.app-cell:first-child, td.app-footer-cell:first-child {
