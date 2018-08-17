@@ -1,6 +1,6 @@
-$app-header-row-height: 56px;
-$app-row-height: 48px;
-$app-row-horizontal-padding: 24px;
+$app-header-row-height: 72px;
+$app-row-height: 72px;
+$app-row-horizontal-padding: 32px;
 
 /**
  * Flex-based table structure
@@ -66,6 +66,7 @@ $app-row-horizontal-padding: 24px;
   flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   word-wrap: break-word;
   min-height: inherit;
@@ -87,12 +88,14 @@ tr.app-row, tr.app-footer-row {
 }
 
 th.app-header-cell {
-  text-align: center;
+  //text-align: center;
   text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 th.app-header-cell{
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid #444444;
 }
 
 

@@ -7,15 +7,16 @@ import {PostDetailComponent} from './post-detail/post-detail.component';
 import {CommentsComponent} from './components/comments/comments.component';
 import {CommentItemComponent} from './components/comment-item/comment-item.component';
 import {ProductsRoutingModule} from './products-routing.module';
-import {CdkTableModule} from '@angular/cdk/table';
 import {ProductsService} from './products.service';
 import {AppTableModule} from '../app-table/table-module';
+import {ProductsDataSource} from './products-data-source.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     ProductsRoutingModule,
-    // CdkTableModule,
+    HttpClientModule,
     AppTableModule
   ],
   declarations: [
@@ -27,6 +28,7 @@ import {AppTableModule} from '../app-table/table-module';
   ],
   providers: [
     ProductsService,
+    ProductsDataSource
   ],
   exports: [ProductsTableComponent, PostDetailComponent]
 })
