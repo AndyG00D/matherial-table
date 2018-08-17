@@ -11,17 +11,16 @@ import {HttpClientModule} from '@angular/common/http';
 @NgModule({
   imports: [
     CommonModule,
-    ProductsRoutingModule,
     HttpClientModule,
-    AppTableModule
+    AppTableModule,
+    ProductsRoutingModule,
   ],
   declarations: [
     ProductsTableComponent,
     ProductEditComponent,
   ],
   providers: [
-    ProductsService,
-    ProductsDataSource
+    ProductsService
   ],
   exports: [ProductsTableComponent, ProductEditComponent]
 })

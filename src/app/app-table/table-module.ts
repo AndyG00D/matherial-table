@@ -27,7 +27,6 @@ import {
   AppRowDef
 } from './row';
 import {CommonModule} from '@angular/common';
-// import {MatCommonModule} from '@angular/material/core';
 
 const EXPORTED_DECLARATIONS = [
   // Table
@@ -55,8 +54,9 @@ const EXPORTED_DECLARATIONS = [
 
 @NgModule({
   imports: [
-    CdkTableModule,
     CommonModule,
+    CdkTableModule,
+
     // MatCommonModule
   ],
   exports: EXPORTED_DECLARATIONS,

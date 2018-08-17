@@ -19,10 +19,13 @@ export class AppTableDataSource<T> extends DataSource<T> {
   // private readonly _renderData = new BehaviorSubject<T[]>([]);
   private readonly _filter = new BehaviorSubject<string>('');
 
+  public _fetchApi: Observable<T[]>;
+
   constructor(initialData: T[] = [], initialFilter: any = null) {
     super();
     this._data = new BehaviorSubject<T[]>(initialData);
     this._filter = new BehaviorSubject<any>(initialFilter);
+    // this.refresh();
     // this._updateChangeSubscription();
   }
 
@@ -48,6 +51,21 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
   disconnect() {
     this._data.complete();
+  }
+
+  set fetchApi(newFetchApi: Observable<T[]>) {
+    this._fetchApi = newFetchApi;
+    this.refresh();
+  }
+
+  get fetchApi(): Observable<T[]> {
+      return this._fetchApi;
+  }
+
+  refresh() {
+    this.fetchApi.subscribe(
+      fetchData => this.data = fetchData
+    );
   }
 
   // _updateChangeSubscription() {

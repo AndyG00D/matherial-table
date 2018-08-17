@@ -57,62 +57,6 @@
       ]
     },
     {
-      "id": 16,
-      "guid": "bf1a50a0-059f-4033-b718-617e0bce17d8",
-      "isActive": false,
-      "balance": "$2,666.76",
-      "picture": "http://placehold.it/32x32",
-      "age": 27,
-      "eyeColor": "green",
-      "name": {
-        "first": "Robyn",
-        "last": "Gomez"
-      },
-      "company": "COMVEX",
-      "email": "robyn.gomez@comvex.biz",
-      "phone": "+1 (975) 423-2941",
-      "address": "574 Schenectady Avenue, Brooktrails, Arizona, 4612",
-      "about": "Occaecat incididunt reprehenderit consectetur eiusmod. Do excepteur minim tempor esse. Nulla quis commodo commodo sint sint officia laborum nisi ut. Sit ad mollit aute ad cupidatat veniam labore nisi tempor. Aliqua nostrud incididunt quis officia esse. In esse est et ullamco veniam culpa magna enim esse nostrud officia ipsum cupidatat.",
-      "registered": "Thursday, May 31, 2018 3:05 AM",
-      "latitude": "-77.102727",
-      "longitude": "117.152847",
-      "tags": [
-        "eiusmod",
-        "proident",
-        "amet",
-        "veniam",
-        "aliqua"
-      ]
-    },
-    {
-      "id": 18,
-      "guid": "d044f65a-e3f1-4e84-8372-c7f92f2f8cef",
-      "isActive": true,
-      "balance": "$2,648.39",
-      "picture": "http://placehold.it/32x32",
-      "age": 35,
-      "eyeColor": "green",
-      "name": {
-        "first": "Hollie",
-        "last": "Simpson"
-      },
-      "company": "BIOLIVE",
-      "email": "hollie.simpson@biolive.net",
-      "phone": "+1 (844) 460-3739",
-      "address": "654 Dupont Street, Ernstville, Louisiana, 9555",
-      "about": "Dolore officia qui reprehenderit quis duis duis. Irure id aliquip minim et culpa sint est ut ut. Consequat culpa culpa ea id dolor amet deserunt occaecat magna minim consequat duis. Sit ad magna magna voluptate quis voluptate ea cillum commodo in. Ea tempor tempor eu labore dolore cillum Lorem incididunt ex voluptate non fugiat. Aliqua est dolore labore cupidatat et voluptate veniam nulla incididunt reprehenderit duis. Reprehenderit culpa nisi est adipisicing veniam.",
-      "registered": "Tuesday, February 11, 2014 10:23 PM",
-      "latitude": "52.131549",
-      "longitude": "-108.895168",
-      "tags": [
-        "aliquip",
-        "in",
-        "exercitation",
-        "eu",
-        "dolor"
-      ]
-    },
-    {
       "id": 19,
       "guid": "4e5de0fe-282e-4711-8a6d-e0a46eab4e8b",
       "isActive": false,
@@ -362,34 +306,6 @@
         "qui",
         "exercitation",
         "esse"
-      ]
-    },
-    {
-      "id": 28,
-      "guid": "e77aaf51-49c2-49b8-a0a7-0e6569320991",
-      "isActive": false,
-      "balance": "$2,192.94",
-      "picture": "http://placehold.it/32x32",
-      "age": 36,
-      "eyeColor": "brown",
-      "name": {
-        "first": "Susan",
-        "last": "Price"
-      },
-      "company": "INVENTURE",
-      "email": "susan.price@inventure.biz",
-      "phone": "+1 (929) 593-3700",
-      "address": "215 Baycliff Terrace, Loretto, Mississippi, 8160",
-      "about": "Culpa est do enim do excepteur sunt irure laborum dolor ea non nulla id ea. Sunt Lorem laborum aliqua aute sint exercitation cillum. Do sint ex nisi ullamco culpa qui eu sit et laborum commodo qui aliquip cupidatat.",
-      "registered": "Wednesday, December 23, 2015 8:58 AM",
-      "latitude": "-6.511745",
-      "longitude": "-22.798371",
-      "tags": [
-        "occaecat",
-        "culpa",
-        "veniam",
-        "veniam",
-        "commodo"
       ]
     },
     {
