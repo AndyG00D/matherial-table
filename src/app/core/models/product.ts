@@ -6,22 +6,21 @@ export interface Name {
 
 
 export interface Product {
-
   id: number;
   guid: string;
   isActive: boolean,
-  balance: string;
-  picture: string;
-  age: number;
-  eyeColor: string;
+  balance?: string;
+  picture?: string;
+  age?: number;
+  eyeColor?: string;
   name: Name;
-  company: string;
+  company?: string;
   email: string;
-  phone: string;
-  address: string;
-  about: string;
+  phone?: string;
+  address?: string;
+  about?: string;
   registered: string;
   latitude: string;
   longitude: string;
-  tags: string[];
+  tags?: string[];
 }

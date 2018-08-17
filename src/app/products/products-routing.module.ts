@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PostDetailComponent } from './post-detail/post-detail.component';
+import { ProductEditComponent } from './product-edit/product-edit.component';
 import { ProductsTableComponent } from './products-table/products-table.component';
 
 const routes: Routes = [
   { path: '', component: ProductsTableComponent },
-  { path: ':id', component: PostDetailComponent }
+  { path: ':id', component: ProductEditComponent }
 ];
 
 @NgModule({

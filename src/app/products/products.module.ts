@@ -1,11 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
 import {ProductsTableComponent} from './products-table/products-table.component';
-import {PostItemComponent} from './components/post-item/post-item.component';
-import {PostDetailComponent} from './post-detail/post-detail.component';
-import {CommentsComponent} from './components/comments/comments.component';
-import {CommentItemComponent} from './components/comment-item/comment-item.component';
+import {ProductEditComponent} from './product-edit/product-edit.component';
 import {ProductsRoutingModule} from './products-routing.module';
 import {ProductsService} from './products.service';
 import {AppTableModule} from '../app-table/table-module';
@@ -21,16 +17,13 @@ import {HttpClientModule} from '@angular/common/http';
   ],
   declarations: [
     ProductsTableComponent,
-    PostItemComponent,
-    PostDetailComponent,
-    CommentsComponent,
-    CommentItemComponent
+    ProductEditComponent,
   ],
   providers: [
     ProductsService,
     ProductsDataSource
   ],
-  exports: [ProductsTableComponent, PostDetailComponent]
+  exports: [ProductsTableComponent, ProductEditComponent]
 })
 export class ProductsModule {
 }

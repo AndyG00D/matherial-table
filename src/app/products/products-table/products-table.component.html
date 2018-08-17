@@ -1,94 +1,8 @@
 <h1 class="header">Products</h1>
 
-<!--<table cdk-table [dataSource]="dataSource" class="cdk-elevation-z8">-->
+<table app-table [dataSource]="ds">
 
-  <!--&lt;!&ndash;- Note that these columns can be defined in any order.-->
-        <!--The actual rendered columns are set as a property on the row definition" &ndash;&gt;-->
-
-  <!--&lt;!&ndash; Position Column &ndash;&gt;-->
-  <!--&lt;!&ndash;<ng-container cdkColumnDef="position">&ndash;&gt;-->
-  <!--&lt;!&ndash;<th cdk-header-cell *cdkHeaderCellDef> No. </th>&ndash;&gt;-->
-  <!--&lt;!&ndash;<td cdk-cell *cdkCellDef="let row"> {{row.position}} </td>&ndash;&gt;-->
-  <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
-
-  <!--&lt;!&ndash; Name Column &ndash;&gt;-->
-  <!--<ng-container cdkColumnDef="avatar">-->
-    <!--<th cdk-header-cell *cdkHeaderCellDef>avatar</th>-->
-    <!--<td cdk-cell *cdkCellDef="let row">-->
-      <!--<img *ngIf="row.picture" [src]="row.picture" [alt]="row.name.first + ' ' +row.name.last">-->
-      <!--<img *ngIf="!row.picture" src="http://placehold.it/32x32" [alt]="row.name.first + ' ' +row.name.last">-->
-    <!--</td>-->
-  <!--</ng-container>-->
-
-
-  <!--&lt;!&ndash; Name Column &ndash;&gt;-->
-  <!--<ng-container cdkColumnDef="name">-->
-    <!--<th cdk-header-cell *cdkHeaderCellDef>name</th>-->
-    <!--<td cdk-cell *cdkCellDef="let row"> {{row.name.first}} {{row.name.last}}</td>-->
-  <!--</ng-container>-->
-
-  <!--&lt;!&ndash; balance Column &ndash;&gt;-->
-  <!--<ng-container cdkColumnDef="balance">-->
-    <!--<th cdk-header-cell *cdkHeaderCellDef>balance</th>-->
-    <!--<td cdk-cell *cdkCellDef="let row"> {{row.balance}}</td>-->
-  <!--</ng-container>-->
-
-  <!--&lt;!&ndash; isActive Column &ndash;&gt;-->
-  <!--<ng-container cdkColumnDef="isActive">-->
-    <!--<th cdk-header-cell *cdkHeaderCellDef> isActive</th>-->
-    <!--<td cdk-cell *cdkCellDef="let row">-->
-      <!--<span *ngIf="row.isActive" class="">-->
-        <!--<i class="fa fa-check-circle" aria-hidden="true"></i>-->
-      <!--</span>-->
-
-      <!--<span *ngIf="!row.isActive" class="">-->
-        <!--<i class="fa fa-circle" aria-hidden="true"></i>-->
-      <!--</span>-->
-
-    <!--</td>-->
-  <!--</ng-container>-->
-
-  <!--&lt;!&ndash; company Column &ndash;&gt;-->
-  <!--<ng-container cdkColumnDef="company">-->
-    <!--<th cdk-header-cell *cdkHeaderCellDef>company</th>-->
-    <!--<td cdk-cell *cdkCellDef="let row"> {{row.company}}</td>-->
-  <!--</ng-container>-->
-
-  <!--&lt;!&ndash; company Column &ndash;&gt;-->
-  <!--<ng-container cdkColumnDef="action">-->
-    <!--<th cdk-header-cell *cdkHeaderCellDef>Action</th>-->
-    <!--<td cdk-cell *cdkCellDef="let row">-->
-
-     <!--<span class="">-->
-        <!--<i class="fa fa-remove" aria-hidden="true"></i>-->
-      <!--</span>-->
-
-      <!--<span class="">-->
-        <!--<i class="fa fa-edit" aria-hidden="true"></i>-->
-      <!--</span>-->
-
-    <!--</td>-->
-  <!--</ng-container>-->
-
-
-  <!--<tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>-->
-  <!--<tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>-->
-<!--</table>-->
-
-<!--============================-->
-
-<table app-table [dataSource]="ds" >
-
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
-  <!--<ng-container cdkColumnDef="position">-->
-  <!--<th cdk-header-cell *cdkHeaderCellDef> No. </th>-->
-  <!--<td cdk-cell *cdkCellDef="let row"> {{row.position}} </td>-->
-  <!--</ng-container>-->
-
-  <!-- Name Column -->
+  <!-- avatar Column -->
   <ng-container appColumnDef="avatar">
     <th app-header-cell *appHeaderCellDef>avatar</th>
     <td app-cell *appCellDef="let row">
@@ -98,7 +12,7 @@
   </ng-container>
 
 
-  <!-- Name Column -->
+  <!-- name Column -->
   <ng-container appColumnDef="name">
     <th app-header-cell *appHeaderCellDef>name</th>
     <td app-cell *appCellDef="let row"> {{row.name.first}} {{row.name.last}}</td>
@@ -115,12 +29,9 @@
     <th app-header-cell *appHeaderCellDef>active</th>
     <td app-cell *appCellDef="let row">
 
-      <span *ngIf="row.isActive" class="table__btn">
-        <i class="fa fa-check-circle" aria-hidden="true"></i>
-      </span>
-
-      <span *ngIf="!row.isActive" class="table__btn">
-        <i class="fa fa-circle" aria-hidden="true"></i>
+      <span class="table__btn" (click)="toggleActive(row.id, row.isActive)">
+        <i *ngIf="row.isActive" class="fa fa-check-circle" aria-hidden="true"></i>
+        <i *ngIf="!row.isActive" class="fa fa-circle" aria-hidden="true"></i>
       </span>
 
     </td>
@@ -137,11 +48,11 @@
     <th app-header-cell *appHeaderCellDef>action</th>
     <td app-cell *appCellDef="let row">
 
-     <span class="table__btn table__btn-remove">
+     <span class="table__btn table__btn-remove" (click)="deleteProduct(row.id)">
         <i class="fa fa-remove" aria-hidden="true"></i>
       </span>
 
-      <span class="table__btn table__btn-edit">
+      <span class="table__btn table__btn-edit" [routerLink]="'/' + row.id">
         <i class="fa fa-edit" aria-hidden="true"></i>
       </span>
 

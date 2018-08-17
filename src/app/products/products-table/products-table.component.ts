@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Product} from '../../core/models/product';
 import {ProductsService} from '../products.service';
 import {ProductsDataSource} from '../products-data-source.service';
 
@@ -19,6 +18,16 @@ export class ProductsTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  }
+
+  public deleteProduct(id: number) {
+    this.productsService.deleteProduct(id)
+      .subscribe( () => this.ds.refresh());
+  }
+
+  public toggleActive(id: number, isActive: boolean) {
+    this.productsService.updateProduct(id, {isActive: !isActive})
+      .subscribe(() => this.ds.refresh());
   }
 
   public ngOnDestroy(): void {
