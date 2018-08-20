@@ -15,8 +15,8 @@ export class ProductsService {
   ) {
   }
 
-  public getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(ApiUrls.products);
+  public load(params = null): Observable<Product[]> {
+    return this.http.get<Product[]>(ApiUrls.products, {params});
   }
 
   public getProduct(id: number): Observable<Product> {

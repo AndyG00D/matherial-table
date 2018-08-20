@@ -5,8 +5,9 @@ import {ProductEditComponent} from './product-edit/product-edit.component';
 import {ProductsRoutingModule} from './products-routing.module';
 import {ProductsService} from './products.service';
 import {AppTableModule} from '../app-table/table-module';
-import {ProductsDataSource} from './products-data-source.service';
 import {HttpClientModule} from '@angular/common/http';
+import {FilterFormComponent} from './components/filter-form/filter-form.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -14,10 +15,12 @@ import {HttpClientModule} from '@angular/common/http';
     HttpClientModule,
     AppTableModule,
     ProductsRoutingModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     ProductsTableComponent,
     ProductEditComponent,
+    FilterFormComponent
   ],
   providers: [
     ProductsService

@@ -1,20 +1,21 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProductsService} from '../products.service';
-import {ProductsDataSource} from '../products-data-source.service';
+import {AppTableDataSource} from '../../app-table/table-data-source';
+import {Product} from '../../core/models/product';
 
 @Component({
-  selector: 'app-post-list',
+  selector: 'app-products-table',
   templateUrl: './products-table.component.html',
   styleUrls: ['./products-table.component.scss']
 })
 export class ProductsTableComponent implements OnInit, OnDestroy {
-  public ds: ProductsDataSource;
-  public displayedColumns: string[] = ['avatar', 'name', 'balance', 'isActive', 'action'];
+  public ds: AppTableDataSource<Product[]>;
+  public displayedColumns: string[] = ['avatar', 'name', 'age', 'balance', 'isActive', 'action'];
 
   constructor(
     private productsService: ProductsService
   ) {
-    this.ds = new ProductsDataSource(this.productsService);
+    this.ds = new AppTableDataSource(this.productsService);
   }
 
   ngOnInit() {
@@ -28,6 +29,10 @@ export class ProductsTableComponent implements OnInit, OnDestroy {
   public toggleActive(id: number, isActive: boolean) {
     this.productsService.updateProduct(id, {isActive: !isActive})
       .subscribe(() => this.ds.refresh());
+  }
+
+  public onSearch(event: any) {
+    this.ds.filtering(event);
   }
 
   public ngOnDestroy(): void {

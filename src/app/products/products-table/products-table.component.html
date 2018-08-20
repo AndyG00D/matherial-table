@@ -1,7 +1,8 @@
 <h1 class="header">Products</h1>
 
-<table app-table [dataSource]="ds">
+<app-filter-form (formValue) = "onSearch($event)"></app-filter-form>
 
+<table app-table [dataSource]="ds">
   <!-- avatar Column -->
   <ng-container appColumnDef="avatar">
     <th app-header-cell *appHeaderCellDef>avatar</th>
@@ -16,6 +17,13 @@
   <ng-container appColumnDef="name">
     <th app-header-cell *appHeaderCellDef>name</th>
     <td app-cell *appCellDef="let row"> {{row.name.first}} {{row.name.last}}</td>
+  </ng-container>
+
+
+  <!-- age Column -->
+  <ng-container appColumnDef="age">
+    <th app-header-cell *appHeaderCellDef>age</th>
+    <td app-cell *appCellDef="let row"> {{row.age}}</td>
   </ng-container>
 
   <!-- balance Column -->
