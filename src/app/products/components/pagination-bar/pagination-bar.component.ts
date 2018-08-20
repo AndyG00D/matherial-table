@@ -34,15 +34,23 @@ export class PaginationBarComponent implements OnInit, OnDestroy {
     this.paginationForm.valueChanges
       .pipe(
         takeUntil(this.destroy),
-        // debounceTime(1000),
+        debounceTime(1000),
       )
       .subscribe((value) => {
         if (value._limit !== this.currentLimit) {
           this.setPageLimit.emit(value._limit);
         } else if (value.currentPage !== this.currentPage) {
-          this.setPage.emit(value.currentPage);
+          this.setPageWithValidation(value.currentPage);
         }
       });
+  }
+
+  public setPageWithValidation(newPage) {
+    if (newPage >= 1 && newPage <= this.lastPage) {
+      this.setPage.emit(newPage);
+    } else {
+      this.paginationForm.get('currentPage').patchValue(this.currentPage);
+    }
   }
 
   isFirst() {
@@ -54,18 +62,14 @@ export class PaginationBarComponent implements OnInit, OnDestroy {
   }
 
   public onPrev() {
-    // if (!this.isLast()) {
-    this.setPage.emit(this.currentPage - 1);
-    // }
+    this.setPageWithValidation(this.currentPage - 1);
+
   }
 
   public onNext() {
-    // console.log('next');
-    // if (!this.isFirst()) {
-    //   console.log('next_2');
-    this.setPage.emit(this.currentPage + 1);
-    // }
+    this.setPageWithValidation(this.currentPage + 1);
   }
+
 
   public ngOnDestroy(): void {
     this.destroy.next();

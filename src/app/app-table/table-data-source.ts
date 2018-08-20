@@ -73,6 +73,9 @@ export class AppTableDataSource<T> extends DataSource<T> {
     this._dataCount.next(dataCount);
   }
 
+  get lastPage() {
+    return Math.ceil(this.dataCount / this.limit);
+  }
 
   connect() {
     return this._data;
@@ -118,11 +121,14 @@ export class AppTableDataSource<T> extends DataSource<T> {
   }
 
   changePage(newPage) {
-    this.page = newPage;
-    this.refresh();
+    if (newPage >= 1 && newPage <= this.lastPage ) {
+      this.page = newPage;
+      this.refresh();
+    }
   }
 
   changeLimit(newLimit) {
+    this.page = 1;
     this.limit = newLimit;
     this.refresh();
   }

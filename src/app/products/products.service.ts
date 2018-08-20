@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Product, ProductsWithCount} from '../core/models/product';
 import {catchError, map} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 import {ApiUrls} from '../core/api-urls';
 
 @Injectable({
@@ -16,16 +16,18 @@ export class ProductsService {
   }
 
   public load(params = null): Observable<ProductsWithCount> {
-    return this.http.get<ProductsWithCount>(ApiUrls.products, {params})
+    return this.http.get<ProductsWithCount>(ApiUrls.products, {params, observe: 'response'})
       .pipe(
-        map((response) => {
-          console.log(response);
+        map((response: HttpResponse<any>) => {
+          // for (const item of response.headers) console.log(item);
+          // console.log(response.headers.get('X-Total-Count'));
           const dataWithCount: ProductsWithCount = {data: [], count: 0};
-          dataWithCount.data = response;
-          // dataWithCount.count = response.headers('X-Total-Count');
-          console.log(dataWithCount);
+          dataWithCount.data = response.body;
+          dataWithCount.count = +response.headers.get('X-Total-Count');
+          // console.log(dataWithCount.count);
           return dataWithCount;
-        }));
+        })
+      );
   }
 
   public getProduct(id: number): Observable<Product> {

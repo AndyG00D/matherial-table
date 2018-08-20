@@ -1,7 +1,7 @@
 <form class="" [formGroup]="paginationForm">
 
   <select formControlName="_limit"
-          [value] = "currentLimit"
+          [value]="currentLimit"
   >
 
     <option selected value="10">10</option>
@@ -13,9 +13,8 @@
 
   <input formControlName="currentPage"
          type="text" [value]="currentPage">
-  {{currentPage}}
   <button [disabled]="isLast()" (click)="onNext()">Next</button>
-
+  {{lastPage}}
 </form>
 
 

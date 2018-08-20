@@ -75,7 +75,7 @@
 <app-pagination-bar
   [currentPage]="ds.page"
   [currentLimit]="ds.limit"
-  [lastPage]="10"
+  [lastPage]="ds.lastPage"
   (setPageLimit) = "ds.changeLimit($event)"
   (setPage) = "ds.changePage($event)"
 ></app-pagination-bar>
