@@ -70,8 +70,6 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
   filtering(newFilter: any) {
     this.filter = newFilter;
-    this.service.load(this.filter).subscribe(
-      fetchData => this.data = fetchData
-    );
+    this.refresh();
   }
 }

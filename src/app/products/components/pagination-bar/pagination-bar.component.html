@@ -1,0 +1,23 @@
+<form class="" [formGroup]="paginationForm">
+
+  <select formControlName="_limit"
+          [value] = "currentLimit"
+  >
+
+    <option selected value="10">10</option>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+
+  <button [disabled]="isFirst()" (click)="onPrev()">Prev</button>
+
+  <input formControlName="currentPage"
+         type="text" [value]="currentPage">
+
+  <button [disabled]="isLast()" (click)="onNext()">Next</button>
+
+</form>
+
+
+<!--<strong>Form Value</strong>-->
+<!--<pre>{{ paginationForm.value | json }}</pre>-->

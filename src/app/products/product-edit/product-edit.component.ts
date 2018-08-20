@@ -4,6 +4,8 @@ import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {Subject} from 'rxjs/internal/Subject';
 import {ProductsService} from '../products.service';
 import {Product} from '../../core/models/product';
+import {error} from 'selenium-webdriver';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-edit',
@@ -11,13 +13,13 @@ import {Product} from '../../core/models/product';
   styleUrls: ['./product-edit.component.scss']
 })
 export class ProductEditComponent implements OnInit, OnDestroy {
-  public loading$ = new BehaviorSubject(true);
   private destroy = new Subject();
   private product: Product;
 
   constructor(
     private productsService: ProductsService,
-    private route: Router
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
@@ -26,15 +28,21 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   }
 
   private getProduct() {
-    // console.log(this.route.);
-    // this.productsService.getProduct(5).subscribe(
-    //   data => this.product = data
-    // );
+
+    this.route.params
+      .pipe(
+        takeUntil(this.destroy),
+      )
+      .subscribe(params =>
+      this.productsService.getProduct(params.id).subscribe(
+        data => this.product = data,
+        () => this.router.navigateByUrl('/')
+      )
+    );
   }
 
   public ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.complete();
-    this.loading$.complete();
   }
 }

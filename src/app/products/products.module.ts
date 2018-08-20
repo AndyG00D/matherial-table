@@ -8,6 +8,7 @@ import {AppTableModule} from '../app-table/table-module';
 import {HttpClientModule} from '@angular/common/http';
 import {FilterFormComponent} from './components/filter-form/filter-form.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {PaginationBarComponent} from './components/pagination-bar/pagination-bar.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import {ReactiveFormsModule} from '@angular/forms';
   declarations: [
     ProductsTableComponent,
     ProductEditComponent,
-    FilterFormComponent
+    FilterFormComponent,
+    PaginationBarComponent
   ],
   providers: [
     ProductsService

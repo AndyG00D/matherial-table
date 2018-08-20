@@ -40,8 +40,8 @@ export class FilterFormComponent implements OnInit, OnDestroy {
   }
 
   // public onSubmit() {
-  //   if (this.filterForm.valid) {
-  //     console.log(this.filterForm.value);
+  //   if (this.paginationForm.valid) {
+  //     console.log(this.paginationForm.value);
   //   }
   // }
 

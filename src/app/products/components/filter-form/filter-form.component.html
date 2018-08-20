@@ -2,17 +2,18 @@
 
   <input formControlName="first"
          type="text"
-         placeholder="Name">
+         placeholder="Firstname">
 
   <select formControlName="isActive"
           type="select"
+          class="input__active"
           placeholder="Active">
 
     <option selected value="">All</option>
-    <option value="true">true</option>
-    <option value="false">false</option>
+    <option value="true">Active</option>
+    <option value="false">Not Active</option>
   </select>
 </form>
 
 <!--<strong>Form Value</strong>-->
-<!--<pre>{{ filterForm.value | json }}</pre>-->
+<!--<pre>{{ paginationForm.value | json }}</pre>-->
