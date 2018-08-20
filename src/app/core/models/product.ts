@@ -4,7 +4,6 @@ export interface Name {
   last: string;
 }
 
-
 export interface Product {
   id: number;
   guid: string;
@@ -23,4 +22,14 @@ export interface Product {
   latitude: string;
   longitude: string;
   tags?: string[];
+}
+
+export interface ProductsWithCount {
+  data: Product[];
+  count: number;
+}
+
+export interface FilterParams {
+  first?: string;
+  isActive?: string;
 }

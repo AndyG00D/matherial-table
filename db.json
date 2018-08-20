@@ -3,7 +3,7 @@
     {
       "id": 5,
       "guid": "b6e6873b-2353-471b-baad-fe1505429fc7",
-      "isActive": true,
+      "isActive": false,
       "balance": "$3,808.01",
       "picture": "http://placehold.it/32x32",
       "age": 40,
@@ -29,37 +29,9 @@
       ]
     },
     {
-      "id": 12,
-      "guid": "878cdfaa-93a6-48eb-8857-d13cf8f3ca0e",
-      "isActive": false,
-      "balance": "$2,402.47",
-      "picture": "http://placehold.it/32x32",
-      "age": 35,
-      "eyeColor": "blue",
-      "name": {
-        "first": "Trisha",
-        "last": "Sanford"
-      },
-      "company": "NETAGY",
-      "email": "trisha.sanford@netagy.org",
-      "phone": "+1 (955) 534-3482",
-      "address": "194 Beverley Road, Rew, Delaware, 2095",
-      "about": "Enim incididunt cupidatat cupidatat qui non fugiat fugiat tempor nulla incididunt. Enim esse officia commodo id eu Lorem velit pariatur duis. Elit labore proident anim qui do fugiat eiusmod consequat duis excepteur consectetur ex. Consectetur ea adipisicing exercitation laborum cupidatat amet commodo eiusmod nulla labore qui.",
-      "registered": "Saturday, July 5, 2014 8:33 AM",
-      "latitude": "-67.360389",
-      "longitude": "-22.312693",
-      "tags": [
-        "ipsum",
-        "laborum",
-        "irure",
-        "magna",
-        "culpa"
-      ]
-    },
-    {
       "id": 21,
       "guid": "2da7d962-f091-4d61-943d-5a34fec79476",
-      "isActive": false,
+      "isActive": true,
       "balance": "$1,839.04",
       "picture": "http://placehold.it/32x32",
       "age": 28,
@@ -87,7 +59,7 @@
     {
       "id": 22,
       "guid": "2efcb57f-a625-409a-8469-e0d6f0c06747",
-      "isActive": true,
+      "isActive": false,
       "balance": "$3,831.90",
       "picture": "http://placehold.it/32x32",
       "age": 24,
@@ -110,34 +82,6 @@
         "exercitation",
         "officia",
         "Lorem"
-      ]
-    },
-    {
-      "id": 23,
-      "guid": "0d0bf754-db5d-416a-9670-eb442e6b29f6",
-      "isActive": false,
-      "balance": "$3,884.31",
-      "picture": "http://placehold.it/32x32",
-      "age": 40,
-      "eyeColor": "blue",
-      "name": {
-        "first": "Molina",
-        "last": "Barker"
-      },
-      "company": "ATGEN",
-      "email": "molina.barker@atgen.ca",
-      "phone": "+1 (952) 580-3827",
-      "address": "738 Matthews Place, Derwood, Minnesota, 2655",
-      "about": "Consequat ea eu dolor occaecat. Culpa irure proident elit in sunt ad enim esse nostrud nulla adipisicing excepteur dolor. Lorem exercitation sit anim exercitation. Lorem sunt quis nulla pariatur sunt exercitation sint minim tempor proident nisi ullamco. Eu mollit Lorem veniam magna eu laborum deserunt voluptate enim elit occaecat cupidatat cillum tempor.",
-      "registered": "Monday, February 12, 2018 3:01 AM",
-      "latitude": "13.208191",
-      "longitude": "-50.286686",
-      "tags": [
-        "nisi",
-        "Lorem",
-        "sit",
-        "fugiat",
-        "anim"
       ]
     },
     {

@@ -14,7 +14,7 @@ import {Subject} from 'rxjs/internal/Subject';
 export class PaginationBarComponent implements OnInit, OnDestroy {
   @Input() currentPage = 1;
   @Input() currentLimit = 1;
-  @Input() lastPage = 1;
+  @Input() lastPage = 10;
   @Output() setPageLimit = new EventEmitter<any>();
   @Output() setPage = new EventEmitter<any>();
   public paginationForm;
@@ -34,11 +34,14 @@ export class PaginationBarComponent implements OnInit, OnDestroy {
     this.paginationForm.valueChanges
       .pipe(
         takeUntil(this.destroy),
-        debounceTime(1000),
+        // debounceTime(1000),
       )
       .subscribe((value) => {
-        this.setPageLimit.emit(value._limit);
-        this.setPage.emit(value.currentPage);
+        if (value._limit !== this.currentLimit) {
+          this.setPageLimit.emit(value._limit);
+        } else if (value.currentPage !== this.currentPage) {
+          this.setPage.emit(value.currentPage);
+        }
       });
   }
 
@@ -51,15 +54,17 @@ export class PaginationBarComponent implements OnInit, OnDestroy {
   }
 
   public onPrev() {
-    if (!this.isLast()) {
-      this.setPage.emit(this.currentPage + 1);
-    }
+    // if (!this.isLast()) {
+    this.setPage.emit(this.currentPage - 1);
+    // }
   }
 
   public onNext() {
-    if (!this.isFirst()) {
-      this.setPage.emit(this.currentPage - 1);
-    }
+    // console.log('next');
+    // if (!this.isFirst()) {
+    //   console.log('next_2');
+    this.setPage.emit(this.currentPage + 1);
+    // }
   }
 
   public ngOnDestroy(): void {

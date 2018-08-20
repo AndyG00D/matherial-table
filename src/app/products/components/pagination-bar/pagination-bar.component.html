@@ -13,7 +13,7 @@
 
   <input formControlName="currentPage"
          type="text" [value]="currentPage">
-
+  {{currentPage}}
   <button [disabled]="isLast()" (click)="onNext()">Next</button>
 
 </form>

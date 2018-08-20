@@ -1,7 +1,8 @@
 import {Component, ViewEncapsulation, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {EventEmitter} from '@angular/core';
-import {debounce, debounceTime} from 'rxjs/operators';
+import {debounceTime} from 'rxjs/operators';
+import {FilterParams} from '../../../core/models/product';
 
 
 @Component({
@@ -25,14 +26,16 @@ export class FilterFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.filterForm.valueChanges.pipe(debounceTime(1000)).subscribe((value) => {
-      const filterParams = {};
-      filterParams['name.first_like'] = value.first;
-      if (value.isActive !== '') {
-        filterParams['isActive'] = value.isActive;
-      }
-      this.formValue.emit(filterParams);
-    });
+    this.filterForm.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe((value: FilterParams) => {
+        const filterParams = {};
+        filterParams['name.first_like'] = value.first;
+        if (value.isActive !== '') {
+          filterParams['isActive'] = value.isActive;
+        }
+        this.formValue.emit(filterParams);
+      });
   }
 
 
