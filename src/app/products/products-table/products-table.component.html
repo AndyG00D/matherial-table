@@ -7,7 +7,7 @@
   <ng-container appColumnDef="avatar">
     <th app-header-cell *appHeaderCellDef>avatar</th>
     <td app-cell *appCellDef="let row">
-      <img *ngIf="row.picture" [src]="row.picture" [alt]="row.name.first + ' ' +row.name.last">
+      <img *ngIf="row.picture" [src]="row.picture" [alt]="row.name.first + ' ' + row.name.last">
       <img *ngIf="!row.picture" src="http://placehold.it/32x32" [alt]="row.name.first + ' ' +row.name.last">
     </td>
   </ng-container>
@@ -76,6 +76,6 @@
   [currentPage]="ds.page"
   [currentLimit]="ds.limit"
   [lastPage]="ds.lastPage"
-  (setPageLimit) = "ds.changeLimit($event)"
-  (setPage) = "ds.changePage($event)"
+  (setPageLimit)="ds.changeLimit($event)"
+  (setPage)="ds.changePage($event)"
 ></app-pagination-bar>

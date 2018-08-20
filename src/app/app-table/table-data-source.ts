@@ -77,23 +77,6 @@ export class AppTableDataSource<T> extends DataSource<T> {
     return Math.ceil(this.dataCount / this.limit);
   }
 
-  connect() {
-    return this._data;
-  }
-
-  disconnect() {
-    this._data.complete();
-  }
-
-  // set fetchApi(newFetchApi: Observable<T[]>) {
-  //   this._fetchApi = newFetchApi;
-  //   this.refresh();
-  // }
-  //
-  // get fetchApi(): Observable<T[]> {
-  //     return this._fetchApi;
-  // }
-
   refresh() {
 
     let params = {
@@ -131,5 +114,17 @@ export class AppTableDataSource<T> extends DataSource<T> {
     this.page = 1;
     this.limit = newLimit;
     this.refresh();
+  }
+
+  connect() {
+    return this._data;
+  }
+
+  disconnect() {
+    this._data.complete();
+    this._limit.complete();
+    this._page.complete();
+    this._dataCount.complete();
+    this._filter.complete();
   }
 }
