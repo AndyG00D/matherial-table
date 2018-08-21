@@ -1,0 +1,47 @@
+<ot-filter-container>
+  <ng-container *otFilter="'deal_address'; let f">
+    <input style="max-width: 200px;" class="form-control" type="text" name="q" [formControl]="f.control"
+           placeholder="Search by Deal Address">
+  </ng-container>
+  <ng-template [otFilter]="'deal_type'" let-f [defaultValue]="null">
+    <ot-select-box [formControl]="f.control" placeholder="All Deal Types" [clear]="true">
+      <ot-select-item value="sale">Sales</ot-select-item>
+      <ot-select-item value="rental">Rental</ot-select-item>
+    </ot-select-box>
+  </ng-template>
+  <ng-container *ngxPermissionsOnly="['filter_office']">
+    <ng-template [otFilter]="'office'" let-f [defaultValue]="null">
+      <ot-select-box [formControl]="f.control" placeholder="All Offices" [clear]="true" [forceEmpty]="true">
+        <ot-select-item [value]="office.id" *ngFor="let office of offices">{{office.name}}</ot-select-item>
+      </ot-select-box>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngxPermissionsOnly="['filter_agents']">
+    <ng-template [otFilter]="'agent'" let-f [defaultValue]="null">
+      <ot-select-box [formControl]="f.control" placeholder="All Agents" [clear]="true">
+        <ot-select-item [value]="agent.id" *ngFor="let agent of assignedAgents">{{agent.name}}</ot-select-item>
+      </ot-select-box>
+    </ng-template>
+  </ng-container>
+  <ng-template [otFilter]="'deal_status'" let-f [defaultValue]="null">
+    <ot-select-box [formControl]="f.control" placeholder="All Deal Statuses" [clear]="true">
+      <ot-select-item [value]="status.type_name" *ngFor="let status of statuses">{{status.name}}</ot-select-item>
+    </ot-select-box>
+  </ng-template>
+  <!--<ng-template [otFilter]="'commission_status'" let-f [defaultValue]="null">
+    <ot-select-box [formControl]="f.control" placeholder="All Commission Statuses" [clear]="true">
+      <ot-select-item value="true">Commission Received</ot-select-item>
+      <ot-select-item value="false">Commission Not Received</ot-select-item>
+    </ot-select-box>
+  </ng-template>-->
+  <ng-template [otFilter]="'payment_status'" let-f [defaultValue]="null">
+    <ot-select-box [formControl]="f.control" placeholder="All Payment Statuses" [clear]="true">
+      <ot-select-item value="true">Agent Paid</ot-select-item>
+      <ot-select-item value="false">Agent Not Paid</ot-select-item>
+    </ot-select-box>
+  </ng-template>
+  <ng-template [otFilter]="'date'" let-f [defaultValue]="dateDefaultValue">
+    <ot-date-range
+      [control]="f.control"></ot-date-range>
+  </ng-template>
+</ot-filter-container>
