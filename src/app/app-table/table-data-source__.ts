@@ -28,9 +28,9 @@ const MAX_SAFE_INTEGER = 9007199254740991;
 
 /**
  * Data source that accepts a client-side data array and includes native support of filtering,
- * sorting (using MatSort), and pagination (using MatPaginator).
+ * sorting (using AppSort), and pagination (using MatPaginator).
  *
- * Allows for sort customization by overriding sortingDataAccessor, which defines how data
+ * Allows for app-sort customization by overriding sortingDataAccessor, which defines how data
  * properties are accessed. Also allows for filter customization by overriding filterTermAccessor,
  * which defines how row data is converted to a string for filter matching.
  */
@@ -70,8 +70,8 @@ export class AppTableDataSource<T> extends DataSource<T> {
   set filter(filter: string) { this._filter.next(filter); }
 
   /**
-   * Instance of the MatSort directive used by the table to control its sorting. Sort changes
-   * emitted by the MatSort will trigger an update to the table's rendered data.
+   * Instance of the AppSort directive used by the table to control its sorting. Sort changes
+   * emitted by the AppSort will trigger an update to the table's rendered data.
    */
   get sort(): MatSort | null { return this._sort; }
   set sort(sort: MatSort|null) {
@@ -100,7 +100,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
   /**
    * Data accessor function that is used for accessing data properties for sorting through
    * the default sortData function.
-   * This default function assumes that the sort header IDs (which defaults to the column name)
+   * This default function assumes that the app-sort header IDs (which defaults to the column name)
    * matches the data's properties (e.g. column Xyz represents data['Xyz']).
    * May be set to a custom function for different behavior.
    * @param data Data object that is being accessed.
@@ -122,13 +122,13 @@ export class AppTableDataSource<T> extends DataSource<T> {
   }
 
   /**
-   * Gets a sorted copy of the data array based on the state of the MatSort. Called
-   * after changes are made to the filtered data or when sort changes are emitted from MatSort.
-   * By default, the function retrieves the active sort and its direction and compares data
+   * Gets a sorted copy of the data array based on the state of the AppSort. Called
+   * after changes are made to the filtered data or when app-sort changes are emitted from AppSort.
+   * By default, the function retrieves the active app-sort and its direction and compares data
    * by retrieving data using the sortingDataAccessor. May be overridden for a custom implementation
    * of data ordering.
    * @param data The array of data that should be sorted.
-   * @param sort The connected MatSort that holds the current sort state.
+   * @param sort The connected AppSort that holds the current app-sort state.
    */
   sortData: ((data: T[], sort: MatSort) => T[]) = (data: T[], sort: MatSort): T[] => {
     const active = sort.active;
@@ -190,11 +190,11 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
   /**
    * Subscribe to changes that should trigger an update to the table's rendered rows. When the
-   * changes occur, process the current state of the filter, sort, and pagination along with
+   * changes occur, process the current state of the filter, app-sort, and pagination along with
    * the provided base data and send it to the table for rendering.
    */
   _updateChangeSubscription() {
-    // Sorting and/or pagination should be watched if MatSort and/or MatPaginator are provided.
+    // Sorting and/or pagination should be watched if AppSort and/or MatPaginator are provided.
     // The events should emit whenever the component emits a change or initializes, or if no
     // component is provided, a stream with just a null event should be provided.
     // The `sortChange` and `pageChange` acts as a signal to the combineLatests below so that the
@@ -211,7 +211,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
     // Watch for base data or filter changes to provide a filtered set of data.
     const filteredData = combineLatest(dataStream, this._filter)
       .pipe(map(([data]) => this._filterData(data)));
-    // Watch for filtered data or sort changes to provide an ordered set of data.
+    // Watch for filtered data or app-sort changes to provide an ordered set of data.
     const orderedData = combineLatest(filteredData, sortChange)
       .pipe(map(([data]) => this._orderData(data)));
     // Watch for ordered data or page changes to provide a paged set of data.
@@ -240,12 +240,12 @@ export class AppTableDataSource<T> extends DataSource<T> {
   }
 
   /**
-   * Returns a sorted copy of the data if MatSort has a sort applied, otherwise just returns the
+   * Returns a sorted copy of the data if AppSort has a app-sort applied, otherwise just returns the
    * data array as provided. Uses the default data accessor for data lookup, unless a
    * sortDataAccessor function is defined.
    */
   _orderData(data: T[]): T[] {
-    // If there is no active sort or direction, return the data without trying to sort.
+    // If there is no active app-sort or direction, return the data without trying to app-sort.
     if (!this.sort) { return data; }
 
     return this.sortData(data.slice(), this.sort);

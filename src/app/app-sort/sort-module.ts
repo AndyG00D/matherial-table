@@ -7,16 +7,16 @@
  */
 
 import {NgModule} from '@angular/core';
-import {MatSortHeader} from './sort-header';
-import {MatSort} from './sort';
+import {AppSortHeader} from './sort-header';
+import {AppSort} from './sort';
 import {MAT_SORT_HEADER_INTL_PROVIDER} from './sort-header-intl';
 import {CommonModule} from '@angular/common';
 
 
 @NgModule({
   imports: [CommonModule],
-  exports: [MatSort, MatSortHeader],
-  declarations: [MatSort, MatSortHeader],
+  exports: [AppSort, AppSortHeader],
+  declarations: [AppSort, AppSortHeader],
   providers: [MAT_SORT_HEADER_INTL_PROVIDER]
 })
 export class AppSortModule {}

@@ -29,9 +29,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
   constructor(private service) {
     super();
     this._data = new BehaviorSubject<T[]>([]);
-    // this._filter = new BehaviorSubject<FilterParams>( );
     this.refresh();
-    // this._updateChangeSubscription();
   }
 
   get data() {

@@ -10,11 +10,11 @@ import {Injectable, SkipSelf, Optional} from '@angular/core';
 import {Subject} from 'rxjs';
 
 /**
- * To modify the labels and text displayed, create a new instance of MatSortHeaderIntl and
+ * To modify the labels and text displayed, create a new instance of AppSortHeaderIntl and
  * include it in a custom provider.
  */
 @Injectable({providedIn: 'root'})
-export class MatSortHeaderIntl {
+export class AppSortHeaderIntl {
   /**
    * Stream that emits whenever the labels here are changed. Use this to notify
    * components if the labels have changed after initialization.
@@ -27,15 +27,15 @@ export class MatSortHeaderIntl {
   }
 }
 /** @docs-private */
-export function MAT_SORT_HEADER_INTL_PROVIDER_FACTORY(parentIntl: MatSortHeaderIntl) {
-  return parentIntl || new MatSortHeaderIntl();
+export function MAT_SORT_HEADER_INTL_PROVIDER_FACTORY(parentIntl: AppSortHeaderIntl) {
+  return parentIntl || new AppSortHeaderIntl();
 }
 
 /** @docs-private */
 export const MAT_SORT_HEADER_INTL_PROVIDER = {
-  // If there is already an MatSortHeaderIntl available, use that. Otherwise, provide a new one.
-  provide: MatSortHeaderIntl,
-  deps: [[new Optional(), new SkipSelf(), MatSortHeaderIntl]],
+  // If there is already an AppSortHeaderIntl available, use that. Otherwise, provide a new one.
+  provide: AppSortHeaderIntl,
+  deps: [[new Optional(), new SkipSelf(), AppSortHeaderIntl]],
   useFactory: MAT_SORT_HEADER_INTL_PROVIDER_FACTORY
 };
 

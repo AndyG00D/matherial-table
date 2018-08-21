@@ -9,7 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FilterFormComponent} from './components/filter-form/filter-form.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {PaginationBarComponent} from './components/pagination-bar/pagination-bar.component';
-import {AppSortModule} from '../sort/sort-module';
+import {AppSortModule} from '../app-sort/sort-module';
 
 @NgModule({
   imports: [

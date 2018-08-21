@@ -9,8 +9,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {CanDisable, mixinDisabled} from '@angular/material/core';
-import {MatSort, MatSortable} from './sort';
-import {MatSortHeaderIntl} from './sort-header-intl';
+import {AppSort, AppSortable} from './sort';
+import {AppSortHeaderIntl} from './sort-header-intl';
 import {merge, Subscription} from 'rxjs';
 
 export class MatSortHeaderBase {
@@ -19,8 +19,8 @@ export class MatSortHeaderBase {
 export const _MatSortHeaderMixinBase = mixinDisabled(MatSortHeaderBase);
 
 @Component({
-  selector: '[mat-sort-header]',
-  exportAs: 'matSortHeader',
+  selector: '[app-sort-header]',
+  exportAs: 'appSortHeader',
   templateUrl: 'sort-header.html',
   styleUrls: ['sort-header.scss'],
   host: {
@@ -29,17 +29,17 @@ export const _MatSortHeaderMixinBase = mixinDisabled(MatSortHeaderBase);
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatSortHeader extends _MatSortHeaderMixinBase
+export class AppSortHeader extends _MatSortHeaderMixinBase
   implements OnDestroy, OnInit {
 
   private _rerenderSubscription: Subscription;
 
-  @Input('mat-sort-header') id: string;
+  @Input('app-app-sort-header') id: string;
   @Input() start: 'asc' | 'desc' | '';
 
-  constructor(public _intl: MatSortHeaderIntl,
+  constructor(public _intl: AppSortHeaderIntl,
               changeDetectorRef: ChangeDetectorRef,
-              @Optional() public _sort: MatSort,
+              @Optional() public _sort: AppSort,
               @Optional() public _cdkColumnDef: CdkColumnDef) {
 
     super();

@@ -11,7 +11,7 @@ import {SortDirection} from './sort-direction';
 import {Subject} from 'rxjs';
 
 
-export interface MatSortable {
+export interface AppSortable {
   id: string;
   start: 'asc' | 'desc' | '';
   // disableClear: boolean;
@@ -24,21 +24,21 @@ export interface Sort {
 
 
 @Directive({
-  selector: '[matSort]',
-  exportAs: 'matSort',
+  selector: '[appSort]',
+  exportAs: 'appSort',
 })
-export class MatSort
+export class AppSort
   implements OnChanges, OnDestroy, OnInit {
 
-  sortables = new Map<string, MatSortable>();
+  sortables = new Map<string, AppSortable>();
 
   readonly _stateChanges = new Subject<void>();
 
-  @Input('matSortActive') active: string;
+  @Input('appSortActive') active: string;
 
-  @Input('matSortStart') start: 'asc' | 'desc' = 'asc';
+  @Input('appSortStart') start: 'asc' | 'desc' = 'asc';
 
-  @Input('matSortDirection')
+  @Input('appSortDirection')
   get direction(): SortDirection {
     return this._direction;
   }
@@ -49,18 +49,18 @@ export class MatSort
 
   private _direction: SortDirection = '';
 
-  @Output('matSortChange') readonly sortChange: EventEmitter<Sort> = new EventEmitter<Sort>();
+  @Output('appSortChange') readonly sortChange: EventEmitter<Sort> = new EventEmitter<Sort>();
 
 
-  register(sortable: MatSortable): void {
+  register(sortable: AppSortable): void {
     this.sortables.set(sortable.id, sortable);
   }
 
-  deregister(sortable: MatSortable): void {
+  deregister(sortable: AppSortable): void {
     this.sortables.delete(sortable.id);
   }
 
-  sort(sortable: MatSortable): void {
+  sort(sortable: AppSortable): void {
     if (this.active !== sortable.id) {
       this.active = sortable.id;
       this.direction = sortable.start ? sortable.start : this.start;
@@ -71,7 +71,7 @@ export class MatSort
     this.sortChange.emit({active: this.active, direction: this.direction});
   }
 
-  getNextSortDirection(sortable: MatSortable): SortDirection {
+  getNextSortDirection(sortable: AppSortable): SortDirection {
     if (!sortable) {
       return '';
     }

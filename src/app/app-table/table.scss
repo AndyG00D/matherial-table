@@ -25,18 +25,10 @@ $app-row-horizontal-padding: 32px;
 
 .app-row, .app-header-row, .app-footer-row {
   display: flex;
-  // Define a border style, but then widths default to 3px. Reset them to 0px except the bottom
-  // which should be 1px;
   border-width: 0;
-  //border-bottom-width: 1px;
-  //border-style: solid;
-  //border-color: #888888;
   align-items: center;
   box-sizing: border-box;
 
-  // Workaround for https://goo.gl/pFmjJD in IE 11. Adds a pseudo
-  // element that will stretch the row the correct height. See:
-  // https://connect.microsoft.com/IE/feedback/details/802625
   &::after {
     display: inline-block;
     min-height: inherit;
