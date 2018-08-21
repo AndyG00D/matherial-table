@@ -22,6 +22,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
   private readonly _page = new BehaviorSubject<number>(1);
   private readonly _limit = new BehaviorSubject<number>(10);
   private readonly _dataCount = new BehaviorSubject<number>(20);
+  private readonly _sort = new BehaviorSubject<FilterParams>({});
 
   // public _fetchApi: Observable<T[]>;
 
@@ -73,23 +74,36 @@ export class AppTableDataSource<T> extends DataSource<T> {
     this._dataCount.next(dataCount);
   }
 
+  get sort(): any {
+    return this._sort.value;
+  }
+
+  set sort(newSort: any) {
+    this._sort.next(newSort);
+  }
+
   get lastPage() {
     return Math.ceil(this.dataCount / this.limit);
   }
 
   refresh() {
 
-    let params = {
+    const paginateParams = {
       _page: this.page,
       _limit: this.limit,
     };
 
-    // this.filter.first || params['name.first_like'] = this.filter.first;
-    // this.filter.isActive || params.isActive = this.filter.isActive;
+    let sortParams = {};
+    if (this.sort.direction) {
+      sortParams = {
+        _sort: this.sort.active,
+        _order: this.sort.direction
+      };
+    }
 
-     params = Object.assign(params, this.filter);
-    console.log(params._limit);
-    this.service.load(params).subscribe(
+    const allParams = Object.assign(paginateParams, sortParams, this.filter);
+    console.log(allParams);
+    this.service.load(allParams).subscribe(
       fetchData => {
         this.data = fetchData.data;
         this.dataCount = fetchData.count;
@@ -104,7 +118,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
   }
 
   changePage(newPage) {
-    if (newPage >= 1 && newPage <= this.lastPage ) {
+    if (newPage >= 1 && newPage <= this.lastPage) {
       this.page = newPage;
       this.refresh();
     }
@@ -113,6 +127,12 @@ export class AppTableDataSource<T> extends DataSource<T> {
   changeLimit(newLimit) {
     this.page = 1;
     this.limit = newLimit;
+    this.refresh();
+  }
+
+  changeSort(newSort) {
+    this.page = 1;
+    this.sort = newSort;
     this.refresh();
   }
 
@@ -126,5 +146,6 @@ export class AppTableDataSource<T> extends DataSource<T> {
     this._page.complete();
     this._dataCount.complete();
     this._filter.complete();
+    this._sort.complete();
   }
 }

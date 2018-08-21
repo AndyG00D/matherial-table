@@ -9,6 +9,7 @@ import {Product} from '../../core/models/product';
   styleUrls: ['./products-table.component.scss']
 })
 export class ProductsTableComponent implements OnInit, OnDestroy {
+
   public ds: AppTableDataSource<Product[]>;
   public displayedColumns: string[] = ['avatar', 'name', 'age', 'balance', 'isActive', 'action'];
 
@@ -23,7 +24,7 @@ export class ProductsTableComponent implements OnInit, OnDestroy {
 
   public deleteProduct(id: number) {
     this.productsService.deleteProduct(id)
-      .subscribe( () => this.ds.refresh());
+      .subscribe(() => this.ds.refresh());
   }
 
   public toggleActive(id: number, isActive: boolean) {
@@ -34,6 +35,12 @@ export class ProductsTableComponent implements OnInit, OnDestroy {
   public onSearch(event: any) {
     this.ds.filtering(event);
   }
+
+  public shortChanges(event) {
+    console.log('short: ' + event);
+    this.ds.changeSort(event);
+  }
+
 
   public ngOnDestroy(): void {
   }

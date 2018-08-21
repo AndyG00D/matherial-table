@@ -2,7 +2,7 @@
 
 <app-filter-form (formValue)="onSearch($event)"></app-filter-form>
 
-<table app-table [dataSource]="ds">
+<table app-table matSort [dataSource]="ds" (matSortChange)="shortChanges($event)" >
   <!-- avatar Column -->
   <ng-container appColumnDef="avatar">
     <th app-header-cell *appHeaderCellDef>avatar</th>
@@ -15,26 +15,26 @@
 
   <!-- name Column -->
   <ng-container appColumnDef="name">
-    <th app-header-cell *appHeaderCellDef>name</th>
+    <th app-header-cell *appHeaderCellDef mat-sort-header="name.first">name</th>
     <td app-cell *appCellDef="let row"> {{row.name.first}} {{row.name.last}}</td>
   </ng-container>
 
 
   <!-- age Column -->
   <ng-container appColumnDef="age">
-    <th app-header-cell *appHeaderCellDef>age</th>
+    <th app-header-cell *appHeaderCellDef mat-sort-header>age</th>
     <td app-cell *appCellDef="let row"> {{row.age}}</td>
   </ng-container>
 
   <!-- balance Column -->
   <ng-container appColumnDef="balance">
-    <th app-header-cell *appHeaderCellDef>balance</th>
+    <th app-header-cell *appHeaderCellDef mat-sort-header>balance</th>
     <td app-cell *appCellDef="let row"> {{row.balance}}</td>
   </ng-container>
 
   <!-- isActive Column -->
   <ng-container appColumnDef="isActive">
-    <th app-header-cell *appHeaderCellDef>active</th>
+    <th app-header-cell *appHeaderCellDef mat-sort-header>active</th>
     <td app-cell *appCellDef="let row">
 
       <span class="table__btn" (click)="toggleActive(row.id, row.isActive)">
@@ -47,7 +47,7 @@
 
   <!-- company Column -->
   <ng-container appColumnDef="company">
-    <th app-header-cell *appHeaderCellDef>company</th>
+    <th app-header-cell *appHeaderCellDef mat-sort-header>company</th>
     <td app-cell *appCellDef="let row"> {{row.company}}</td>
   </ng-container>
 
