@@ -37,7 +37,6 @@ export class ProductsTableComponent implements OnInit, OnDestroy {
   }
 
   public shortChanges(event) {
-    console.log('short: ' + event);
     this.ds.changeSort(event);
   }
 

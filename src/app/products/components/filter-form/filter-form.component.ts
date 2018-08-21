@@ -28,25 +28,12 @@ export class FilterFormComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.filterForm.valueChanges
       .pipe(debounceTime(1000))
-      .subscribe((value: FilterParams) => {
-        const filterParams = {};
-        filterParams['name.first_like'] = value.first;
-        if (value.isActive !== '') {
-          filterParams['isActive'] = value.isActive;
-        }
+      .subscribe((filterParams: FilterParams) => {
         this.formValue.emit(filterParams);
       });
   }
 
-
   public ngOnDestroy(): void {
   }
-
-  // public onSubmit() {
-  //   if (this.paginationForm.valid) {
-  //     console.log(this.paginationForm.value);
-  //   }
-  // }
-
 
 }

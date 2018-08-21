@@ -99,8 +99,16 @@ export class AppTableDataSource<T> extends DataSource<T> {
       };
     }
 
-    const allParams = Object.assign(paginateParams, sortParams, this.filter);
-    console.log(allParams);
+    const filterParams = {};
+    if (this.filter.first) {
+      filterParams['name.first_like'] = this.filter.first;
+    }
+    if (this.filter.isActive) {
+      filterParams['isActive'] = this.filter.isActive;
+    }
+
+    const allParams = Object.assign(paginateParams, sortParams, filterParams);
+    console.log('request params: ' + JSON.stringify(allParams));
     this.service.load(allParams).subscribe(
       fetchData => {
         this.data = fetchData.data;

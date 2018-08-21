@@ -645,34 +645,6 @@
       ]
     },
     {
-      "id": 46,
-      "guid": "7e8bc28d-dd36-4542-8b29-b0c50b7ba894",
-      "isActive": false,
-      "balance": "$3,719.93",
-      "picture": "http://placehold.it/32x32",
-      "age": 32,
-      "eyeColor": "blue",
-      "name": {
-        "first": "Hampton",
-        "last": "Mathis"
-      },
-      "company": "VIASIA",
-      "email": "hampton.mathis@viasia.us",
-      "phone": "+1 (889) 554-3284",
-      "address": "240 Oriental Boulevard, Ribera, Nevada, 3220",
-      "about": "Ullamco dolor fugiat nisi exercitation laborum voluptate deserunt tempor voluptate nostrud. Qui nostrud est est occaecat non aute. Est nulla ad mollit amet. Laboris tempor adipisicing labore ad adipisicing. Ipsum consequat Lorem culpa mollit minim consectetur. Culpa officia qui ad aliqua nostrud ea duis velit Lorem consequat et velit veniam adipisicing. Laboris deserunt sit mollit nisi occaecat do magna irure sit.",
-      "registered": "Thursday, March 24, 2016 11:34 PM",
-      "latitude": "-31.613154",
-      "longitude": "152.983427",
-      "tags": [
-        "id",
-        "id",
-        "nisi",
-        "qui",
-        "est"
-      ]
-    },
-    {
       "id": 47,
       "guid": "d5f216ff-32e1-475f-bc9e-2636d3b30c49",
       "isActive": false,
