@@ -1,19 +1,20 @@
-<!--<div class="mat-sort-header-container"-->
+<div class="mat-sort-header-container">
      <!--[class.mat-sort-header-sorted]="_isSorted()"-->
      <!--[class.mat-sort-header-position-before]="arrowPosition == 'before'">-->
-  <!--<button class="mat-sort-header-button" type="button"-->
+  <button class="mat-sort-header-button" type="button">
           <!--[attr.disabled]="_isDisabled() || null"-->
           <!--[attr.aria-label]="_intl.sortButtonLabel(id)"-->
           <!--(focus)="_setIndicatorHintVisible(true)"-->
           <!--(blur)="_setIndicatorHintVisible(false)">-->
     <ng-content></ng-content>
-      <!--<span class="">-->
-        <!--<i class="fa fa-arrow-up" aria-hidden="true"></i>-->
-      <!--</span>-->
-  <!--</button>-->
+  </button>
 
   <!-- Disable animations while a current animation is running -->
-  <!--<div class="mat-sort-header-arrow">-->
+        <i class="fa fa-arrow-down" aria-hidden="true" *ngIf="isShowASC()"></i>
+        <i class="fa fa-arrow-up" aria-hidden="true" *ngIf="isShowDESC()"></i>
+
+
+  <!--<div class="mat-sort-header-arrow"-->
        <!--[@arrowOpacity]="_getArrowViewState()"-->
        <!--[@arrowPosition]="_getArrowViewState()"-->
        <!--[@allowChildren]="_getArrowDirectionState()"-->
@@ -26,4 +27,4 @@
       <!--<div class="mat-sort-header-pointer-middle"></div>-->
     <!--</div>-->
   <!--</div>-->
-<!--</div>-->
+</div>
