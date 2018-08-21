@@ -1,56 +1,37 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 import {
   Directive,
   EventEmitter,
   Input,
-  isDevMode,
   OnChanges,
   OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {CanDisable, HasInitialized, mixinDisabled, mixinInitialized} from '@angular/material/core';
 import {SortDirection} from './sort-direction';
 import {Subject} from 'rxjs';
 
-/** Interface for a directive that holds sorting state consumed by `MatSortHeader`. */
+
 export interface MatSortable {
   id: string;
-  start: 'asc' | 'desc';
-  disableClear: boolean;
+  start: 'asc' | 'desc' | '';
+  // disableClear: boolean;
 }
 
-/** The current sort state. */
 export interface Sort {
   active: string;
   direction: SortDirection;
 }
 
-// export class MatSortBase {
-// }
 
-// export const _MatSortMixinBase = mixinInitialized(mixinDisabled(MatSortBase));
-
-/** Container for MatSortables to manage the sort state and provide default sort parameters. */
 @Directive({
   selector: '[matSort]',
   exportAs: 'matSort',
-  inputs: ['disabled: matSortDisabled']
 })
 export class MatSort
-  implements CanDisable, HasInitialized, OnChanges, OnDestroy, OnInit {
-  /** Collection of all registered sortables that this directive manages. */
+  implements OnChanges, OnDestroy, OnInit {
+
   sortables = new Map<string, MatSortable>();
 
-  /** Used to notify any child components listening to state changes. */
   readonly _stateChanges = new Subject<void>();
 
   @Input('matSortActive') active: string;
@@ -75,7 +56,6 @@ export class MatSort
     this.sortables.set(sortable.id, sortable);
   }
 
-
   deregister(sortable: MatSortable): void {
     this.sortables.delete(sortable.id);
   }
@@ -91,17 +71,11 @@ export class MatSort
     this.sortChange.emit({active: this.active, direction: this.direction});
   }
 
-  /** Returns the next sort direction of the active sortable, checking for potential overrides. */
   getNextSortDirection(sortable: MatSortable): SortDirection {
     if (!sortable) {
       return '';
     }
-
-    // Get the sort direction cycle with the potential sortable overrides.
-    const disableClear = sortable.disableClear != null ? sortable.disableClear : this.disableClear;
-    let sortDirectionCycle = getSortDirectionCycle(sortable.start || this.start, disableClear);
-
-    // Get and return the next direction in the cycle
+    const sortDirectionCycle: SortDirection[] = ['asc', 'desc', ''];
     let nextDirectionIndex = sortDirectionCycle.indexOf(this.direction) + 1;
     if (nextDirectionIndex >= sortDirectionCycle.length) {
       nextDirectionIndex = 0;
@@ -110,7 +84,6 @@ export class MatSort
   }
 
   ngOnInit() {
-    // this._markInitialized();
   }
 
   ngOnChanges() {
@@ -120,18 +93,4 @@ export class MatSort
   ngOnDestroy() {
     this._stateChanges.complete();
   }
-}
-
-/** Returns the sort direction cycle to use given the provided parameters of order and clear. */
-function getSortDirectionCycle(start: 'asc' | 'desc',
-                               disableClear: boolean): SortDirection[] {
-  let sortOrder: SortDirection[] = ['asc', 'desc'];
-  if (start === 'desc') {
-    sortOrder.reverse();
-  }
-  if (!disableClear) {
-    sortOrder.push('');
-  }
-
-  return sortOrder;
 }

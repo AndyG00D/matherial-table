@@ -30,12 +30,12 @@ export const _MatSortHeaderMixinBase = mixinDisabled(MatSortHeaderBase);
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatSortHeader extends _MatSortHeaderMixinBase
-  implements CanDisable, OnDestroy, OnInit {
+  implements OnDestroy, OnInit {
 
   private _rerenderSubscription: Subscription;
 
   @Input('mat-sort-header') id: string;
-  @Input() start: 'asc' | 'desc';
+  @Input() start: 'asc' | 'desc' | '';
 
   constructor(public _intl: MatSortHeaderIntl,
               changeDetectorRef: ChangeDetectorRef,
@@ -54,7 +54,7 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
     if (!this.id && this._cdkColumnDef) {
       this.id = this._cdkColumnDef.name;
     }
-    this._sort.register(this as MatSortable);
+    this._sort.register(this);
   }
 
   ngOnDestroy() {
@@ -63,10 +63,9 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
   }
 
   _handleClick() {
-    if (this._isDisabled()) {
+    if (this.disabled) {
       return;
     }
-
     this._sort.sort(this);
   }
 
@@ -75,17 +74,12 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
       (this._sort.direction === 'asc' || this._sort.direction === 'desc');
   }
 
-
-  _isDisabled() {
-    return this._sort.disabled || this.disabled;
-  }
-
   isShowASC() {
-    return this._sort.active === this.id && this._sort.direction === 'asc' && !this._isDisabled();
+    return this._sort.active === this.id && this._sort.direction === 'asc' && !this.disabled;
   }
 
   isShowDESC() {
-    return this._sort.active === this.id && this._sort.direction === 'desc' && !this._isDisabled();
+    return this._sort.active === this.id && this._sort.direction === 'desc' && !this.disabled;
   }
 
 }
