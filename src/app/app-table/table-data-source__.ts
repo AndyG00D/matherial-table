@@ -70,7 +70,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
   set filter(filter: string) { this._filter.next(filter); }
 
   /**
-   * Instance of the AppSort directive used by the table to control its sorting. Sort changes
+   * Instance of the AppSort directive used by the table to control its sorting. Filter changes
    * emitted by the AppSort will trigger an update to the table's rendered data.
    */
   get sort(): MatSort | null { return this._sort; }
