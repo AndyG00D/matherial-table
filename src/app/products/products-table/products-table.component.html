@@ -1,42 +1,53 @@
 <h1 class="header">Products</h1>
 <!--<app-header></app-header>-->
 <!--<ot-filter>-->
-  <!--<ng-template *filterControl="'first'; let f" >-->
-    <!--<input type="text" name="first" [formControl]="f.control"-->
-           <!--placeholder="Firstname">-->
-  <!--</ng-template>-->
+<!--<ng-template *filterControl="'first'; let f" >-->
+<!--<input type="text" name="first" [formControl]="f.control"-->
+<!--placeholder="Firstname">-->
+<!--</ng-template>-->
 
-  <!--<ng-template *filterControl="'isActive'" let-f class="input__active" >-->
-    <!--<select [formControl]="filterControl.control" type="select">-->
-      <!--<option selected value="">All</option>-->
-      <!--<option value="true">Active</option>-->
-      <!--<option value="false">Not Active</option>-->
-    <!--</select>-->
-  <!--</ng-template>-->
+<!--<ng-template *filterControl="'isActive'" let-f class="input__active" >-->
+<!--<select [formControl]="filterControl.control" type="select">-->
+<!--<option selected value="">All</option>-->
+<!--<option value="true">Active</option>-->
+<!--<option value="false">Not Active</option>-->
+<!--</select>-->
+<!--</ng-template>-->
 <!--</ot-filter>-->
 
 
 <ot-filter-container>
-  <ng-container *otFilter="'deal_address'; let f">
-    <input style="max-width: 200px;" class="form-control" type="text" name="q" [formControl]="f.control"
-           placeholder="Search by Deal Address">
+  <ng-container *otFilter="'first'; let f">
+    <input type="text" name="first" [formControl]="f.control"
+           placeholder="Firstname">
   </ng-container>
+
+  <ng-container *otFilter="'isActive'; let f">
+    <select [formControl]="f.control" type="select" class="input__active">
+      <option selected value="">All</option>
+      <option value="true">Active</option>
+      <option value="false">Not Active</option>
+    </select>
+  </ng-container>
+
+  <!--<ng-container *otFilter="'deal_address'; let f">-->
+    <!--<input style="max-width: 200px;" class="form-control" type="text" name="q" [formControl]="f.control"-->
+           <!--placeholder="Search by Deal Address">-->
+  <!--</ng-container>-->
 
   <!--</ng-template>-->
   <!--<ng-template [otFilter]="'payment_status'" let-f [defaultValue]="null">-->
-    <!--<select [formControl]="f.control" placeholder="All Payment Statuses" [clear]="true">-->
-      <!--<option value="true">Agent Paid</option>-->
-      <!--<option value="false">Agent Not Paid</option>-->
-    <!--</select>-->
+  <!--<select [formControl]="f.control" placeholder="All Payment Statuses" [clear]="true">-->
+  <!--<option value="true">Agent Paid</option>-->
+  <!--<option value="false">Agent Not Paid</option>-->
+  <!--</select>-->
   <!--</ng-template>-->
 </ot-filter-container>
 
 
-
-
 <app-filter-form (formValue)="onSearch($event)"></app-filter-form>
 
-<table app-table appSort [dataSource]="ds" (appSortChange)="shortChanges($event)" >
+<table app-table appSort [dataSource]="ds" (appSortChange)="shortChanges($event)">
   <!-- avatar Column -->
   <ng-container appColumnDef="avatar">
     <th app-header-cell *appHeaderCellDef>avatar</th>

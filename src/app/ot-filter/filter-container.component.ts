@@ -101,6 +101,7 @@ export class FilterContainerComponent implements AfterContentInit, OnDestroy {
         })
       )
       .subscribe((v) => {
+        console.log(v);
         this.filterChange.emit(v);
         this.cd.detectChanges();
       });
