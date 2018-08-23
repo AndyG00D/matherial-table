@@ -3,7 +3,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {EventEmitter} from '@angular/core';
 import {debounce, debounceTime, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs/internal/Subject';
-import {AppTableDataSource} from '../../../app-table/table-data-source';
 
 
 @Component({
@@ -13,13 +12,11 @@ import {AppTableDataSource} from '../../../app-table/table-data-source';
   encapsulation: ViewEncapsulation.Emulated
 })
 export class PaginationBarComponent implements OnInit, OnDestroy {
-  // @Input() currentPage = 1;
-  // @Input() currentLimit = 1;
-  // @Input() lastPage = 10;
+  @Input() currentPage = 1;
+  @Input() currentLimit = 1;
+  @Input() lastPage = 10;
   @Output() setPageLimit = new EventEmitter<any>();
   @Output() setPage = new EventEmitter<any>();
-  @Input() dataSource: AppTableDataSource<any>;
-
   public paginationForm;
   private destroy = new Subject();
 
@@ -40,39 +37,37 @@ export class PaginationBarComponent implements OnInit, OnDestroy {
         debounceTime(1000),
       )
       .subscribe((value) => {
-        if (value._limit !== this.dataSource.limit) {
-          this.dataSource.limit = value._limit;
+        if (value._limit !== this.currentLimit) {
           this.setPageLimit.emit(value._limit);
-        } else if (value.currentPage !== this.dataSource.page) {
+        } else if (value.currentPage !== this.currentPage) {
           this.setPageWithValidation(value.currentPage);
         }
       });
   }
 
   public setPageWithValidation(newPage) {
-    if (newPage >= 1 && newPage <= this.dataSource.lastPage) {
-      this.dataSource.page = newPage;
+    if (newPage >= 1 && newPage <= this.lastPage) {
       this.setPage.emit(newPage);
     } else {
-      this.paginationForm.get('currentPage').patchValue(this.dataSource.page);
+      this.paginationForm.get('currentPage').patchValue(this.currentPage);
     }
   }
 
   isFirst() {
-    return this.dataSource.page <= 1;
+    return this.currentPage <= 1;
   }
 
   isLast() {
-    return this.dataSource.page >= this.dataSource.lastPage;
+    return this.currentPage >= this.lastPage;
   }
 
   public onPrev() {
-    this.setPageWithValidation(this.dataSource.page - 1);
+    this.setPageWithValidation(this.currentPage - 1);
 
   }
 
   public onNext() {
-    this.setPageWithValidation(this.dataSource.page + 1);
+    this.setPageWithValidation(this.currentPage + 1);
   }
 
 

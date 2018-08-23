@@ -11,7 +11,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {PaginationBarComponent} from './components/pagination-bar/pagination-bar.component';
 import {AppSortModule} from '../app-sort/sort-module';
 import {AppFilterModule} from '../app-filter/filter-module';
-import {OtFilterModule} from '../ot-filter/filter-module';
+import {AppPaginationModule} from '../app-pagination/pagination-module';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import {OtFilterModule} from '../ot-filter/filter-module';
     AppTableModule,
     AppSortModule,
     AppFilterModule,
-    // OtFilterModule,
+    // AppPaginationModule,
     ProductsRoutingModule,
     ReactiveFormsModule,
   ],

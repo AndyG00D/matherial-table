@@ -1,6 +1,6 @@
 <h1 class="header">Products</h1>
 
-<app-filter (filterValue)="onSearch($event)">
+<app-filter [dataSource]="ds">
   <ng-container *filterControl="'first'; let f">
     <input type="text" name="first" [formControl]="f.control"
            placeholder="Firstname">
@@ -17,7 +17,7 @@
 
 <!--<app-filter-form (formValue)="onSearch($event)"></app-filter-form>-->
 
-<table app-table appSort [dataSource]="ds" (appSortChange)="shortChanges($event)">
+<table app-table appSort [dataSource]="ds" >
   <!-- avatar Column -->
   <ng-container appColumnDef="avatar">
     <th app-header-cell *appHeaderCellDef>avatar</th>
@@ -88,9 +88,5 @@
 </table>
 
 <app-pagination-bar
-  [currentPage]="ds.page"
-  [currentLimit]="ds.limit"
-  [lastPage]="ds.lastPage"
-  (setPageLimit)="ds.changeLimit($event)"
-  (setPage)="ds.changePage($event)"
+  [dataSource]="ds"
 ></app-pagination-bar>

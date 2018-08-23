@@ -1,7 +1,7 @@
 import {
   AfterContentInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ContentChildren, EventEmitter,
+  Component, ContentChildren, EventEmitter, Input,
   OnDestroy,
   Output, QueryList, ViewChild, ViewContainerRef,
   ViewEncapsulation
@@ -10,6 +10,7 @@ import {Subject, Subscription} from 'rxjs';
 import {debounceTime, takeUntil} from 'rxjs/operators';
 import {FormControl, FormGroup} from '@angular/forms';
 import {FilterControlDirective} from './filter-control.directive';
+import {AppTableDataSource} from '../app-table/table-data-source';
 
 @Component({
   selector: 'app-filter',
@@ -29,6 +30,8 @@ export class AppFilterComponent implements OnDestroy, AfterContentInit {
   @Output() filterValue = new EventEmitter();
   @ViewChild('filterBar', {read: ViewContainerRef})
   private filterBar: ViewContainerRef;
+  @Input() dataSource: AppTableDataSource<any>;
+
   public filterForm = new FormGroup({});
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
@@ -45,6 +48,7 @@ export class AppFilterComponent implements OnDestroy, AfterContentInit {
       .subscribe((value) => {
         console.log(value);
         this.filterValue.emit(value);
+        this.dataSource.filter = value;
         this.changeDetectorRef.detectChanges();
       });
   }

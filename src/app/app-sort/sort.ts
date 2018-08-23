@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {SortDirection} from './sort-direction';
 import {Subject} from 'rxjs';
+import {AppTableDataSource} from '../app-table/table-data-source';
 
 
 export interface AppSortable {
@@ -39,6 +40,7 @@ export class AppSort
   @Input('appSortStart') start: 'asc' | 'desc' = 'asc';
 
   @Input('appSortDirection')
+
   get direction(): SortDirection {
     return this._direction;
   }
@@ -48,6 +50,8 @@ export class AppSort
   }
 
   private _direction: SortDirection = '';
+
+  @Input() dataSource: AppTableDataSource<any>;
 
   @Output('appSortChange') readonly sortChange: EventEmitter<Sort> = new EventEmitter<Sort>();
 
@@ -67,8 +71,9 @@ export class AppSort
     } else {
       this.direction = this.getNextSortDirection(sortable);
     }
-
-    this.sortChange.emit({active: this.active, direction: this.direction});
+    const newSortParams = {active: this.active, direction: this.direction};
+    this.dataSource.sort = newSortParams;
+    this.sortChange.emit(newSortParams);
   }
 
   getNextSortDirection(sortable: AppSortable): SortDirection {

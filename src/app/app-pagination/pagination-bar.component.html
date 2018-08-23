@@ -12,9 +12,9 @@
   <button [disabled]="isFirst()" (click)="onPrev()">Prev</button>
 
   <input formControlName="currentPage"
-         type="text" [value]="dataSource.page">
+         type="text" [value]="currentPage">
   <button [disabled]="isLast()" (click)="onNext()">Next</button>
-  {{dataSource.lastPage}}
+  {{lastPage}}
 </form>
 
 

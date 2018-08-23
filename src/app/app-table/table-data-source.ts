@@ -1,30 +1,18 @@
-import {_isNumberValue} from '@angular/cdk/coercion';
 import {DataSource} from '@angular/cdk/table';
 import {
   BehaviorSubject,
-  combineLatest,
-  merge,
-  Observable,
-  of as observableOf,
-  Subscription
 } from 'rxjs';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {map} from 'rxjs/operators';
 import {FilterParams} from '../core/models/product';
 
 
 export class AppTableDataSource<T> extends DataSource<T> {
 
   private readonly _data: BehaviorSubject<T[]>;
-  // private readonly _renderData = new BehaviorSubject<T[]>([]);
   private readonly _filter = new BehaviorSubject<FilterParams>({});
   private readonly _page = new BehaviorSubject<number>(1);
   private readonly _limit = new BehaviorSubject<number>(10);
   private readonly _dataCount = new BehaviorSubject<number>(20);
   private readonly _sort = new BehaviorSubject<FilterParams>({});
-
-  // public _fetchApi: Observable<T[]>;
 
   constructor(private service) {
     super();
@@ -40,30 +28,6 @@ export class AppTableDataSource<T> extends DataSource<T> {
     this._data.next(data);
   }
 
-  get filter(): FilterParams {
-    return this._filter.value;
-  }
-
-  set filter(filter: FilterParams) {
-    this._filter.next(filter);
-  }
-
-  get page(): number {
-    return this._page.value;
-  }
-
-  set page(page: number) {
-    this._page.next(page);
-  }
-
-  get limit(): number {
-    return this._limit.value;
-  }
-
-  set limit(limit: number) {
-    this._limit.next(limit);
-  }
-
   get dataCount(): number {
     return this._dataCount.value;
   }
@@ -72,12 +36,40 @@ export class AppTableDataSource<T> extends DataSource<T> {
     this._dataCount.next(dataCount);
   }
 
+  get page(): number {
+    return this._page.value;
+  }
+
+  set page(page: number) {
+    this._page.next(page);
+    this.refresh();
+  }
+
+  get filter(): FilterParams {
+    return this._filter.value;
+  }
+
+  set filter(filter: FilterParams) {
+    this._filter.next(filter);
+    this.page = 1;
+  }
+
+  get limit(): number {
+    return this._limit.value;
+  }
+
+  set limit(limit: number) {
+    this._limit.next(limit);
+    this.page = 1;
+  }
+
   get sort(): any {
     return this._sort.value;
   }
 
   set sort(newSort: any) {
     this._sort.next(newSort);
+    this.page = 1;
   }
 
   get lastPage() {
@@ -117,30 +109,30 @@ export class AppTableDataSource<T> extends DataSource<T> {
     );
   }
 
-  filtering(newFilter: any) {
-    this.page = 1;
-    this.filter = newFilter;
-    this.refresh();
-  }
+  // filtering(newFilter: any) {
+  //   this.page = 1;
+  //   this.filter = newFilter;
+  //   this.refresh();
+  // }
 
-  changePage(newPage) {
-    if (newPage >= 1 && newPage <= this.lastPage) {
-      this.page = newPage;
-      this.refresh();
-    }
-  }
+  // changePage(newPage) {
+  //   if (newPage >= 1 && newPage <= this.lastPage) {
+  //     this.page = newPage;
+  //     this.refresh();
+  //   }
+  // }
 
-  changeLimit(newLimit) {
-    this.page = 1;
-    this.limit = newLimit;
-    this.refresh();
-  }
+  // changeLimit(newLimit) {
+  //   this.page = 1;
+  //   this.limit = newLimit;
+  //   this.refresh();
+  // }
 
-  changeSort(newSort) {
-    this.page = 1;
-    this.sort = newSort;
-    this.refresh();
-  }
+  // changeSort(newSort) {
+  //   this.page = 1;
+  //   this.sort = newSort;
+  //   this.refresh();
+  // }
 
   connect() {
     return this._data;
