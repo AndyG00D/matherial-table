@@ -3,7 +3,7 @@ import {
   BehaviorSubject, merge, Observable, Subscription, combineLatest, Subject,
 } from 'rxjs';
 import {FilterParams} from '../core/models/product';
-import {concatMap, distinctUntilChanged, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {concatMap, distinctUntilChanged, map, mergeMap, switchMap, takeUntil, tap} from 'rxjs/operators';
 
 
 export class AppTableDataSource<T> extends DataSource<T> {
@@ -15,18 +15,25 @@ export class AppTableDataSource<T> extends DataSource<T> {
   private readonly _dataCount = new BehaviorSubject<number>(20);
   private readonly _sort = new BehaviorSubject<FilterParams>({});
   private destroy = new Subject();
+   private _changePage: Observable<any> = merge(this._page)
+    .pipe(
+      distinctUntilChanged(),
+      takeUntil(this.destroy),
+      tap(v => this.page = v),
+      switchMap(() => this.refresh())
+    );
+
   private _changeParams: Observable<any> = merge(this._filter, this._limit, this._sort)
     .pipe(
-        distinctUntilChanged(),
-        takeUntil(this.destroy),
-        tap(() => this.page = 1),
-        tap(() => this.refresh())
-      );
+      distinctUntilChanged(),
+      takeUntil(this.destroy),
+      tap( () => this.page = 1),
+      switchMap(() => this._changePage)
+    );
 
   constructor(private service) {
     super();
     this._data = new BehaviorSubject<T[]>([]);
-    this.refresh();
   }
 
   get data() {
@@ -110,20 +117,16 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
     const allParams = Object.assign(paginateParams, sortParams, filterParams);
     console.log('request params: ' + JSON.stringify(allParams));
-    this.service.load(allParams)
-      .pipe(
-        switchMap(() => this._changeParams)
-      )
-      .subscribe(
-        fetchData => {
-          this.data = fetchData.data;
-          this.dataCount = fetchData.count;
-        }
-      );
+    return this.service.load(allParams);
   }
 
   connect() {
-    this._changeParams.subscribe();
+    this._changeParams.subscribe(
+      fetchData => {
+        this.data = fetchData.data;
+        this.dataCount = fetchData.count;
+      }
+    );
     return this._data;
   }
 

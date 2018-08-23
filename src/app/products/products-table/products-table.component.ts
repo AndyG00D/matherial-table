@@ -32,13 +32,13 @@ export class ProductsTableComponent implements OnInit, OnDestroy {
       .subscribe(() => this.ds.refresh());
   }
 
-  public onSearch(event: any) {
-    this.ds.filtering(event);
-  }
-
-  public shortChanges(event) {
-    this.ds.changeSort(event);
-  }
+  // public onSearch(event: any) {
+  //   this.ds.filtering(event);
+  // }
+  //
+  // public shortChanges(event) {
+  //   this.ds.changeSort(event);
+  // }
 
 
   public ngOnDestroy(): void {
