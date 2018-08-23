@@ -1,8 +1,11 @@
-import { Directive, ViewContainerRef } from '@angular/core';
+import {Directive, Input, TemplateRef} from '@angular/core';
 
 @Directive({
   selector: '[filterControl]',
 })
+
 export class FilterControlDirective {
-  constructor(public viewContainerRef: ViewContainerRef) { }
+  @Input('filterControl') name: string; //tslint:disable-line
+  @Input() defaultValue: number | string | boolean;
+  constructor(public template: TemplateRef<any>) { }
 }

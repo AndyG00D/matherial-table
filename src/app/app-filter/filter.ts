@@ -1,71 +1,72 @@
 import {
-  AfterViewInit,
+  AfterContentInit,
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ContentChildren, EventEmitter,
-  Input,
   OnDestroy,
-  OnInit,
-  Optional, Output, QueryList, ViewChild, ViewContainerRef,
+  Output, QueryList, ViewChild, ViewContainerRef,
   ViewEncapsulation
 } from '@angular/core';
-import {CanDisable, mixinDisabled} from '@angular/material/core';
-import {merge, Subject, Subscription} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {Subject, Subscription} from 'rxjs';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 import {FormControl, FormGroup} from '@angular/forms';
+import {FilterControlDirective} from './filter-control.directive';
 
 @Component({
   selector: 'app-filter',
   exportAs: 'appFilter',
-  templateUrl: './filter-container.component.html',
-  styleUrls: ['./filter-container.component.scss'],
+  templateUrl: './filter.html',
+  styleUrls: ['./filter.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppFilterComponent implements OnDestroy, OnInit, AfterViewInit {
+export class AppFilterComponent implements OnDestroy, AfterContentInit {
 
   private _rerenderSubscription: Subscription;
-  private destroy: Subject<any>;
+  private destroy = new Subject();
 
 
-  @ContentChildren('filterControl') filterControls: QueryList<any>;
+  @ContentChildren(FilterControlDirective) filterControls: QueryList<any>;
   @Output() filterValue = new EventEmitter();
-
-  @ViewChild('filterBar', { read: ViewContainerRef })
+  @ViewChild('filterBar', {read: ViewContainerRef})
   private filterBar: ViewContainerRef;
-  // @ViewChild('vc', {read: ViewContainerRef}) vc: ViewContainerRef;
+  public filterForm = new FormGroup({});
 
-  public fg = new FormGroup({});
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  }
 
-  constructor(changeDetectorRef: ChangeDetectorRef) {
+  public ngAfterContentInit() {
+    this.createFilterControlsView();
 
-    this._rerenderSubscription = merge()
+    this.filterForm.valueChanges
       .pipe(
-        takeUntil(this.destroy)
+        takeUntil(this.destroy),
+        debounceTime(1000)
       )
-      .subscribe(() => {
-        changeDetectorRef.markForCheck();
+      .subscribe((value) => {
+        console.log(value);
+        this.filterValue.emit(value);
+        this.changeDetectorRef.detectChanges();
       });
-  }
-
-  ngOnInit() {
-  }
-
-  ngAfterViewInit() {
-    this.filterControls.forEach(filterControl =>{
-    // for (const filterControl of this.filterControls) {
-      this.fg.setControl(filterControl.name, new FormControl(filterControl.defaultValue));
-      // this.initial[v.name] = v.defaultValue;
-      this.filterBar.createEmbeddedView(filterControl.template, {
-        $implicit: {
-          control: this.fg.get(filterControl.name)
-        }
-      });
-    });
   }
 
   ngOnDestroy() {
     this._rerenderSubscription.unsubscribe();
+    this.destroy.next();
     this.destroy.complete();
   }
 
+  public createFilterControlsView() {
+    this.filterBar.clear();
+    this.filterControls.forEach(filterControl => {
+      if (!this.filterForm.get(filterControl.name)) {
+        this.filterForm.setControl(filterControl.name, new FormControl(''));
+        this.filterBar.createEmbeddedView(filterControl.template, {
+          $implicit: {
+            control: this.filterForm.get(filterControl.name)
+          }
+        });
+        this.changeDetectorRef.detectChanges();
+      }
+    });
+  }
 }

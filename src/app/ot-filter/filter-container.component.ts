@@ -85,7 +85,7 @@ export class FilterContainerComponent implements AfterContentInit, OnDestroy {
         debounceTime(300),
         tap((v) => {
           // this.filterChanged = deepCompare(this.initial, v) === false;
-          this.initial = v;
+          this.initial = v
           this.filterChanged = true;
         }),
         map((v) => {
