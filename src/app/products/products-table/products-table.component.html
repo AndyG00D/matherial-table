@@ -1,7 +1,7 @@
 <h1 class="header">Products</h1>
 
 <app-filter [dataSource]="ds">
-  <ng-container *filterControl="'first'; let f">
+  <ng-container *filterControl="'name.first_like'; let f">
     <input type="text" name="first" [formControl]="f.control"
            placeholder="Firstname">
   </ng-container>

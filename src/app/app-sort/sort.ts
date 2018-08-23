@@ -53,7 +53,7 @@ export class AppSort
 
   @Input() dataSource: AppTableDataSource<any>;
 
-  @Output('appSortChange') readonly sortChange: EventEmitter<Sort> = new EventEmitter<Sort>();
+  @Output('appSortChange') readonly sortChange: EventEmitter<any> = new EventEmitter<any>();
 
 
   register(sortable: AppSortable): void {
@@ -71,7 +71,7 @@ export class AppSort
     } else {
       this.direction = this.getNextSortDirection(sortable);
     }
-    const newSortParams = {active: this.active, direction: this.direction};
+    const newSortParams = {'_sort': this.active, '_order': this.direction};
     this.dataSource.sort = newSortParams;
     this.sortChange.emit(newSortParams);
   }
