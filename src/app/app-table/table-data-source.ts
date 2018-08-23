@@ -1,8 +1,9 @@
 import {DataSource} from '@angular/cdk/table';
 import {
-  BehaviorSubject,
+  BehaviorSubject, merge, Observable, Subscription, combineLatest, Subject,
 } from 'rxjs';
 import {FilterParams} from '../core/models/product';
+import {concatMap, distinctUntilChanged, switchMap, takeUntil, tap} from 'rxjs/operators';
 
 
 export class AppTableDataSource<T> extends DataSource<T> {
@@ -13,6 +14,14 @@ export class AppTableDataSource<T> extends DataSource<T> {
   private readonly _limit = new BehaviorSubject<number>(10);
   private readonly _dataCount = new BehaviorSubject<number>(20);
   private readonly _sort = new BehaviorSubject<FilterParams>({});
+  private destroy = new Subject();
+  private _changeParams: Observable<any> = merge(this._filter, this._limit, this._sort)
+    .pipe(
+        distinctUntilChanged(),
+        takeUntil(this.destroy),
+        tap(() => this.page = 1),
+        tap(() => this.refresh())
+      );
 
   constructor(private service) {
     super();
@@ -42,7 +51,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
   set page(page: number) {
     this._page.next(page);
-    this.refresh();
+    // this.refresh();
   }
 
   get filter(): FilterParams {
@@ -51,7 +60,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
   set filter(filter: FilterParams) {
     this._filter.next(filter);
-    this.page = 1;
+    // this.page = 1;
   }
 
   get limit(): number {
@@ -60,7 +69,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
   set limit(limit: number) {
     this._limit.next(limit);
-    this.page = 1;
+    // this.page = 1;
   }
 
   get sort(): any {
@@ -69,7 +78,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
   set sort(newSort: any) {
     this._sort.next(newSort);
-    this.page = 1;
+    // this.page = 1;
   }
 
   get lastPage() {
@@ -101,44 +110,26 @@ export class AppTableDataSource<T> extends DataSource<T> {
 
     const allParams = Object.assign(paginateParams, sortParams, filterParams);
     console.log('request params: ' + JSON.stringify(allParams));
-    this.service.load(allParams).subscribe(
-      fetchData => {
-        this.data = fetchData.data;
-        this.dataCount = fetchData.count;
-      }
-    );
+    this.service.load(allParams)
+      .pipe(
+        switchMap(() => this._changeParams)
+      )
+      .subscribe(
+        fetchData => {
+          this.data = fetchData.data;
+          this.dataCount = fetchData.count;
+        }
+      );
   }
 
-  // filtering(newFilter: any) {
-  //   this.page = 1;
-  //   this.filter = newFilter;
-  //   this.refresh();
-  // }
-
-  // changePage(newPage) {
-  //   if (newPage >= 1 && newPage <= this.lastPage) {
-  //     this.page = newPage;
-  //     this.refresh();
-  //   }
-  // }
-
-  // changeLimit(newLimit) {
-  //   this.page = 1;
-  //   this.limit = newLimit;
-  //   this.refresh();
-  // }
-
-  // changeSort(newSort) {
-  //   this.page = 1;
-  //   this.sort = newSort;
-  //   this.refresh();
-  // }
-
   connect() {
+    this._changeParams.subscribe();
     return this._data;
   }
 
   disconnect() {
+    this.destroy.next();
+    this.destroy.complete();
     this._data.complete();
     this._limit.complete();
     this._page.complete();
