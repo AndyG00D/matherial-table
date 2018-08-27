@@ -3,7 +3,7 @@
     {
       "id": 5,
       "guid": "b6e6873b-2353-471b-baad-fe1505429fc7",
-      "isActive": false,
+      "isActive": true,
       "balance": "$3,808.01",
       "picture": "http://placehold.it/32x32",
       "age": 40,
