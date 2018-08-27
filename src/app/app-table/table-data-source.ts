@@ -1,6 +1,6 @@
 import {DataSource} from '@angular/cdk/table';
 import {
-  BehaviorSubject, merge, Observable, Subscription, combineLatest, Subject,
+  BehaviorSubject, merge, Observable, Subscription, combineLatest, Subject, of, from,
 } from 'rxjs';
 import {FilterParams} from '../core/models/product';
 import {concatMap, distinctUntilChanged, map, mergeMap, switchMap, takeUntil, tap} from 'rxjs/operators';
@@ -15,7 +15,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
   private readonly _dataCount = new BehaviorSubject<number>(20);
   private readonly _sort = new BehaviorSubject<FilterParams>({});
   private destroy = new Subject();
-   private _changePage: Observable<any> = merge(this._page)
+   private _changePage: Observable<any> = from(this._page)
     .pipe(
       distinctUntilChanged(),
       takeUntil(this.destroy),
@@ -34,6 +34,7 @@ export class AppTableDataSource<T> extends DataSource<T> {
   constructor(private service) {
     super();
     this._data = new BehaviorSubject<T[]>([]);
+    this.refresh();
   }
 
   get data() {
@@ -114,13 +115,13 @@ export class AppTableDataSource<T> extends DataSource<T> {
   }
 
   disconnect() {
-    this.destroy.next();
-    this.destroy.complete();
     this._data.complete();
     this._limit.complete();
     this._page.complete();
     this._dataCount.complete();
     this._filter.complete();
     this._sort.complete();
+    this.destroy.next();
+    this.destroy.complete();
   }
 }

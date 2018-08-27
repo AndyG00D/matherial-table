@@ -23,14 +23,18 @@ import {
 } from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
-import {MatFormFieldControl} from '@angular/material/form-field';
+
 import {Subject} from 'rxjs';
-import {AutofillMonitor} from '@angular/cdk/text-field';
+
 import {getMatInputUnsupportedTypeError} from './input-errors';
 import {MAT_INPUT_VALUE_ACCESSOR} from './input-value-accessor';
+import {MatFormFieldControl} from '../form-field/form-field-control';
+import {AutofillMonitor} from '../text-field/autofill';
 
 
-// Invalid app-input type. Using one of these will throw an MatInputUnsupportedTypeError.
+
+
+// Invalid input type. Using one of these will throw an MatInputUnsupportedTypeError.
 const MAT_INPUT_INVALID_TYPES = [
   'button',
   'checkbox',
@@ -56,23 +60,26 @@ export class MatInputBase {
 }
 export const _MatInputMixinBase = mixinErrorState(MatInputBase);
 
-/** Directive that allows a native app-input to work inside a `MatFormField`. */
+/** Directive that allows a native input to work inside a `MatFormField`. */
 @Directive({
   selector: `input[matInput], textarea[matInput]`,
   exportAs: 'matInput',
   host: {
     /**
-     * @breaking-change 7.0.0 remove .mat-app-form-field-autofill-control in favor of AutofillMonitor.
+     * @breaking-change 7.0.0 remove .mat-form-field-autofill-control in favor of AutofillMonitor.
      */
-    'class': 'mat-app-input-element mat-app-form-field-autofill-control',
+    'class': 'mat-input-element mat-form-field-autofill-control',
     '[class.mat-input-server]': '_isServer',
-    // Native app-input properties that are overwritten by Angular inputs need to be synced with
-    // the native app-input element. Otherwise property bindings for those don't work.
+    // Native input properties that are overwritten by Angular inputs need to be synced with
+    // the native input element. Otherwise property bindings for those don't work.
     '[attr.id]': 'id',
     '[attr.placeholder]': 'placeholder',
     '[disabled]': 'disabled',
     '[required]': 'required',
     '[readonly]': 'readonly',
+    '[attr.aria-describedby]': '_ariaDescribedby || null',
+    '[attr.aria-invalid]': 'errorState',
+    '[attr.aria-required]': 'required.toString()',
     '(blur)': '_focusChanged(false)',
     '(focus)': '_focusChanged(true)',
     '(input)': '_onInput()',
@@ -84,7 +91,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   protected _uid = `mat-input-${nextUniqueId++}`;
   protected _previousNativeValue: any;
   private _inputValueAccessor: {value: any};
-  /** The aria-describedby attribute on the app-input for improved a11y. */
+  /** The aria-describedby attribute on the input for improved a11y. */
   _ariaDescribedby: string;
 
   /** Whether the component is being rendered on the server. */
@@ -106,7 +113,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
    * Implemented as part of MatFormFieldControl.
    * @docs-private
    */
-  controlType: string = 'mat-app-input';
+  controlType: string = 'mat-input';
 
   /**
    * Implemented as part of MatFormFieldControl.
@@ -128,7 +135,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
 
-    // Browsers may not fire the blur event if the app-input is disabled too quickly.
+    // Browsers may not fire the blur event if the input is disabled too quickly.
     // Reset from here to ensure that the element doesn't become stuck.
     if (this.focused) {
       this.focused = false;
@@ -169,7 +176,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     this._validateType();
 
     // When using Angular inputs, developers are no longer able to set the properties on the native
-    // app-input element. To ensure that bindings for `type` work, we need to sync the setter
+    // input element. To ensure that bindings for `type` work, we need to sync the setter
     // with the native property. Textarea elements don't support the type property or attribute.
     if (!this._isTextarea() && getSupportedInputTypes().has(this._type)) {
       this._elementRef.nativeElement.type = this._type;
@@ -217,9 +224,10 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
               _defaultErrorStateMatcher: ErrorStateMatcher,
               @Optional() @Self() @Inject(MAT_INPUT_VALUE_ACCESSOR) inputValueAccessor: any,
               private _autofillMonitor: AutofillMonitor,
-              ngZone: NgZone) {
+              ngZone: NgZone
+  ) {
     super(_defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
-    // If no app-input value accessor was explicitly specified, use the element as the app-input value
+    // If no input value accessor was explicitly specified, use the element as the input value
     // accessor.
     this._inputValueAccessor = inputValueAccessor || this._elementRef.nativeElement;
 
@@ -251,6 +259,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   }
 
   ngOnInit() {
+    console.log('hell');
     if (this._platform.isBrowser) {
       this._autofillMonitor.monitor(this._elementRef.nativeElement).subscribe(event => {
         this.autofilled = event.isAutofilled;
@@ -285,10 +294,10 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     this._dirtyCheckNativeValue();
   }
 
-  /** Focuses the app-input. */
+  /** Focuses the input. */
   focus(): void { this._elementRef.nativeElement.focus(); }
 
-  /** Callback for the cases where the focused state of the app-input changes. */
+  /** Callback for the cases where the focused state of the input changes. */
   _focusChanged(isFocused: boolean) {
     if (isFocused !== this.focused && !this.readonly) {
       this.focused = isFocused;
@@ -298,15 +307,15 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   _onInput() {
     // This is a noop function and is used to let Angular know whenever the value changes.
-    // Angular will run a new change detection each time the `app-input` event has been dispatched.
+    // Angular will run a new change detection each time the `input` event has been dispatched.
     // It's necessary that Angular recognizes the value change, because when floatingLabel
     // is set to false and Angular forms aren't used, the placeholder won't recognize the
     // value changes and will not disappear.
-    // Listening to the app-input event wouldn't be necessary when the app-input is using the
-    // FormsModule or ReactiveFormsModule, because Angular forms also listens to app-input events.
+    // Listening to the input event wouldn't be necessary when the input is using the
+    // FormsModule or ReactiveFormsModule, because Angular forms also listens to input events.
   }
 
-  /** Does some manual dirty checking on the native app-input `value` property. */
+  /** Does some manual dirty checking on the native input `value` property. */
   protected _dirtyCheckNativeValue() {
     const newValue = this.value;
 
@@ -316,19 +325,19 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     }
   }
 
-  /** Make sure the app-input is a supported type. */
+  /** Make sure the input is a supported type. */
   protected _validateType() {
     if (MAT_INPUT_INVALID_TYPES.indexOf(this._type) > -1) {
       throw getMatInputUnsupportedTypeError(this._type);
     }
   }
 
-  /** Checks whether the app-input type is one of the types that are never empty. */
+  /** Checks whether the input type is one of the types that are never empty. */
   protected _isNeverEmpty() {
     return this._neverEmptyInputTypes.indexOf(this._type) > -1;
   }
 
-  /** Checks whether the app-input is invalid based on the native validation. */
+  /** Checks whether the input is invalid based on the native validation. */
   protected _isBadInput() {
     // The `validity` property won't be present on platform-server.
     let validity = (this._elementRef.nativeElement as HTMLInputElement).validity;

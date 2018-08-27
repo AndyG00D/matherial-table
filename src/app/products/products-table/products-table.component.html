@@ -1,19 +1,21 @@
 <h1 class="header">Products</h1>
 
-<app-filter [dataSource]="ds">
-  <ng-container *filterControl="'name.first_like'; let f">
-    <input type="text" name="first" [formControl]="f.control"
-           placeholder="Firstname">
-  </ng-container>
+<!--<app-filter [dataSource]="ds">-->
 
-  <ng-container *filterControl="'isActive'; let f">
-    <select [formControl]="f.control" type="select" class="input__active">
-      <option selected value="">All</option>
-      <option value="true">Active</option>
-      <option value="false">Not Active</option>
-    </select>
-  </ng-container>
-</app-filter>
+  <!--<ng-container *filterControl="'name.first_like'; let f">-->
+    <!--<input type="text" name="first" [formControl]="f.control"-->
+           <!--placeholder="Firstname">-->
+  <!--</ng-container>-->
+
+  <!--<ng-container *filterControl="'isActive'; let f">-->
+    <!--<select [formControl]="f.control" type="select" class="input__active">-->
+      <!--<option selected value="">All</option>-->
+      <!--<option value="true">Active</option>-->
+      <!--<option value="false">Not Active</option>-->
+    <!--</select>-->
+  <!--</ng-container>-->
+
+<!--</app-filter>-->
 
 <!--<app-filter-form (formValue)="onSearch($event)"></app-filter-form>-->
 

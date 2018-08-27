@@ -25,8 +25,8 @@ import {MatSuffix} from './suffix';
     MatHint,
     MatLabel,
     MatPlaceholder,
-    MatPrefix,
-    MatSuffix,
+    // MatPrefix,
+    // MatSuffix,
   ],
   imports: [
     CommonModule,
@@ -38,8 +38,8 @@ import {MatSuffix} from './suffix';
     MatHint,
     MatLabel,
     MatPlaceholder,
-    MatPrefix,
-    MatSuffix,
+    // MatPrefix,
+    // MatSuffix,
   ],
 })
 export class MatFormFieldModule {}

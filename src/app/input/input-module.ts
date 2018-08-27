@@ -6,13 +6,17 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {TextFieldModule} from '@angular/cdk/text-field';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
+
 import {MatTextareaAutosize} from './autosize';
 import {MatInput} from './input';
+
+import {MatFormFieldModule} from '../form-field/form-field-module';
+import {TextFieldModule} from '../text-field/text-field-module';
+
+
 
 
 @NgModule({

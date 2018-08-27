@@ -37,7 +37,6 @@ import {
 import {EMPTY, fromEvent, merge} from 'rxjs';
 import {startWith, take} from 'rxjs/operators';
 import {MatError} from './error';
-import {matFormFieldAnimations} from './form-field-animations';
 import {MatFormFieldControl} from './form-field-control';
 import {
   getMatFormFieldDuplicatedHintError,
@@ -94,34 +93,34 @@ export const MAT_FORM_FIELD_DEFAULT_OPTIONS =
 /** Container for form controls that applies Material Design styling and behavior. */
 @Component({
   // moduleId: module.id,
-  selector: 'mat-app-form-field',
-  exportAs: './matFormField',
-  templateUrl: './app-form-field.html',
+  selector: 'mat-form-field',
+  exportAs: 'matFormField',
+  templateUrl: 'form-field.html',
   // MatInput is a directive and can't have styles, so we need to include its styles here.
   // The MatInput styles are fairly minimal so it shouldn't be a big deal for people who
   // aren't using MatInput.
   styleUrls: [
-    'app-form-field.scss',
-    // 'app-form-field-fill.css',
-    // 'app-form-field-legacy.css',
-    // 'app-form-field-outline.css',
-    // 'app-form-field-standard.css',
-    // '../app-input/app-input.css',
+    // 'form-field.scss',
+    // 'form-field-fill.scss',
+    // 'form-field-legacy.scss',
+    // 'form-field-outline.scss',
+    // 'form-field-standard.scss',
+    // '../input/input.scss',
   ],
-  animations: [matFormFieldAnimations.transitionMessages],
+  // animations: [matFormFieldAnimations.transitionMessages],
   host: {
-    'class': 'mat-app-form-field',
+    'class': 'mat-form-field',
     // '[class.mat-form-field-appearance-standard]': 'appearance == "standard"',
     // '[class.mat-form-field-appearance-fill]': 'appearance == "fill"',
     // '[class.mat-form-field-appearance-outline]': 'appearance == "outline"',
     // '[class.mat-form-field-appearance-legacy]': 'appearance == "legacy"',
     // '[class.mat-form-field-invalid]': '_control.errorState',
-    // '[class.mat-form-field-can-float]': '_canLabelFloat',
+    '[class.mat-form-field-can-float]': '_canLabelFloat',
     // '[class.mat-form-field-should-float]': '_shouldLabelFloat()',
     '[class.mat-form-field-hide-placeholder]': '_hideControlPlaceholder()',
     '[class.mat-form-field-disabled]': '_control.disabled',
-    '[class.mat-form-field-autofilled]': '_control.autofilled',
-    // '[class.mat-focused]': '_control.focused',
+    // '[class.mat-form-field-autofilled]': '_control.autofilled',
+    '[class.mat-focused]': '_control.focused',
     // '[class.mat-accent]': 'color == "accent"',
     // '[class.mat-warn]': 'color == "warn"',
     '[class.ng-untouched]': '_shouldForward("untouched")',
@@ -143,7 +142,7 @@ export class MatFormField extends _MatFormFieldMixinBase
   private _labelOptions: LabelOptions;
   private _outlineGapCalculationNeeded = false;
 
-  /** The app-form-field appearance style. */
+  /** The form-field appearance style. */
   // @Input()
   // get appearance(): MatFormFieldAppearance { return this._appearance; }
   // set appearance(value: MatFormFieldAppearance) {
@@ -176,12 +175,12 @@ export class MatFormField extends _MatFormFieldMixinBase
   // private _showAlwaysAnimate = false;
 
   /** Whether the floating label should always float or not. */
-  // get _shouldAlwaysFloat(): boolean {
-  //   return this.floatLabel === 'always' && !this._showAlwaysAnimate;
-  // }
+  get _shouldAlwaysFloat(): boolean {
+    return this.floatLabel === 'always';
+  }
 
   /** Whether the label can float or not. */
-  // get _canLabelFloat(): boolean { return this.floatLabel !== 'never'; }
+  get _canLabelFloat(): boolean { return this.floatLabel !== 'never'; }
 
   /** State of the mat-hint and mat-error animations. */
   // _subscriptAnimationState: string = '';
@@ -205,13 +204,13 @@ export class MatFormField extends _MatFormFieldMixinBase
    * Whether the label should always float, never float or float as the user types.
    *
    * Note: only the legacy appearance supports the `never` option. `never` was originally added as a
-   * way to make the floating label emulate the behavior of a standard app-input placeholder. However
+   * way to make the floating label emulate the behavior of a standard input placeholder. However
    * the form field now supports both floating labels and placeholders. Therefore in the non-legacy
    * appearances the `never` option has been disabled in favor of just using the placeholder.
    */
   @Input()
   get floatLabel(): FloatLabelType {
-    return this.appearance !== 'legacy' && this._floatLabel === 'never' ? 'auto' : this._floatLabel;
+    return this._floatLabel === 'never' ? 'auto' : this._floatLabel;
   }
   set floatLabel(value: FloatLabelType) {
     if (value !== this._floatLabel) {
@@ -222,7 +221,7 @@ export class MatFormField extends _MatFormFieldMixinBase
   private _floatLabel: FloatLabelType;
 
   /** Whether the Angular animations are enabled. */
-  // _animationsEnabled: boolean;
+  _animationsEnabled: boolean;
 
   /**
    * @deprecated
@@ -235,36 +234,37 @@ export class MatFormField extends _MatFormFieldMixinBase
   @ViewChild('label') private _label: ElementRef;
   @ContentChild(MatFormFieldControl) _control: MatFormFieldControl<any>;
   @ContentChild(MatPlaceholder) _placeholderChild: MatPlaceholder;
-  // @ContentChild(MatLabel) _labelChild: MatLabel;
+  @ContentChild(MatLabel) _labelChild: MatLabel;
   @ContentChildren(MatError) _errorChildren: QueryList<MatError>;
-  // @ContentChildren(MatHint) _hintChildren: QueryList<MatHint>;
+  @ContentChildren(MatHint) _hintChildren: QueryList<MatHint>;
   // @ContentChildren(MatPrefix) _prefixChildren: QueryList<MatPrefix>;
   // @ContentChildren(MatSuffix) _suffixChildren: QueryList<MatSuffix>;
 
   constructor(
       public _elementRef: ElementRef,
-      private _changeDetectorRef: ChangeDetectorRef){
-      // @Optional() @Inject(MAT_LABEL_GLOBAL_OPTIONS) labelOptions: LabelOptions,
-      // @Optional() private _dir: Directionality,
-      // @Optional() @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS
-      // )
-      //     private _defaults: MatFormFieldDefaultOptions,
+      private _changeDetectorRef: ChangeDetectorRef,
+      @Optional() @Inject(MAT_LABEL_GLOBAL_OPTIONS) labelOptions: LabelOptions,
+      @Optional() private _dir: Directionality,
+      @Optional() @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
+          private _defaults: MatFormFieldDefaultOptions,
       // @breaking-change 7.0.0 _platform, _ngZone and _animationMode to be made required.
-      // private _platform?: Platform,
-      // private _ngZone?: NgZone,
-      // @Optional() @Inject(ANIMATION_MODULE_TYPE) _animationMode?: string){
+      private _platform?: Platform,
+      private _ngZone?: NgZone,
+      // @Optional() @Inject(ANIMATION_MODULE_TYPE) _animationMode?: string
+  ) {
     super(_elementRef);
 
-    // this._labelOptions = labelOptions ? labelOptions : {};
+    this._labelOptions = labelOptions ? labelOptions : {};
     this.floatLabel = this._labelOptions.float || 'auto';
     // this._animationsEnabled = _animationMode !== 'NoopAnimations';
 
     // Set the default through here so we invoke the setter on the first run.
     // this.appearance = (_defaults && _defaults.appearance) ? _defaults.appearance : 'legacy';
+    console.log('works');
   }
 
   /**
-   * Gets an ElementRef for the element that a overlay attached to the app-form-field should be
+   * Gets an ElementRef for the element that a overlay attached to the form-field should be
    * positioned relative to.
    */
   getConnectedOverlayOrigin(): ElementRef {
@@ -286,9 +286,9 @@ export class MatFormField extends _MatFormFieldMixinBase
     });
 
     // Run change detection if the value, prefix, or suffix changes.
-    // const valueChanges = this._control.ngControl && this._control.ngControl.valueChanges || EMPTY;
-    // merge(valueChanges, this._prefixChildren.changes, this._suffixChildren.changes)
-    //     .subscribe(() => this._changeDetectorRef.markForCheck());
+    const valueChanges = this._control.ngControl && this._control.ngControl.valueChanges || EMPTY;
+    merge(valueChanges)
+        .subscribe(() => this._changeDetectorRef.markForCheck());
 
     // Re-validate when the number of hints changes.
     this._hintChildren.changes.pipe(startWith(null)).subscribe(() => {
@@ -336,13 +336,13 @@ export class MatFormField extends _MatFormFieldMixinBase
 
   _hideControlPlaceholder() {
     // In the legacy appearance the placeholder is promoted to a label if no label is given.
-    return this.appearance === 'legacy' && !this._hasLabel() ||
+    return !this._hasLabel() ||
         this._hasLabel() && !this._shouldLabelFloat();
   }
 
   _hasFloatingLabel() {
     // In the legacy appearance the placeholder is promoted to a label if no label is given.
-    return this._hasLabel() || this.appearance === 'legacy' && this._hasPlaceholder();
+    return this._hasLabel() || this._hasPlaceholder();
   }
 
   /** Determines whether to display hints or errors. */
@@ -352,22 +352,22 @@ export class MatFormField extends _MatFormFieldMixinBase
   }
 
   /** Animates the placeholder up and locks it in position. */
-  _animateAndLockLabel(): void {
-    if (this._hasFloatingLabel() && this._canLabelFloat) {
-      // If animations are disabled, we shouldn't go in here,
-      // because the `transitionend` will never fire.
-      if (this._animationsEnabled) {
-        this._showAlwaysAnimate = true;
-
-        fromEvent(this._label.nativeElement, 'transitionend').pipe(take(1)).subscribe(() => {
-          this._showAlwaysAnimate = false;
-        });
-      }
-
-      this.floatLabel = 'always';
-      this._changeDetectorRef.markForCheck();
-    }
-  }
+  // _animateAndLockLabel(): void {
+  //   if (this._hasFloatingLabel() && this._canLabelFloat) {
+  //     // If animations are disabled, we shouldn't go in here,
+  //     // because the `transitionend` will never fire.
+  //     if (this._animationsEnabled) {
+  //       // this._showAlwaysAnimate = true;
+  //
+  //       fromEvent(this._label.nativeElement, 'transitionend').pipe(take(1)).subscribe(() => {
+  //         // this._showAlwaysAnimate = false;
+  //       });
+  //     }
+  //
+  //     this.floatLabel = 'always';
+  //     this._changeDetectorRef.markForCheck();
+  //   }
+  // }
 
   /**
    * Ensure that there is only one placeholder (either `placeholder` attribute on the child control
@@ -454,7 +454,7 @@ export class MatFormField extends _MatFormFieldMixinBase
   updateOutlineGap() {
     const labelEl = this._label ? this._label.nativeElement : null;
 
-    if (this.appearance !== 'outline' || !labelEl || !labelEl.children.length ||
+    if (!labelEl || !labelEl.children.length ||
         !labelEl.textContent.trim()) {
       return;
     }
@@ -473,9 +473,9 @@ export class MatFormField extends _MatFormFieldMixinBase
     let startWidth = 0;
     let gapWidth = 0;
     const startEls = this._connectionContainerRef.nativeElement.querySelectorAll<HTMLElement>(
-      '.mat-app-form-field-outline-start');
+      '.mat-form-field-outline-start');
     const gapEls = this._connectionContainerRef.nativeElement.querySelectorAll<HTMLElement>(
-        '.mat-app-form-field-outline-gap');
+        '.mat-form-field-outline-gap');
     if (this._label && this._label.nativeElement.children.length) {
       const containerStart = this._getStartEnd(
           this._connectionContainerRef.nativeElement.getBoundingClientRect());
