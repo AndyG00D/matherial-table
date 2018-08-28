@@ -29,9 +29,9 @@ import {
 } from '@angular/core';
 import {
   CanColor,
-  FloatLabelType,
-  LabelOptions,
-  MAT_LABEL_GLOBAL_OPTIONS,
+  // FloatLabelType,
+  // LabelOptions,
+  // MAT_LABEL_GLOBAL_OPTIONS,
   mixinColor,
 } from '@angular/material/core';
 import {EMPTY, fromEvent, merge} from 'rxjs';
@@ -44,17 +44,17 @@ import {
   getMatFormFieldPlaceholderConflictError,
 } from './form-field-errors';
 import {MatHint} from './hint';
-import {MatLabel} from './label';
+// import {MatLabel} from './label';
 import {MatPlaceholder} from './placeholder';
-import {MatPrefix} from './prefix';
-import {MatSuffix} from './suffix';
+// import {MatPrefix} from './prefix';
+// import {MatSuffix} from './suffix';
 import {Platform} from '@angular/cdk/platform';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 
 let nextUniqueId = 0;
-const floatingLabelScale = 0.75;
-const outlineGapPadding = 5;
+// const floatingLabelScale = 0.75;
+// const outlineGapPadding = 5;
 
 
 /**
@@ -109,16 +109,18 @@ export const MAT_FORM_FIELD_DEFAULT_OPTIONS =
   ],
   // animations: [matFormFieldAnimations.transitionMessages],
   host: {
-    'class': 'mat-form-field',
+    'class': 'form-group',
+    // '[label]': 'label',
     // '[class.mat-form-field-appearance-standard]': 'appearance == "standard"',
     // '[class.mat-form-field-appearance-fill]': 'appearance == "fill"',
     // '[class.mat-form-field-appearance-outline]': 'appearance == "outline"',
     // '[class.mat-form-field-appearance-legacy]': 'appearance == "legacy"',
+    // '[class.is-invalid]': '_control.errorState',
     // '[class.mat-form-field-invalid]': '_control.errorState',
-    '[class.mat-form-field-can-float]': '_canLabelFloat',
+    // '[class.mat-form-field-can-float]': '_canLabelFloat',
     // '[class.mat-form-field-should-float]': '_shouldLabelFloat()',
-    '[class.mat-form-field-hide-placeholder]': '_hideControlPlaceholder()',
-    '[class.mat-form-field-disabled]': '_control.disabled',
+    // '[class.mat-form-field-hide-placeholder]': '_hideControlPlaceholder()',
+    // '[class.mat-form-field-disabled]': '_control.disabled',
     // '[class.mat-form-field-autofilled]': '_control.autofilled',
     '[class.mat-focused]': '_control.focused',
     // '[class.mat-accent]': 'color == "accent"',
@@ -129,6 +131,8 @@ export const MAT_FORM_FIELD_DEFAULT_OPTIONS =
     '[class.ng-dirty]': '_shouldForward("dirty")',
     '[class.ng-valid]': '_shouldForward("valid")',
     '[class.ng-invalid]': '_shouldForward("invalid")',
+    // '[class.is-valid]': '_shouldForward("valid")',
+    // '[class.is-invalid]': '_shouldForward("invalid")',
     '[class.ng-pending]': '_shouldForward("pending")',
     // '[class._mat-animation-noopable]': '!_animationsEnabled',
   },
@@ -139,8 +143,8 @@ export const MAT_FORM_FIELD_DEFAULT_OPTIONS =
 
 export class MatFormField extends _MatFormFieldMixinBase
     implements AfterContentInit, AfterContentChecked, AfterViewInit, CanColor {
-  private _labelOptions: LabelOptions;
-  private _outlineGapCalculationNeeded = false;
+  // private _labelOptions: LabelOptions;
+  // private _outlineGapCalculationNeeded = false;
 
   /** The form-field appearance style. */
   // @Input()
@@ -175,15 +179,23 @@ export class MatFormField extends _MatFormFieldMixinBase
   // private _showAlwaysAnimate = false;
 
   /** Whether the floating label should always float or not. */
-  get _shouldAlwaysFloat(): boolean {
-    return this.floatLabel === 'always';
-  }
+  // get _shouldAlwaysFloat(): boolean {
+  //   return this.floatLabel === 'always';
+  // }
 
   /** Whether the label can float or not. */
-  get _canLabelFloat(): boolean { return this.floatLabel !== 'never'; }
+  // get _canLabelFloat(): boolean { return this.floatLabel !== 'never'; }
 
   /** State of the mat-hint and mat-error animations. */
-  // _subscriptAnimationState: string = '';
+  _subscriptAnimationState: string = '';
+
+  @Input()
+  get label(): string { return this._label; }
+  set label(value: string) {
+    this._label = value;
+    this._processHints();
+  }
+  private _label = '';
 
   /** Text for the form field hint. */
   @Input()
@@ -198,7 +210,7 @@ export class MatFormField extends _MatFormFieldMixinBase
   _hintLabelId: string = `mat-hint-${nextUniqueId++}`;
 
   // Unique id for the internal form field label.
-  _labelId = `mat-form-field-label-${nextUniqueId++}`;
+  _labelId = `mat-label-${nextUniqueId++}`;
 
   /**
    * Whether the label should always float, never float or float as the user types.
@@ -208,33 +220,34 @@ export class MatFormField extends _MatFormFieldMixinBase
    * the form field now supports both floating labels and placeholders. Therefore in the non-legacy
    * appearances the `never` option has been disabled in favor of just using the placeholder.
    */
-  @Input()
-  get floatLabel(): FloatLabelType {
-    return this._floatLabel === 'never' ? 'auto' : this._floatLabel;
-  }
-  set floatLabel(value: FloatLabelType) {
-    if (value !== this._floatLabel) {
-      this._floatLabel = value || this._labelOptions.float || 'auto';
-      this._changeDetectorRef.markForCheck();
-    }
-  }
-  private _floatLabel: FloatLabelType;
+  // @Input()
+  // get label(): string {
+  //   console.log(this._label);
+  //   return this._label;
+  // }
+  // set label(value: string) {
+  //   if (value !== this._label) {
+  //     this._label = value;
+  //     this._changeDetectorRef.markForCheck();
+  //   }
+  // }
+  // private _label = '';
 
   /** Whether the Angular animations are enabled. */
-  _animationsEnabled: boolean;
+  // _animationsEnabled: boolean;
 
   /**
    * @deprecated
    * @breaking-change 7.0.0
    */
-  @ViewChild('underline') underlineRef: ElementRef;
+  // @ViewChild('underline') underlineRef: ElementRef;
 
   @ViewChild('connectionContainer') _connectionContainerRef: ElementRef<HTMLElement>;
   @ViewChild('inputContainer') _inputContainerRef: ElementRef;
-  @ViewChild('label') private _label: ElementRef;
+  // @ViewChild('label') private _labelEl: ElementRef;
   @ContentChild(MatFormFieldControl) _control: MatFormFieldControl<any>;
   @ContentChild(MatPlaceholder) _placeholderChild: MatPlaceholder;
-  @ContentChild(MatLabel) _labelChild: MatLabel;
+  // @ContentChild(MatLabel) _labelChild: MatLabel;
   @ContentChildren(MatError) _errorChildren: QueryList<MatError>;
   @ContentChildren(MatHint) _hintChildren: QueryList<MatHint>;
   // @ContentChildren(MatPrefix) _prefixChildren: QueryList<MatPrefix>;
@@ -243,7 +256,7 @@ export class MatFormField extends _MatFormFieldMixinBase
   constructor(
       public _elementRef: ElementRef,
       private _changeDetectorRef: ChangeDetectorRef,
-      @Optional() @Inject(MAT_LABEL_GLOBAL_OPTIONS) labelOptions: LabelOptions,
+      // @Optional() @Inject(MAT_LABEL_GLOBAL_OPTIONS) labelOptions: LabelOptions,
       @Optional() private _dir: Directionality,
       @Optional() @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
           private _defaults: MatFormFieldDefaultOptions,
@@ -254,8 +267,8 @@ export class MatFormField extends _MatFormFieldMixinBase
   ) {
     super(_elementRef);
 
-    this._labelOptions = labelOptions ? labelOptions : {};
-    this.floatLabel = this._labelOptions.float || 'auto';
+    // this._labelOptions = labelOptions ? labelOptions : {};
+    // this.label = this._labelOptions.float || 'auto';
     // this._animationsEnabled = _animationMode !== 'NoopAnimations';
 
     // Set the default through here so we invoke the setter on the first run.
@@ -305,14 +318,14 @@ export class MatFormField extends _MatFormFieldMixinBase
 
   ngAfterContentChecked() {
     this._validateControlChild();
-    if (this._outlineGapCalculationNeeded) {
-      this.updateOutlineGap();
-    }
+    // if (this._outlineGapCalculationNeeded) {
+    //   this.updateOutlineGap();
+    // }
   }
 
   ngAfterViewInit() {
     // Avoid animations on load.
-    // this._subscriptAnimationState = 'enter';
+    this._subscriptAnimationState = 'enter';
     this._changeDetectorRef.detectChanges();
   }
 
@@ -326,27 +339,28 @@ export class MatFormField extends _MatFormFieldMixinBase
     return !!(this._control && this._control.placeholder || this._placeholderChild);
   }
 
-  _hasLabel() {
-    return !!this._labelChild;
-  }
+  // _hasLabel() {
+  //   return !!this._labelChild;
+  // }
 
-  _shouldLabelFloat() {
-    return this._canLabelFloat && (this._control.shouldLabelFloat || this._shouldAlwaysFloat);
-  }
+  // _shouldLabelFloat() {
+  //   return this._canLabelFloat && (this._control.shouldLabelFloat || this._shouldAlwaysFloat);
+  // }
 
-  _hideControlPlaceholder() {
+  // _hideControlPlaceholder() {
     // In the legacy appearance the placeholder is promoted to a label if no label is given.
-    return !this._hasLabel() ||
-        this._hasLabel() && !this._shouldLabelFloat();
-  }
+  //   return !this._hasLabel() ||
+  //       this._hasLabel() && !this._shouldLabelFloat();
+  // }
 
-  _hasFloatingLabel() {
+  // _hasFloatingLabel() {
     // In the legacy appearance the placeholder is promoted to a label if no label is given.
-    return this._hasLabel() || this._hasPlaceholder();
-  }
+    // return this._hasLabel() || this._hasPlaceholder();
+  // }
 
   /** Determines whether to display hints or errors. */
   _getDisplayedMessages(): 'error' | 'hint' {
+    console.log(this._errorChildren);
     return (this._errorChildren && this._errorChildren.length > 0 &&
         this._control.errorState) ? 'error' : 'hint';
   }
@@ -451,56 +465,56 @@ export class MatFormField extends _MatFormFieldMixinBase
    * Updates the width and position of the gap in the outline. Only relevant for the outline
    * appearance.
    */
-  updateOutlineGap() {
-    const labelEl = this._label ? this._label.nativeElement : null;
-
-    if (!labelEl || !labelEl.children.length ||
-        !labelEl.textContent.trim()) {
-      return;
-    }
-
-    if (this._platform && !this._platform.isBrowser) {
-      // getBoundingClientRect isn't available on the server.
-      return;
-    }
-    // If the element is not present in the DOM, the outline gap will need to be calculated
-    // the next time it is checked and in the DOM.
-    if (!document.documentElement.contains(this._elementRef.nativeElement)) {
-      this._outlineGapCalculationNeeded = true;
-      return;
-    }
-
-    let startWidth = 0;
-    let gapWidth = 0;
-    const startEls = this._connectionContainerRef.nativeElement.querySelectorAll<HTMLElement>(
-      '.mat-form-field-outline-start');
-    const gapEls = this._connectionContainerRef.nativeElement.querySelectorAll<HTMLElement>(
-        '.mat-form-field-outline-gap');
-    if (this._label && this._label.nativeElement.children.length) {
-      const containerStart = this._getStartEnd(
-          this._connectionContainerRef.nativeElement.getBoundingClientRect());
-      const labelStart = this._getStartEnd(labelEl.children[0].getBoundingClientRect());
-      let labelWidth = 0;
-
-      for (const child of labelEl.children) {
-        labelWidth += child.offsetWidth;
-      }
-      startWidth = labelStart - containerStart - outlineGapPadding;
-      gapWidth = labelWidth > 0 ? labelWidth * floatingLabelScale + outlineGapPadding * 2 : 0;
-    }
-
-    for (let i = 0; i < startEls.length; i++) {
-      startEls.item(i).style.width = `${startWidth}px`;
-    }
-    for (let i = 0; i < gapEls.length; i++) {
-      gapEls.item(i).style.width = `${gapWidth}px`;
-    }
-
-    this._outlineGapCalculationNeeded = false;
-  }
+  // updateOutlineGap() {
+  //   const labelEl = this._label ? this._label.nativeElement : null;
+  //
+  //   if (!labelEl || !labelEl.children.length ||
+  //       !labelEl.textContent.trim()) {
+  //     return;
+  //   }
+  //
+  //   if (this._platform && !this._platform.isBrowser) {
+  //     // getBoundingClientRect isn't available on the server.
+  //     return;
+  //   }
+  //   // If the element is not present in the DOM, the outline gap will need to be calculated
+  //   // the next time it is checked and in the DOM.
+  //   if (!document.documentElement.contains(this._elementRef.nativeElement)) {
+  //     // this._outlineGapCalculationNeeded = true;
+  //     return;
+  //   }
+  //
+  //   let startWidth = 0;
+  //   let gapWidth = 0;
+  //   const startEls = this._connectionContainerRef.nativeElement.querySelectorAll<HTMLElement>(
+  //     '.mat-form-field-outline-start');
+  //   const gapEls = this._connectionContainerRef.nativeElement.querySelectorAll<HTMLElement>(
+  //       '.mat-form-field-outline-gap');
+  //   if (this._label && this._label.nativeElement.children.length) {
+  //     const containerStart = this._getStartEnd(
+  //         this._connectionContainerRef.nativeElement.getBoundingClientRect());
+  //     const labelStart = this._getStartEnd(labelEl.children[0].getBoundingClientRect());
+  //     let labelWidth = 0;
+  //
+  //     for (const child of labelEl.children) {
+  //       labelWidth += child.offsetWidth;
+  //     }
+  //     startWidth = labelStart - containerStart - outlineGapPadding;
+  //     gapWidth = labelWidth > 0 ? labelWidth * floatingLabelScale + outlineGapPadding * 2 : 0;
+  //   }
+  //
+  //   for (let i = 0; i < startEls.length; i++) {
+  //     startEls.item(i).style.width = `${startWidth}px`;
+  //   }
+  //   for (let i = 0; i < gapEls.length; i++) {
+  //     gapEls.item(i).style.width = `${gapWidth}px`;
+  //   }
+  //
+  //   // this._outlineGapCalculationNeeded = false;
+  // }
 
   /** Gets the start end of the rect considering the current directionality. */
-  private _getStartEnd(rect: ClientRect): number {
-    return this._dir && this._dir.value === 'rtl' ? rect.right : rect.left;
-  }
+  // private _getStartEnd(rect: ClientRect): number {
+  //   return this._dir && this._dir.value === 'rtl' ? rect.right : rect.left;
+  // }
 }

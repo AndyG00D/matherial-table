@@ -16,7 +16,7 @@ let nextUniqueId = 0;
 @Directive({
   selector: 'mat-error',
   host: {
-    'class': 'mat-error',
+    'class': 'invalid-feedback',
     'role': 'alert',
     '[attr.id]': 'id',
   }

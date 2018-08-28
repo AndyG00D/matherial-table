@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {getSupportedInputTypes, Platform} from '@angular/cdk/platform';
 import {
@@ -22,7 +14,7 @@ import {
   NgZone,
 } from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {CanUpdateErrorState, ErrorStateMatcher, mixinErrorState} from '@angular/material/core';
+
 
 import {Subject} from 'rxjs';
 
@@ -30,6 +22,8 @@ import {getMatInputUnsupportedTypeError} from './input-errors';
 import {MAT_INPUT_VALUE_ACCESSOR} from './input-value-accessor';
 import {MatFormFieldControl} from '../form-field/form-field-control';
 import {AutofillMonitor} from '../text-field/autofill';
+import {ErrorStateMatcher} from '../core/error/error-options';
+import {mixinErrorState} from '@angular/material';
 
 
 
@@ -49,8 +43,6 @@ const MAT_INPUT_INVALID_TYPES = [
 
 let nextUniqueId = 0;
 
-// Boilerplate for applying mixins to MatInput.
-/** @docs-private */
 export class MatInputBase {
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
               public _parentForm: NgForm,
@@ -65,20 +57,13 @@ export const _MatInputMixinBase = mixinErrorState(MatInputBase);
   selector: `input[matInput], textarea[matInput]`,
   exportAs: 'matInput',
   host: {
-    /**
-     * @breaking-change 7.0.0 remove .mat-form-field-autofill-control in favor of AutofillMonitor.
-     */
-    'class': 'mat-input-element mat-form-field-autofill-control',
-    '[class.mat-input-server]': '_isServer',
-    // Native input properties that are overwritten by Angular inputs need to be synced with
-    // the native input element. Otherwise property bindings for those don't work.
+    'class': 'form-control',
     '[attr.id]': 'id',
     '[attr.placeholder]': 'placeholder',
     '[disabled]': 'disabled',
     '[required]': 'required',
     '[readonly]': 'readonly',
-    '[attr.aria-describedby]': '_ariaDescribedby || null',
-    '[attr.aria-invalid]': 'errorState',
+    '[class.is-invalid]': 'errorState',
     '[attr.aria-required]': 'required.toString()',
     '(blur)': '_focusChanged(false)',
     '(focus)': '_focusChanged(true)',
@@ -87,7 +72,7 @@ export const _MatInputMixinBase = mixinErrorState(MatInputBase);
   providers: [{provide: MatFormFieldControl, useExisting: MatInput}],
 })
 export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<any>, OnChanges,
-    OnDestroy, OnInit, DoCheck, CanUpdateErrorState {
+    OnDestroy, OnInit {
   protected _uid = `mat-input-${nextUniqueId++}`;
   protected _previousNativeValue: any;
   private _inputValueAccessor: {value: any};
@@ -242,7 +227,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     if (_platform.IOS) {
       ngZone.runOutsideAngular(() => {
         _elementRef.nativeElement.addEventListener('keyup', (event: Event) => {
-          let el = event.target as HTMLInputElement;
+          const el = event.target as HTMLInputElement;
           if (!el.value && !el.selectionStart && !el.selectionEnd) {
             // Note: Just setting `0, 0` doesn't fix the issue. Setting
             // `1, 1` fixes it for the first time that you type text and
@@ -270,6 +255,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   ngOnChanges() {
     this.stateChanges.next();
+    console.log('Error ' + this.errorState);
   }
 
   ngOnDestroy() {
@@ -302,6 +288,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     if (isFocused !== this.focused && !this.readonly) {
       this.focused = isFocused;
       this.stateChanges.next();
+      console.log(this.errorState);
     }
   }
 

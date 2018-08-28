@@ -31,7 +31,7 @@ import {MatInputModule} from '../input/input-module';
     ProductsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     MatInputModule
 
   ],

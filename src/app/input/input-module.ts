@@ -8,13 +8,14 @@
 
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {ErrorStateMatcher} from '@angular/material/core';
+// import {ErrorStateMatcher} from '@angular/material/core';
 
 import {MatTextareaAutosize} from './autosize';
 import {MatInput} from './input';
 
 import {MatFormFieldModule} from '../form-field/form-field-module';
 import {TextFieldModule} from '../text-field/text-field-module';
+import {ErrorStateMatcher} from '../core/error/error-options';
 
 
 

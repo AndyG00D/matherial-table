@@ -8,14 +8,14 @@
 
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {ObserversModule} from '@angular/cdk/observers';
+// import {ObserversModule} from '@angular/cdk/observers';
 import {MatError} from './error';
 import {MatFormField} from './form-field';
 import {MatHint} from './hint';
 import {MatLabel} from './label';
 import {MatPlaceholder} from './placeholder';
-import {MatPrefix} from './prefix';
-import {MatSuffix} from './suffix';
+// import {MatPrefix} from './prefix';
+// import {MatSuffix} from './suffix';
 
 
 @NgModule({
@@ -25,12 +25,10 @@ import {MatSuffix} from './suffix';
     MatHint,
     MatLabel,
     MatPlaceholder,
-    // MatPrefix,
-    // MatSuffix,
   ],
   imports: [
     CommonModule,
-    ObserversModule,
+    // ObserversModule,
   ],
   exports: [
     MatError,
@@ -38,8 +36,6 @@ import {MatSuffix} from './suffix';
     MatHint,
     MatLabel,
     MatPlaceholder,
-    // MatPrefix,
-    // MatSuffix,
   ],
 })
 export class MatFormFieldModule {}

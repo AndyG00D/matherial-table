@@ -16,8 +16,8 @@ let nextUniqueId = 0;
 @Directive({
   selector: 'mat-hint',
   host: {
-    'class': 'mat-hint',
-    '[class.mat-right]': 'align == "end"',
+    // 'class': 'mat-hint',
+    // '[class.mat-right]': 'align == "end"',
     '[attr.id]': 'id',
     // Remove align attribute to prevent it from interfering with layout.
     '[attr.align]': 'null',
