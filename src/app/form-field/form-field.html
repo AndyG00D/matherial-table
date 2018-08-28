@@ -20,9 +20,10 @@
 
     <small *ngSwitchCase="'hint'">
       <div *ngIf="hintLabel" [id]="_hintLabelId" class="mat-hint">{{hintLabel}}</div>
-      <ng-content select="mat-hint:not([align='end'])"></ng-content>
-      <div class="mat-form-field-hint-spacer"></div>
-      <ng-content select="mat-hint[align='end']"></ng-content>
+      <ng-content select="mat-hint"></ng-content>
+      <!--<ng-content select="mat-hint:not([align='end'])"></ng-content>-->
+      <!--<div class="mat-form-field-hint-spacer"></div>-->
+      <!--<ng-content select="mat-hint[align='end']"></ng-content>-->
     </small>
   </ng-container>
 </div>

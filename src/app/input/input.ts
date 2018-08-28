@@ -2,7 +2,6 @@ import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {getSupportedInputTypes, Platform} from '@angular/cdk/platform';
 import {
   Directive,
-  DoCheck,
   ElementRef,
   Inject,
   Input,
@@ -322,13 +321,6 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   }
 
   _onInput() {
-    // This is a noop function and is used to let Angular know whenever the value changes.
-    // Angular will run a new change detection each time the `input` event has been dispatched.
-    // It's necessary that Angular recognizes the value change, because when floatingLabel
-    // is set to false and Angular forms aren't used, the placeholder won't recognize the
-    // value changes and will not disappear.
-    // Listening to the input event wouldn't be necessary when the input is using the
-    // FormsModule or ReactiveFormsModule, because Angular forms also listens to input events.
   }
 
   /** Does some manual dirty checking on the native input `value` property. */
@@ -355,7 +347,6 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   /** Checks whether the input is invalid based on the native validation. */
   protected _isBadInput() {
-    // The `validity` property won't be present on platform-server.
     let validity = (this._elementRef.nativeElement as HTMLInputElement).validity;
     return validity && validity.badInput;
   }
