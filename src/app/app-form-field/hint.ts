@@ -6,13 +6,13 @@ let nextUniqueId = 0;
 
 /** Hint text to be shown underneath the form field control. */
 @Directive({
-  selector: 'mat-hint',
+  selector: 'app-hint',
   host: {
     'class': 'mat-hint',
     '[attr.id]': 'id',
   }
 })
-export class MatHint {
+export class AppHint {
   /** Whether to align the hint label at the start or end of the line. */
   // @Input() align: 'start' | 'end' = 'start';
 

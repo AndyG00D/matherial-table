@@ -14,7 +14,7 @@ import {AppFilterModule} from '../app-filter/filter-module';
 import {AppPaginationModule} from '../app-pagination/pagination-module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material';
-import {MatInputModule} from '../input/input-module';
+import {MatInputModule} from '../app-input/input-module';
 
 
 

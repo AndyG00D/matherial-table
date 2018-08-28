@@ -18,14 +18,15 @@ import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {Subject} from 'rxjs';
 
 import {getMatInputUnsupportedTypeError} from './input-errors';
-import {MAT_INPUT_VALUE_ACCESSOR} from './input-value-accessor';
-import {MatFormFieldControl} from '../form-field/form-field-control';
+import {APP_INPUT_VALUE_ACCESSOR} from './input-value-accessor';
+import {AppFormFieldControl} from '../app-form-field/form-field-control';
 import {AutofillMonitor} from '../text-field/autofill';
 import {ErrorStateMatcher} from '../core/error/error-options';
 import {mixinErrorState} from '@angular/material';
 
 
-// Invalid input type. Using one of these will throw an MatInputUnsupportedTypeError.
+
+// Invalid app-input type. Using one of these will throw an MatInputUnsupportedTypeError.
 const MAT_INPUT_INVALID_TYPES = [
   'button',
   'checkbox',
@@ -51,10 +52,10 @@ export class MatInputBase {
 
 export const _MatInputMixinBase = mixinErrorState(MatInputBase);
 
-/** Directive that allows a native input to work inside a `MatFormField`. */
+/** Directive that allows a native app-input to work inside a `AppFormField`. */
 @Directive({
-  selector: `input[matInput], textarea[matInput]`,
-  exportAs: 'matInput',
+  selector: `input[appInput], textarea[appInput]`,
+  exportAs: 'appInput',
   host: {
     'class': 'form-control',
     '[attr.id]': 'id',
@@ -68,45 +69,45 @@ export const _MatInputMixinBase = mixinErrorState(MatInputBase);
     '(focus)': '_focusChanged(true)',
     '(input)': '_onInput()',
   },
-  providers: [{provide: MatFormFieldControl, useExisting: MatInput}],
+  providers: [{provide: AppFormFieldControl, useExisting: AppInput}],
 })
-export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<any>, OnChanges,
+export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<any>, OnChanges,
   OnDestroy, OnInit {
-  protected _uid = `mat-input-${nextUniqueId++}`;
+  protected _uid = `app-input-${nextUniqueId++}`;
   protected _previousNativeValue: any;
   private _inputValueAccessor: { value: any };
-  /** The aria-describedby attribute on the input for improved a11y. */
+  /** The aria-describedby attribute on the app-input for improved a11y. */
   _ariaDescribedby: string;
 
   /** Whether the component is being rendered on the server. */
   _isServer = false;
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   focused: boolean = false;
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   readonly stateChanges: Subject<void> = new Subject<void>();
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
-  controlType: string = 'mat-input';
+  controlType: string = 'app-app-input';
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   autofilled = false;
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   @Input()
@@ -120,7 +121,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
 
-    // Browsers may not fire the blur event if the input is disabled too quickly.
+    // Browsers may not fire the blur event if the app-input is disabled too quickly.
     // Reset from here to ensure that the element doesn't become stuck.
     if (this.focused) {
       this.focused = false;
@@ -131,7 +132,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   protected _disabled = false;
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   @Input()
@@ -146,13 +147,13 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   protected _id: string;
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   @Input() placeholder: string;
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   @Input()
@@ -177,7 +178,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     this._validateType();
 
     // When using Angular inputs, developers are no longer able to set the properties on the native
-    // input element. To ensure that bindings for `type` work, we need to sync the setter
+    // app-input element. To ensure that bindings for `type` work, we need to sync the setter
     // with the native property. Textarea elements don't support the type property or attribute.
     if (!this._isTextarea() && getSupportedInputTypes().has(this._type)) {
       this._elementRef.nativeElement.type = this._type;
@@ -190,7 +191,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   @Input() errorStateMatcher: ErrorStateMatcher;
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   @Input()
@@ -233,12 +234,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
               @Optional() _parentForm: NgForm,
               @Optional() _parentFormGroup: FormGroupDirective,
               _defaultErrorStateMatcher: ErrorStateMatcher,
-              @Optional() @Self() @Inject(MAT_INPUT_VALUE_ACCESSOR) inputValueAccessor: any,
+              @Optional() @Self() @Inject(APP_INPUT_VALUE_ACCESSOR) inputValueAccessor: any,
               private _autofillMonitor: AutofillMonitor,
               ngZone: NgZone
   ) {
     super(_defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
-    // If no input value accessor was explicitly specified, use the element as the input value
+    // If no app-input value accessor was explicitly specified, use the element as the app-input value
     // accessor.
     this._inputValueAccessor = inputValueAccessor || this._elementRef.nativeElement;
 
@@ -306,12 +307,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     this._dirtyCheckNativeValue();
   }
 
-  /** Focuses the input. */
+  /** Focuses the app-input. */
   focus(): void {
     this._elementRef.nativeElement.focus();
   }
 
-  /** Callback for the cases where the focused state of the input changes. */
+  /** Callback for the cases where the focused state of the app-input changes. */
   _focusChanged(isFocused: boolean) {
     if (isFocused !== this.focused && !this.readonly) {
       this.focused = isFocused;
@@ -323,7 +324,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   _onInput() {
   }
 
-  /** Does some manual dirty checking on the native input `value` property. */
+  /** Does some manual dirty checking on the native app-input `value` property. */
   protected _dirtyCheckNativeValue() {
     const newValue = this.value;
 
@@ -333,19 +334,19 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     }
   }
 
-  /** Make sure the input is a supported type. */
+  /** Make sure the app-input is a supported type. */
   protected _validateType() {
     if (MAT_INPUT_INVALID_TYPES.indexOf(this._type) > -1) {
       throw getMatInputUnsupportedTypeError(this._type);
     }
   }
 
-  /** Checks whether the input type is one of the types that are never empty. */
+  /** Checks whether the app-input type is one of the types that are never empty. */
   protected _isNeverEmpty() {
     return this._neverEmptyInputTypes.indexOf(this._type) > -1;
   }
 
-  /** Checks whether the input is invalid based on the native validation. */
+  /** Checks whether the app-input is invalid based on the native validation. */
   protected _isBadInput() {
     let validity = (this._elementRef.nativeElement as HTMLInputElement).validity;
     return validity && validity.badInput;
@@ -357,7 +358,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   }
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   get empty(): boolean {
@@ -366,7 +367,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   }
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   get shouldLabelFloat(): boolean {
@@ -374,7 +375,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   }
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   setDescribedByIds(ids: string[]) {
@@ -382,7 +383,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   }
 
   /**
-   * Implemented as part of MatFormFieldControl.
+   * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
   onContainerClick() {

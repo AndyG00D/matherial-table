@@ -20,7 +20,7 @@ import {
 import {EMPTY, Observable, Subject} from 'rxjs';
 
 
-/** An event that is emitted when the autofill state of an input changes. */
+/** An event that is emitted when the autofill state of an app-input changes. */
 export type AutofillEvent = {
   /** The element whose autofill state changes. */
   target: Element;
@@ -41,7 +41,7 @@ const listenerOptions: any = supportsPassiveEventListeners() ? {passive: true} :
 
 
 /**
- * An injectable service that can be used to monitor the autofill state of an input.
+ * An injectable service that can be used to monitor the autofill state of an app-input.
  * Based on the following blog post:
  * https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
  */
@@ -52,14 +52,14 @@ export class AutofillMonitor implements OnDestroy {
   constructor(private _platform: Platform, private _ngZone: NgZone) {}
 
   /**
-   * Monitor for changes in the autofill state of the given input element.
+   * Monitor for changes in the autofill state of the given app-input element.
    * @param element The element to monitor.
    * @return A stream of autofill state changes.
    */
   monitor(element: Element): Observable<AutofillEvent>;
 
   /**
-   * Monitor for changes in the autofill state of the given input element.
+   * Monitor for changes in the autofill state of the given app-input element.
    * @param element The element to monitor.
    * @return A stream of autofill state changes.
    */
@@ -110,13 +110,13 @@ export class AutofillMonitor implements OnDestroy {
   }
 
   /**
-   * Stop monitoring the autofill state of the given input element.
+   * Stop monitoring the autofill state of the given app-input element.
    * @param element The element to stop monitoring.
    */
   stopMonitoring(element: Element);
 
   /**
-   * Stop monitoring the autofill state of the given input element.
+   * Stop monitoring the autofill state of the given app-input element.
    * @param element The element to stop monitoring.
    */
   stopMonitoring(element: ElementRef<Element>);
@@ -140,7 +140,7 @@ export class AutofillMonitor implements OnDestroy {
 }
 
 
-/** A directive that can be used to monitor the autofill state of an input. */
+/** A directive that can be used to monitor the autofill state of an app-input. */
 @Directive({
   selector: '[cdkAutofill]',
 })

@@ -258,6 +258,6 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   _noopInputHandler() {
-    // no-op handler that ensures we're running change detection on input events.
+    // no-op handler that ensures we're running change detection on app-input events.
   }
 }

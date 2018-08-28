@@ -10,13 +10,13 @@ import {Observable} from 'rxjs';
 import {NgControl} from '@angular/forms';
 
 
-/** An interface which allows a control to work inside of a `MatFormField`. */
-export abstract class MatFormFieldControl<T> {
+/** An interface which allows a control to work inside of a `AppFormField`. */
+export abstract class AppFormFieldControl<T> {
   /** The value of the control. */
   value: T | null;
 
   /**
-   * Stream that emits whenever the state of the control changes such that the parent `MatFormField`
+   * Stream that emits whenever the state of the control changes such that the parent `AppFormField`
    * needs to run change detection.
    */
   readonly stateChanges: Observable<void>;
@@ -36,7 +36,7 @@ export abstract class MatFormFieldControl<T> {
   /** Whether the control is empty. */
   readonly empty: boolean;
 
-  /** Whether the `MatFormField` label should try to float. */
+  /** Whether the `AppFormField` label should try to float. */
   // readonly shouldLabelFloat: boolean;
 
   /** Whether the control is required. */
@@ -49,14 +49,14 @@ export abstract class MatFormFieldControl<T> {
   readonly errorState: boolean;
 
   /**
-   * An optional name for the control type that can be used to distinguish `mat-form-field` elements
+   * An optional name for the control type that can be used to distinguish `app-app-form-field` elements
    * based on their control type. The form field will add a class,
-   * `mat-form-field-type-{{controlType}}` to its root element.
+   * `app-app-form-field-type-{{controlType}}` to its root element.
    */
   readonly controlType?: string;
 
   /**
-   * Whether the input is currently in an autofilled state. If property is not present on the
+   * Whether the app-input is currently in an autofilled state. If property is not present on the
    * control it is assumed to be false.
    */
   readonly autofilled?: boolean;

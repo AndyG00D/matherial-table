@@ -16,17 +16,16 @@ import {
 } from '@angular/core';
 import {EMPTY, fromEvent, merge} from 'rxjs';
 import {startWith, take} from 'rxjs/operators';
-import {MatError} from './error';
-import {MatFormFieldControl} from './form-field-control';
+import {AppError} from './error';
+import {AppFormFieldControl} from './form-field-control';
 import {
-  getMatFormFieldDuplicatedHintError,
-  getMatFormFieldMissingControlError,
-  getMatFormFieldPlaceholderConflictError,
+  getAppFormFieldDuplicatedHintError,
+  getAppFormFieldMissingControlError,
+  getAppFormFieldPlaceholderConflictError,
 } from './form-field-errors';
-import {MatHint} from './hint';
-// import {MatLabel} from './label';
-import {MatPlaceholder} from './placeholder';
-import {Platform} from '@angular/cdk/platform';
+import {AppHint} from './hint';
+// import {AppLabel} from './label';
+import {AppPlaceholder} from './placeholder';
 
 
 
@@ -34,12 +33,12 @@ let nextUniqueId = 0;
 
 
 @Component({
-  selector: 'mat-form-field',
-  exportAs: 'matFormField',
-  templateUrl: 'form-field.html',
+  selector: 'app-form-field',
+  exportAs: 'appFormField',
+  templateUrl: './form-field.html',
   host: {
     'class': 'form-group',
-    '[class.mat-focused]': '_control.focused',
+    '[class.app-focused]': '_control.focused',
     '[class.ng-untouched]': '_shouldForward("untouched")',
     '[class.ng-touched]': '_shouldForward("touched")',
     '[class.ng-pristine]': '_shouldForward("pristine")',
@@ -52,7 +51,7 @@ let nextUniqueId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class MatFormField implements AfterContentInit, AfterContentChecked, AfterViewInit {
+export class AppFormField implements AfterContentInit, AfterContentChecked, AfterViewInit {
 
   @Input()
   get hideRequiredMarker(): boolean { return this._hideRequiredMarker; }
@@ -79,19 +78,19 @@ export class MatFormField implements AfterContentInit, AfterContentChecked, Afte
   private _hintLabel = '';
 
   // Unique id for the hint label.
-  _hintLabelId: string = `mat-hint-${nextUniqueId++}`;
+  _hintLabelId: string = `app-hint-${nextUniqueId++}`;
 
   // Unique id for the internal form field label.
-  // _labelId = `mat-label-${nextUniqueId++}`;
+  // _labelId = `app-label-${nextUniqueId++}`;
 
   @ViewChild('connectionContainer') _connectionContainerRef: ElementRef<HTMLElement>;
   @ViewChild('inputContainer') _inputContainerRef: ElementRef;
   // @ViewChild('label') private _labelEl: ElementRef;
-  @ContentChild(MatFormFieldControl) _control: MatFormFieldControl<any>;
-  @ContentChild(MatPlaceholder) _placeholderChild: MatPlaceholder;
-  // @ContentChild(MatLabel) _labelChild: MatLabel;
-  @ContentChildren(MatError) _errorChildren: QueryList<MatError>;
-  @ContentChildren(MatHint) _hintChildren: QueryList<MatHint>;
+  @ContentChild(AppFormFieldControl) _control: AppFormFieldControl<any>;
+  @ContentChild(AppPlaceholder) _placeholderChild: AppPlaceholder;
+  // @ContentChild(AppLabel) _labelChild: AppLabel;
+  @ContentChildren(AppError) _errorChildren: QueryList<AppError>;
+  @ContentChildren(AppHint) _hintChildren: QueryList<AppHint>;
 
   constructor(
       public _elementRef: ElementRef,
@@ -103,7 +102,7 @@ export class MatFormField implements AfterContentInit, AfterContentChecked, Afte
     this._validateControlChild();
     if (this._control.controlType) {
       this._elementRef.nativeElement.classList
-          .add(`mat-form-field-type-${this._control.controlType}`);
+          .add(`app-form-field-type-${this._control.controlType}`);
     }
 
     // Subscribe to changes in the child control state in order to update the form field UI.
@@ -154,7 +153,7 @@ export class MatFormField implements AfterContentInit, AfterContentChecked, Afte
 
   private _validatePlaceholders() {
     if (this._control.placeholder && this._placeholderChild) {
-      throw getMatFormFieldPlaceholderConflictError();
+      throw getAppFormFieldPlaceholderConflictError();
     }
   }
 
@@ -188,7 +187,7 @@ export class MatFormField implements AfterContentInit, AfterContentChecked, Afte
   /** Throws an error if the form field's control is missing. */
   protected _validateControlChild() {
     if (!this._control) {
-      throw getMatFormFieldMissingControlError();
+      throw getAppFormFieldMissingControlError();
     }
   }
 

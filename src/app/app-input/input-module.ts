@@ -2,25 +2,25 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
 
-import {MatTextareaAutosize} from './autosize';
-import {MatInput} from './input';
-import {MatFormFieldModule} from '../form-field/form-field-module';
+import {AppTextareaAutosize} from './autosize';
+import {AppInput} from './input';
+import {AppFormFieldModule} from '../app-form-field/form-field-module';
 import {TextFieldModule} from '../text-field/text-field-module';
 import {ErrorStateMatcher} from '../core/error/error-options';
 
 
 @NgModule({
-  declarations: [MatInput, MatTextareaAutosize],
+  declarations: [AppInput, AppTextareaAutosize],
   imports: [
     CommonModule,
     TextFieldModule,
-    MatFormFieldModule,
+    AppFormFieldModule,
   ],
   exports: [
     TextFieldModule,
-    MatFormFieldModule,
-    MatInput,
-    MatTextareaAutosize,
+    AppFormFieldModule,
+    AppInput,
+    AppTextareaAutosize,
   ],
   providers: [ErrorStateMatcher],
 })

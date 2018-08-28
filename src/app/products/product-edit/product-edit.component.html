@@ -2,26 +2,26 @@
 <pre>{{product | json}}</pre>
 
 <div class="example-container">
-  <mat-form-field label="Input">
-    <input matInput placeholder="Input" required>
-    <mat-hint>Hint</mat-hint>
-    <mat-hint>Hint2</mat-hint>
-    <mat-hint>Hint3</mat-hint>
-  </mat-form-field>
+  <app-form-field label="Input">
+    <input appInput placeholder="Input" required>
+    <app-hint>Hint</app-hint>
+    <app-hint>Hint2</app-hint>
+    <app-hint>Hint3</app-hint>
+  </app-form-field>
 
-  <mat-form-field hintLabel="Blablabla">
-    <textarea matInput ></textarea>
-  </mat-form-field>
+  <app-form-field hintLabel="Blablabla">
+    <textarea appInput ></textarea>
+  </app-form-field>
 
-  <!--<mat-form-field>-->
-    <!--<mat-select placeholder="Select">-->
-      <!--<mat-option value="option">Option</mat-option>-->
-    <!--</mat-select>-->
-  <!--</mat-form-field>-->
+  <!--<app-app-form-field>-->
+    <!--<app-select placeholder="Select">-->
+      <!--<app-option value="option">Option</app-option>-->
+    <!--</app-select>-->
+  <!--</app-app-form-field>-->
 
-    <mat-form-field>
-      <input matInput placeholder="Enter your email" [formControl]="email" required>
-      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-      <!--<mat-error>Error message</mat-error>-->
-    </mat-form-field>
+    <app-form-field>
+      <input appInput placeholder="Enter your email" [formControl]="email" required>
+      <app-error *ngIf="email.invalid">{{getErrorMessage()}}</app-error>
+      <!--<app-error>Error message</app-error>-->
+    </app-form-field>
 </div>
