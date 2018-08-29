@@ -1,21 +1,11 @@
-import {Directive, Input} from '@angular/core';
-
+import {Directive, HostBinding, Input} from '@angular/core';
 
 let nextUniqueId = 0;
 
-
-/** Hint text to be shown underneath the form field control. */
 @Directive({
   selector: 'app-hint',
-  host: {
-    'class': 'mat-hint',
-    '[attr.id]': 'id',
-  }
 })
-export class AppHint {
-  /** Whether to align the hint label at the start or end of the line. */
-  // @Input() align: 'start' | 'end' = 'start';
-
-  /** Unique ID for the hint. Used for the aria-describedby on the form field control. */
-  @Input() id: string = `mat-hint-${nextUniqueId++}`;
+export class AppHintDirective {
+  @HostBinding('class') class = `mat-hint-${nextUniqueId++}`;
+  @HostBinding('attr.id') id = `mat-hint-${nextUniqueId++}`;
 }

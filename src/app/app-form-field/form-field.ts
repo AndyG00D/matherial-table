@@ -8,105 +8,90 @@ import {
   Component,
   ContentChild,
   ContentChildren,
-  ElementRef,
+  ElementRef, HostBinding,
   Input,
   QueryList,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {EMPTY, fromEvent, merge} from 'rxjs';
-import {startWith, take} from 'rxjs/operators';
-import {AppError} from './error';
+import {EMPTY, merge} from 'rxjs';
+import {startWith} from 'rxjs/operators';
+import {AppErrorDirective} from './error';
 import {AppFormFieldControl} from './form-field-control';
 import {
-  getAppFormFieldDuplicatedHintError,
   getAppFormFieldMissingControlError,
   getAppFormFieldPlaceholderConflictError,
 } from './form-field-errors';
-import {AppHint} from './hint';
-// import {AppLabel} from './label';
-import {AppPlaceholder} from './placeholder';
-
-
-
-let nextUniqueId = 0;
+import {AppHintDirective} from './hint';
+import {AppPlaceholderDirective} from './placeholder';
 
 
 @Component({
   selector: 'app-form-field',
   exportAs: 'appFormField',
   templateUrl: './form-field.html',
-  host: {
-    'class': 'form-group',
-    '[class.app-focused]': '_control.focused',
-    '[class.ng-untouched]': '_shouldForward("untouched")',
-    '[class.ng-touched]': '_shouldForward("touched")',
-    '[class.ng-pristine]': '_shouldForward("pristine")',
-    '[class.ng-dirty]': '_shouldForward("dirty")',
-    '[class.ng-valid]': '_shouldForward("valid")',
-    '[class.ng-invalid]': '_shouldForward("invalid")',
-    '[class.ng-pending]': '_shouldForward("pending")',
-  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class AppFormField implements AfterContentInit, AfterContentChecked, AfterViewInit {
+export class AppFormFieldComponent implements AfterContentInit, AfterContentChecked, AfterViewInit {
 
   @Input()
-  get hideRequiredMarker(): boolean { return this._hideRequiredMarker; }
+  get hideRequiredMarker(): boolean {
+    return this._hideRequiredMarker;
+  }
+
   set hideRequiredMarker(value: boolean) {
     this._hideRequiredMarker = coerceBooleanProperty(value);
   }
+
   private _hideRequiredMarker: boolean;
 
   /** Text for the form field label. */
   @Input()
-  get label(): string { return this._label; }
+  get label(): string {
+    return this._label;
+  }
+
   set label(value: string) {
     this._label = value;
   }
+
   private _label = '';
-
-  /** Text for the form field hint. */
-  @Input()
-  get hintLabel(): string { return this._hintLabel; }
-  set hintLabel(value: string) {
-    this._hintLabel = value;
-    this._processHints();
-  }
-  private _hintLabel = '';
-
-  // Unique id for the hint label.
-  _hintLabelId: string = `app-hint-${nextUniqueId++}`;
-
-  // Unique id for the internal form field label.
-  // _labelId = `app-label-${nextUniqueId++}`;
 
   @ViewChild('connectionContainer') _connectionContainerRef: ElementRef<HTMLElement>;
   @ViewChild('inputContainer') _inputContainerRef: ElementRef;
-  // @ViewChild('label') private _labelEl: ElementRef;
+
   @ContentChild(AppFormFieldControl) _control: AppFormFieldControl<any>;
-  @ContentChild(AppPlaceholder) _placeholderChild: AppPlaceholder;
-  // @ContentChild(AppLabel) _labelChild: AppLabel;
-  @ContentChildren(AppError) _errorChildren: QueryList<AppError>;
-  @ContentChildren(AppHint) _hintChildren: QueryList<AppHint>;
+  @ContentChild(AppPlaceholderDirective) _placeholderChild: AppPlaceholderDirective;
+  @ContentChildren(AppErrorDirective) _errorChildren: QueryList<AppErrorDirective>;
+  @ContentChildren(AppHintDirective) _hintChildren: QueryList<AppHintDirective>;
+
+  @HostBinding('class.ng-untouched') untouched = this._shouldForward('untouched');
+  @HostBinding('class.ng-touched') touched = this._shouldForward('touched');
+  @HostBinding('class.ng-pristine') pristine = this._shouldForward('pristine');
+  @HostBinding('class.ng-dirty') dirty = this._shouldForward('dirty');
+  @HostBinding('class.ng-valid') valid = this._shouldForward('valid');
+  @HostBinding('class.ng-invalid') invalid = this._shouldForward('invalid');
+  @HostBinding('class.ng-pending') pending = this._shouldForward('pending');
+
+
 
   constructor(
-      public _elementRef: ElementRef,
-      private _changeDetectorRef: ChangeDetectorRef,
-  ) {}
-
+    public _elementRef: ElementRef,
+    private _changeDetectorRef: ChangeDetectorRef,
+  ) {
+  }
 
   ngAfterContentInit() {
     this._validateControlChild();
     if (this._control.controlType) {
       this._elementRef.nativeElement.classList
-          .add(`app-form-field-type-${this._control.controlType}`);
+        .add(`app-form-field-type-${this._control.controlType}`);
     }
 
     // Subscribe to changes in the child control state in order to update the form field UI.
-    this._control.stateChanges.pipe(startWith(null!)).subscribe(() => {
+    this._control.stateChanges.pipe(startWith(null)).subscribe(() => {
       this._validatePlaceholders();
       this._syncDescribedByIds();
       this._changeDetectorRef.markForCheck();
@@ -115,7 +100,7 @@ export class AppFormField implements AfterContentInit, AfterContentChecked, Afte
     // Run change detection if the value, prefix, or suffix changes.
     const valueChanges = this._control.ngControl && this._control.ngControl.valueChanges || EMPTY;
     merge(valueChanges)
-        .subscribe(() => this._changeDetectorRef.markForCheck());
+      .subscribe(() => this._changeDetectorRef.markForCheck());
 
     // Re-validate when the number of hints changes.
     this._hintChildren.changes.pipe(startWith(null)).subscribe(() => {
@@ -148,7 +133,7 @@ export class AppFormField implements AfterContentInit, AfterContentChecked, Afte
   _getDisplayedMessages(): 'error' | 'hint' {
     console.log(this._errorChildren);
     return (this._errorChildren && this._errorChildren.length > 0 &&
-        this._control.errorState) ? 'error' : 'hint';
+      this._control.errorState) ? 'error' : 'hint';
   }
 
   private _validatePlaceholders() {

@@ -1,22 +1,14 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 import {Observable} from 'rxjs';
 import {NgControl} from '@angular/forms';
 
 
-/** An interface which allows a control to work inside of a `AppFormField`. */
+/** An interface which allows a control to work inside of a `AppFormFieldComponent`. */
 export abstract class AppFormFieldControl<T> {
   /** The value of the control. */
   value: T | null;
 
   /**
-   * Stream that emits whenever the state of the control changes such that the parent `AppFormField`
+   * Stream that emits whenever the state of the control changes such that the parent `AppFormFieldComponent`
    * needs to run change detection.
    */
   readonly stateChanges: Observable<void>;
@@ -36,7 +28,7 @@ export abstract class AppFormFieldControl<T> {
   /** Whether the control is empty. */
   readonly empty: boolean;
 
-  /** Whether the `AppFormField` label should try to float. */
+  /** Whether the `AppFormFieldComponent` label should try to float. */
   // readonly shouldLabelFloat: boolean;
 
   /** Whether the control is required. */

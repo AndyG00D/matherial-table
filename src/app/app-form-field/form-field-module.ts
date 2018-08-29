@@ -1,30 +1,30 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {AppError} from './error';
-import {AppFormField} from './form-field';
-import {AppHint} from './hint';
-import {AppLabel} from './label';
-import {AppPlaceholder} from './placeholder';
-
+import {AppErrorDirective} from './error';
+import {AppFormFieldComponent} from './form-field';
+import {AppHintDirective} from './hint';
+import {AppLabelDirective} from './label';
+import {AppPlaceholderDirective} from './placeholder';
 
 
 @NgModule({
   declarations: [
-    AppError,
-    AppFormField,
-    AppHint,
-    AppLabel,
-    AppPlaceholder,
+    AppErrorDirective,
+    AppFormFieldComponent,
+    AppHintDirective,
+    AppLabelDirective,
+    AppPlaceholderDirective,
   ],
   imports: [
     CommonModule,
   ],
   exports: [
-    AppError,
-    AppFormField,
-    AppHint,
-    AppLabel,
-    AppPlaceholder,
+    AppErrorDirective,
+    AppFormFieldComponent,
+    AppHintDirective,
+    AppLabelDirective,
+    AppPlaceholderDirective,
   ],
 })
-export class AppFormFieldModule {}
+export class AppFormFieldModule {
+}

@@ -2,15 +2,15 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 
 
-import {AppTextareaAutosize} from './autosize';
-import {AppInput} from './input';
+import {AppTextareaAutosizeDirective} from './autosize';
+import {AppInputDirective} from './input';
 import {AppFormFieldModule} from '../app-form-field/form-field-module';
 import {TextFieldModule} from '../text-field/text-field-module';
 import {ErrorStateMatcher} from '../core/error/error-options';
 
 
 @NgModule({
-  declarations: [AppInput, AppTextareaAutosize],
+  declarations: [AppInputDirective, AppTextareaAutosizeDirective],
   imports: [
     CommonModule,
     TextFieldModule,
@@ -19,8 +19,8 @@ import {ErrorStateMatcher} from '../core/error/error-options';
   exports: [
     TextFieldModule,
     AppFormFieldModule,
-    AppInput,
-    AppTextareaAutosize,
+    AppInputDirective,
+    AppTextareaAutosizeDirective,
   ],
   providers: [ErrorStateMatcher],
 })

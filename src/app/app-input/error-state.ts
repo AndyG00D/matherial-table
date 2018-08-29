@@ -1,15 +1,6 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import { Subject } from 'rxjs';
+import {Subject} from 'rxjs';
 import {ErrorStateMatcher} from '../core/error/error-options';
-
-
 
 /** @docs-private */
 export interface HasErrorState {
@@ -21,23 +12,24 @@ export interface HasErrorState {
 
 /** @docs-private */
 export interface CanUpdateErrorState {
-  updateErrorState(): any;
-  readonly stateChanges: Subject<void>;
   errorState: boolean;
   errorStateMatcher: ErrorStateMatcher;
+  readonly stateChanges: Subject<void>;
+
+  updateErrorState(): any;
 }
 
 export declare type Constructor<T> = new (...args: any[]) => T;
+
 /**
  * Mixin to augment a directive with updateErrorState method.
  * For component with `errorState` and need to update `errorState`.
  */
-
 export function mixinErrorState<T extends Constructor<HasErrorState>>(base: T)
   : Constructor<CanUpdateErrorState> & T {
   return class extends base {
     /** Whether the component is in an error state. */
-    errorState: boolean = false;
+    errorState = false;
 
     /**
      * Stream that emits whenever the state of the input changes such that the wrapping

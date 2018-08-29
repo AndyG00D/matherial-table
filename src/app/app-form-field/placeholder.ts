@@ -2,7 +2,7 @@ import {Directive} from '@angular/core';
 
 
 /**
- * The placeholder text for an `AppFormField`.
+ * The placeholder text for an `AppFormFieldComponent`.
  * @deprecated Use `<mat-label>` to specify the label and the `placeholder` attribute to specify the
  *     placeholder.
  * @breaking-change 8.0.0
@@ -10,4 +10,4 @@ import {Directive} from '@angular/core';
 @Directive({
   selector: 'app-placeholder'
 })
-export class AppPlaceholder {}
+export class AppPlaceholderDirective {}

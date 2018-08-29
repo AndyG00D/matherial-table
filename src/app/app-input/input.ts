@@ -10,7 +10,7 @@ import {
   OnInit,
   Optional,
   Self,
-  NgZone,
+  NgZone, DoCheck, HostBinding, HostListener,
 } from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {Subject} from 'rxjs';
@@ -20,10 +20,6 @@ import {AppFormFieldControl} from '../app-form-field/form-field-control';
 import {AutofillMonitor} from '../text-field/autofill';
 import {ErrorStateMatcher} from '../core/error/error-options';
 import {mixinErrorState} from './error-state';
-
-
-
-
 
 
 // Invalid app-input type. Using one of these will throw an MatInputUnsupportedTypeError.
@@ -45,66 +41,27 @@ export class MatInputBase {
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
               public _parentForm: NgForm,
               public _parentFormGroup: FormGroupDirective,
-              /** @docs-private */
-              /** @docs-private */
               public ngControl: NgControl) {
   }
 }
 
 export const _MatInputMixinBase = mixinErrorState(MatInputBase);
 
-/** Directive that allows a native app-input to work inside a `AppFormField`. */
+/** Directive that allows a native app-input to work inside a `AppFormFieldComponent`. */
 @Directive({
   selector: `input[appInput], textarea[appInput]`,
   exportAs: 'appInput',
-  host: {
-    'class': 'form-control',
-    '[attr.id]': 'id',
-    '[attr.placeholder]': 'placeholder',
-    '[disabled]': 'disabled',
-    '[required]': 'required',
-    '[readonly]': 'readonly',
-    '[class.is-invalid]': 'errorState',
-    '[attr.aria-required]': 'required.toString()',
-    '(blur)': '_focusChanged(false)',
-    '(focus)': '_focusChanged(true)',
-    '(input)': '_onInput()',
-  },
-  providers: [{provide: AppFormFieldControl, useExisting: AppInput}],
+  providers: [{provide: AppFormFieldControl, useExisting: AppInputDirective}],
 })
-export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<any>, OnChanges,
-  OnDestroy, OnInit {
+export class AppInputDirective extends _MatInputMixinBase implements AppFormFieldControl<any>, OnChanges,
+  OnDestroy, OnInit, DoCheck {
   protected _uid = `app-input-${nextUniqueId++}`;
   protected _previousNativeValue: any;
   private _inputValueAccessor: { value: any };
-  /** The aria-describedby attribute on the app-input for improved a11y. */
   _ariaDescribedby: string;
-
-  /** Whether the component is being rendered on the server. */
   _isServer = false;
-
-  /**
-   * Implemented as part of AppFormFieldControl.
-   * @docs-private
-   */
-  focused: boolean = false;
-
-  /**
-   * Implemented as part of AppFormFieldControl.
-   * @docs-private
-   */
+  focused = false;
   readonly stateChanges: Subject<void> = new Subject<void>();
-
-  /**
-   * Implemented as part of AppFormFieldControl.
-   * @docs-private
-   */
-  controlType: string = 'app-app-input';
-
-  /**
-   * Implemented as part of AppFormFieldControl.
-   * @docs-private
-   */
   autofilled = false;
 
   /**
@@ -121,9 +78,6 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
 
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
-
-    // Browsers may not fire the blur event if the app-input is disabled too quickly.
-    // Reset from here to ensure that the element doesn't become stuck.
     if (this.focused) {
       this.focused = false;
       this.stateChanges.next();
@@ -131,27 +85,6 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
   }
 
   protected _disabled = false;
-
-  /**
-   * Implemented as part of AppFormFieldControl.
-   * @docs-private
-   */
-  @Input()
-  get id(): string {
-    return this._id;
-  }
-
-  set id(value: string) {
-    this._id = value || this._uid;
-  }
-
-  protected _id: string;
-
-  /**
-   * Implemented as part of AppFormFieldControl.
-   * @docs-private
-   */
-  @Input() placeholder: string;
 
   /**
    * Implemented as part of AppFormFieldControl.
@@ -228,6 +161,34 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
     'week'
   ].filter(t => getSupportedInputTypes().has(t));
 
+  @HostBinding('class') class = 'form-control';
+
+  /**
+   * Implemented as part of AppFormFieldControl.
+   * @docs-private
+   */
+  @HostBinding('attr.id')
+  get id(): string {
+    return this._id;
+  }
+
+  set id(value: string) {
+    this._id = value || this._uid;
+  }
+
+  protected _id: string;
+
+  /**
+   * Implemented as part of AppFormFieldControl.
+   * @docs-private
+   */
+  @HostBinding('attr.placeholder') placeholder: string;
+  @HostBinding('class.is-invalid') invalid;
+  @HostBinding('attr.aria-required') ariaRequired = this.required.toString();
+  @HostListener('blur') onBlur = this._focusChanged(false);
+  @HostListener('focus') onFocus = this._focusChanged(true);
+  @HostListener('input') onInput = this._focusChanged(true);
+
   constructor(protected _elementRef: ElementRef,
               protected _platform: Platform,
               /** @docs-private */
@@ -272,7 +233,6 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
   }
 
   ngOnInit() {
-    console.log('hell');
     if (this._platform.isBrowser) {
       this._autofillMonitor.monitor(this._elementRef.nativeElement).subscribe(event => {
         this.autofilled = event.isAutofilled;
@@ -283,7 +243,6 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
 
   ngOnChanges() {
     this.stateChanges.next();
-    console.log('Error ' + this.errorState);
   }
 
   ngOnDestroy() {
@@ -300,6 +259,7 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
       // error triggers that we can't subscribe to (e.g. parent form submissions). This means
       // that whatever logic is in here has to be super lean or we risk destroying the performance.
       this.updateErrorState();
+      this.invalid = this.errorState;
     }
 
     // We need to dirty-check the native element's value, because there are some cases where
@@ -318,11 +278,7 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
     if (isFocused !== this.focused && !this.readonly) {
       this.focused = isFocused;
       this.stateChanges.next();
-      console.log(this.errorState);
     }
-  }
-
-  _onInput() {
   }
 
   /** Does some manual dirty checking on the native app-input `value` property. */
@@ -349,7 +305,7 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
 
   /** Checks whether the app-input is invalid based on the native validation. */
   protected _isBadInput() {
-    let validity = (this._elementRef.nativeElement as HTMLInputElement).validity;
+    const validity = (this._elementRef.nativeElement as HTMLInputElement).validity;
     return validity && validity.badInput;
   }
 
@@ -371,14 +327,6 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
    * Implemented as part of AppFormFieldControl.
    * @docs-private
    */
-  get shouldLabelFloat(): boolean {
-    return this.focused || !this.empty;
-  }
-
-  /**
-   * Implemented as part of AppFormFieldControl.
-   * @docs-private
-   */
   setDescribedByIds(ids: string[]) {
     this._ariaDescribedby = ids.join(' ');
   }
@@ -389,6 +337,5 @@ export class AppInput extends _MatInputMixinBase implements AppFormFieldControl<
    */
   onContainerClick() {
     this.focus();
-    console.log('click');
   }
 }

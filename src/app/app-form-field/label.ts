@@ -13,4 +13,4 @@ import {Directive} from '@angular/core';
 @Directive({
   selector: 'app-label'
 })
-export class AppLabel {}
+export class AppLabelDirective {}
