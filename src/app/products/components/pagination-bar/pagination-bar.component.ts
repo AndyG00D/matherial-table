@@ -3,7 +3,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {EventEmitter} from '@angular/core';
 import {debounce, debounceTime, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs/internal/Subject';
-import {AppTableDataSource} from '../../../ui/app-table/table-data-source';
+import {AppTableDataSource} from '../../../ui/table/app-table/table-data-source';
 
 
 @Component({
