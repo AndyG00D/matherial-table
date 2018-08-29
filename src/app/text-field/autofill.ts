@@ -49,7 +49,8 @@ const listenerOptions: any = supportsPassiveEventListeners() ? {passive: true} :
 export class AutofillMonitor implements OnDestroy {
   private _monitoredElements = new Map<Element, MonitoredElementInfo>();
 
-  constructor(private _platform: Platform, private _ngZone: NgZone) {}
+  constructor(// private _platform: Platform,
+              private _ngZone: NgZone) {}
 
   /**
    * Monitor for changes in the autofill state of the given app-input element.
@@ -66,9 +67,9 @@ export class AutofillMonitor implements OnDestroy {
   monitor(element: ElementRef<Element>): Observable<AutofillEvent>;
 
   monitor(elementOrRef: Element | ElementRef<Element>): Observable<AutofillEvent> {
-    if (!this._platform.isBrowser) {
-      return EMPTY;
-    }
+    // if (!this._platform.isBrowser) {
+    //   return EMPTY;
+    // }
 
     const element = elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
     const info = this._monitoredElements.get(element);
@@ -142,18 +143,18 @@ export class AutofillMonitor implements OnDestroy {
 
 /** A directive that can be used to monitor the autofill state of an app-input. */
 @Directive({
-  selector: '[cdkAutofill]',
+  selector: '[appAutofill]',
 })
-export class CdkAutofill implements OnDestroy, OnInit {
+export class AppAutofill implements OnDestroy, OnInit {
   /** Emits when the autofill state of the element changes. */
-  @Output() cdkAutofill: EventEmitter<AutofillEvent> = new EventEmitter<AutofillEvent>();
+  @Output() appAutofill: EventEmitter<AutofillEvent> = new EventEmitter<AutofillEvent>();
 
   constructor(private _elementRef: ElementRef, private _autofillMonitor: AutofillMonitor) {}
 
   ngOnInit() {
     this._autofillMonitor
       .monitor(this._elementRef)
-      .subscribe(event => this.cdkAutofill.emit(event));
+      .subscribe(event => this.appAutofill.emit(event));
   }
 
   ngOnDestroy() {

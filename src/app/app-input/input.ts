@@ -185,9 +185,9 @@ export class AppInputDirective extends _MatInputMixinBase implements AppFormFiel
   @HostBinding('attr.placeholder') placeholder: string;
   @HostBinding('class.is-invalid') invalid;
   @HostBinding('attr.aria-required') ariaRequired = this.required.toString();
-  @HostListener('blur') onBlur = this._focusChanged(false);
-  @HostListener('focus') onFocus = this._focusChanged(true);
-  @HostListener('input') onInput = this._focusChanged(true);
+  @HostListener('blur') onBlur = () => this._focusChanged(false);
+  @HostListener('focus') onFocus = () => this._focusChanged(true);
+  @HostListener('input') onInput = () => this._focusChanged(true);
 
   constructor(protected _elementRef: ElementRef,
               protected _platform: Platform,

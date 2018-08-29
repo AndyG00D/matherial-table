@@ -8,14 +8,14 @@
 
 import {PlatformModule} from '@angular/cdk/platform';
 import {NgModule} from '@angular/core';
-import {CdkAutofill} from './autofill';
-import {CdkTextareaAutosize} from './autosize';
+import {AppAutofill} from './autofill';
+import {AppTextareaAutosizeDirective} from './autosize';
 
 
 
 @NgModule({
-  declarations: [CdkAutofill, CdkTextareaAutosize],
+  declarations: [AppAutofill, AppTextareaAutosizeDirective],
   imports: [PlatformModule],
-  exports: [CdkAutofill, CdkTextareaAutosize],
+  exports: [AppAutofill, AppTextareaAutosizeDirective],
 })
 export class TextFieldModule {}

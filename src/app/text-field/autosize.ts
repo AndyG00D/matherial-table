@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
+// import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {
   Directive,
   ElementRef,
@@ -16,24 +16,23 @@ import {
   OnDestroy,
   NgZone,
 } from '@angular/core';
-import {Platform} from '@angular/cdk/platform';
 import {auditTime, takeUntil} from 'rxjs/operators';
 import {fromEvent, Subject} from 'rxjs';
 
 
 /** Directive to automatically resize a textarea to fit its content. */
 @Directive({
-  selector: 'textarea[cdkTextareaAutosize]',
-  exportAs: 'cdkTextareaAutosize',
+  selector: 'textarea[appTextareaAutosize]',
+  exportAs: 'appTextareaAutosize',
   host: {
-    'class': 'cdk-textarea-autosize',
+    'class': 'app-textarea-autosize',
     // Textarea elements that have the directive applied should have a single row by default.
     // Browsers normally show two rows by default and therefore this limits the minRows binding.
     'rows': '1',
     '(input)': '_noopInputHandler()',
   },
 })
-export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
+export class AppTextareaAutosizeDirective implements AfterViewInit, DoCheck, OnDestroy {
   /** Keep track of the previous textarea value to avoid resizing when the value hasn't changed. */
   private _previousValue: string;
   private _initialHeight: string | null;
@@ -41,12 +40,12 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
 
   private _minRows: number;
   private _maxRows: number;
-  private _enabled: boolean = true;
+  private _enabled = true;
 
   private _textareaElement: HTMLTextAreaElement;
 
   /** Minimum amount of rows in the textarea. */
-  @Input('cdkAutosizeMinRows')
+  @Input('appAutosizeMinRows')
   get minRows(): number { return this._minRows; }
   set minRows(value: number) {
     this._minRows = value;
@@ -54,7 +53,7 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   /** Maximum amount of rows in the textarea. */
-  @Input('cdkAutosizeMaxRows')
+  @Input('appAutosizeMaxRows')
   get maxRows(): number { return this._maxRows; }
   set maxRows(value: number) {
     this._maxRows = value;
@@ -62,10 +61,10 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   /** Whether autosizing is enabled or not */
-  @Input('cdkTextareaAutosize')
+  @Input('appTextareaAutosize')
   get enabled(): boolean { return this._enabled; }
   set enabled(value: boolean) {
-    value = coerceBooleanProperty(value);
+    value = value != null && `${value}` !== 'false';
 
     // Only act if the actual value changed. This specifically helps to not run
     // resizeToFitContent too early (i.e. before ngAfterViewInit)
@@ -79,7 +78,6 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
 
   constructor(
     private _elementRef: ElementRef,
-    private _platform: Platform,
     private _ngZone: NgZone) {
     this._textareaElement = this._elementRef.nativeElement as HTMLTextAreaElement;
   }
@@ -105,7 +103,7 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (this._platform.isBrowser) {
+    // if (this._platform.isBrowser) {
       // Remember the height which we started with in case autosizing is disabled
       this._initialHeight = this._textareaElement.style.height;
 
@@ -116,7 +114,7 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
           .pipe(auditTime(16), takeUntil(this._destroyed))
           .subscribe(() => this.resizeToFitContent(true));
       });
-    }
+    // }
   }
 
   ngOnDestroy() {
@@ -173,9 +171,9 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
-    if (this._platform.isBrowser) {
+    // if (this._platform.isBrowser) {
       this.resizeToFitContent();
-    }
+    // }
   }
 
   /**
@@ -212,16 +210,16 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
     // Long placeholders that are wider than the textarea width may lead to a bigger scrollHeight
     // value. To ensure that the scrollHeight is not bigger than the content, the placeholders
     // need to be removed temporarily.
-    textarea.classList.add('cdk-textarea-autosize-measuring');
+    textarea.classList.add('app-textarea-autosize-measuring');
     textarea.placeholder = '';
 
-    // The cdk-textarea-autosize-measuring class includes a 2px padding to workaround an issue with
+    // The app-textarea-autosize-measuring class includes a 2px padding to workaround an issue with
     // Chrome, so we account for that extra space here by subtracting 4 (2px top + 2px bottom).
     const height = textarea.scrollHeight - 4;
 
     // Use the scrollHeight to know how large the textarea *would* be if fit its entire value.
     textarea.style.height = `${height}px`;
-    textarea.classList.remove('cdk-textarea-autosize-measuring');
+    textarea.classList.remove('app-textarea-autosize-measuring');
     textarea.placeholder = placeholderText;
 
     // On Firefox resizing the textarea will prevent it from scrolling to the caret position.
