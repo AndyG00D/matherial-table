@@ -13,8 +13,6 @@ import {
   NgZone,
 } from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-
-
 import {Subject} from 'rxjs';
 import {getMatInputUnsupportedTypeError} from './input-errors';
 import {APP_INPUT_VALUE_ACCESSOR} from './input-value-accessor';
@@ -22,6 +20,8 @@ import {AppFormFieldControl} from '../app-form-field/form-field-control';
 import {AutofillMonitor} from '../text-field/autofill';
 import {ErrorStateMatcher} from '../core/error/error-options';
 import {mixinErrorState} from './error-state';
+
+
 
 
 
@@ -45,6 +45,7 @@ export class MatInputBase {
   constructor(public _defaultErrorStateMatcher: ErrorStateMatcher,
               public _parentForm: NgForm,
               public _parentFormGroup: FormGroupDirective,
+              /** @docs-private */
               /** @docs-private */
               public ngControl: NgControl) {
   }
