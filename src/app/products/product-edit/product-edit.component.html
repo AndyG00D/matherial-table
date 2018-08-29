@@ -23,5 +23,6 @@
       <input appInput placeholder="Enter your email" [formControl]="email" required>
       <app-error *ngIf="email.invalid">{{getErrorMessage()}}</app-error>
       <!--<app-error>Error message</app-error>-->
+
     </app-form-field>
 </div>

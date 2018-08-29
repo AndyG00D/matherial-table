@@ -2,7 +2,7 @@ import {DataSource} from '@angular/cdk/table';
 import {
   BehaviorSubject, merge, Observable, Subscription, combineLatest, Subject, of, from,
 } from 'rxjs';
-import {FilterParams} from '../core/models/product';
+import {FilterParams} from '../../core/models/product';
 import {concatMap, distinctUntilChanged, map, mergeMap, switchMap, takeUntil, tap} from 'rxjs/operators';
 
 

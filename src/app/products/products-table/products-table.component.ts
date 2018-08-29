@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ProductsService} from '../products.service';
-import {AppTableDataSource} from '../../app-table/table-data-source';
+import {AppTableDataSource} from '../../ui/app-table/table-data-source';
 import {Product} from '../../core/models/product';
 
 @Component({

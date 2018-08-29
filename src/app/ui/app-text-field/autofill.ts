@@ -79,16 +79,16 @@ export class AutofillMonitor implements OnDestroy {
     }
 
     const result = new Subject<AutofillEvent>();
-    const cssClass = 'cdk-text-field-autofilled';
+    const cssClass = 'cdk-app-text-field-autofilled';
     const listener = (event: AnimationEvent) => {
       // Animation events fire on initial element render, we check for the presence of the autofill
       // CSS class to make sure this is a real change in state, not just the initial render before
       // we fire off events.
-      if (event.animationName === 'cdk-text-field-autofill-start' &&
+      if (event.animationName === 'cdk-app-text-field-autofill-start' &&
           !element.classList.contains(cssClass)) {
         element.classList.add(cssClass);
         this._ngZone.run(() => result.next({target: event.target as Element, isAutofilled: true}));
-      } else if (event.animationName === 'cdk-text-field-autofill-end' &&
+      } else if (event.animationName === 'cdk-app-text-field-autofill-end' &&
           element.classList.contains(cssClass)) {
         element.classList.remove(cssClass);
         this._ngZone.run(() => result.next({target: event.target as Element, isAutofilled: false}));
@@ -97,7 +97,7 @@ export class AutofillMonitor implements OnDestroy {
 
     this._ngZone.runOutsideAngular(() => {
       element.addEventListener('animationstart', listener, listenerOptions);
-      element.classList.add('cdk-text-field-autofill-monitored');
+      element.classList.add('cdk-app-text-field-autofill-monitored');
     });
 
     this._monitoredElements.set(element, {
@@ -129,8 +129,8 @@ export class AutofillMonitor implements OnDestroy {
     if (info) {
       info.unlisten();
       info.subject.complete();
-      element.classList.remove('cdk-text-field-autofill-monitored');
-      element.classList.remove('cdk-text-field-autofilled');
+      element.classList.remove('cdk-app-text-field-autofill-monitored');
+      element.classList.remove('cdk-app-text-field-autofilled');
       this._monitoredElements.delete(element);
     }
   }

@@ -5,8 +5,8 @@ import {NgModule} from '@angular/core';
 import {AppTextareaAutosizeDirective} from './autosize';
 import {AppInputDirective} from './input';
 import {AppFormFieldModule} from '../app-form-field/form-field-module';
-import {TextFieldModule} from '../text-field/text-field-module';
-import {ErrorStateMatcher} from '../core/error/error-options';
+import {TextFieldModule} from '../app-text-field/text-field-module';
+import {ErrorStateMatcher} from '../../core/error/error-options';
 
 
 @NgModule({

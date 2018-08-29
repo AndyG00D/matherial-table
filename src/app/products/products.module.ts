@@ -4,17 +4,17 @@ import {ProductsTableComponent} from './products-table/products-table.component'
 import {ProductEditComponent} from './product-edit/product-edit.component';
 import {ProductsRoutingModule} from './products-routing.module';
 import {ProductsService} from './products.service';
-import {AppTableModule} from '../app-table/table-module';
+import {AppTableModule} from '../ui/app-table/table-module';
 import {HttpClientModule} from '@angular/common/http';
 import {FilterFormComponent} from './components/filter-form/filter-form.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PaginationBarComponent} from './components/pagination-bar/pagination-bar.component';
-import {AppSortModule} from '../app-sort/sort-module';
-import {AppFilterModule} from '../app-filter/filter-module';
-import {AppPaginationModule} from '../app-pagination/pagination-module';
+import {AppSortModule} from '../ui/app-sort/sort-module';
+import {AppFilterModule} from '../ui/app-filter/filter-module';
+import {AppPaginationModule} from '../ui/app-pagination/pagination-module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material';
-import {MatInputModule} from '../app-input/input-module';
+import {MatInputModule} from '../ui/app-input/input-module';
 
 
 
