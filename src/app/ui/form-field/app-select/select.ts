@@ -85,7 +85,7 @@ import {
   takeUntil,
   distinctUntilChanged,
 } from 'rxjs/operators';
-import {matSelectAnimations} from './select-animations';
+// import {matSelectAnimations} from './select-animations';
 import {
   getMatSelectDynamicMultipleError,
   getMatSelectNonArrayValueError,
@@ -208,10 +208,10 @@ export class MatSelectTrigger {}
     '(focus)': '_onFocus()',
     '(blur)': '_onBlur()',
   },
-  animations: [
-    matSelectAnimations.transformPanel,
-    matSelectAnimations.fadeInContent
-  ],
+  // animations: [
+  //   matSelectAnimations.transformPanel,
+  //   matSelectAnimations.fadeInContent
+  // ],
   providers: [
     {provide: MatFormFieldControl, useExisting: MatSelect},
     {provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatSelect}

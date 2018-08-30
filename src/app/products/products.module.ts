@@ -15,6 +15,7 @@ import {AppPaginationModule} from '../ui/table/app-pagination/pagination-module'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material';
 import {MatInputModule} from '../ui/form-field/app-input/input-module';
+import {AppCustomSelectModule} from '../ui/custom-select/custom-select-module';
 
 
 
@@ -32,7 +33,8 @@ import {MatInputModule} from '../ui/form-field/app-input/input-module';
     FormsModule,
     ReactiveFormsModule,
     // BrowserAnimationsModule,
-    MatInputModule
+    MatInputModule,
+    AppCustomSelectModule
 
   ],
   declarations: [

@@ -1,28 +1,46 @@
 <p><a href="" routerLink="..">&lt; Back</a></p>
-<pre>{{product | json}}</pre>
+<!--<pre>{{product | json}}</pre>-->
 
-<div class="example-container">
-  <app-form-field label="Input">
-    <input appInput placeholder="Input" required>
-    <app-hint>Hint</app-hint>
-    <app-hint>Hint2</app-hint>
-    <app-hint>Hint3</app-hint>
-  </app-form-field>
+<app-custom-select>
+      <app-custom-option value="1">1</app-custom-option>
+      <app-custom-option value="2">2</app-custom-option>
+      <app-custom-option value="3">3</app-custom-option>
+</app-custom-select>
 
-  <app-form-field hintLabel="Blablabla">
-    <textarea appInput ></textarea>
-  </app-form-field>
+<!--<div class="example-container">-->
+  <!--<app-form-field label="Input">-->
+    <!--<input appInput placeholder="Input" required>-->
+    <!--<app-hint>Hint</app-hint>-->
+    <!--<app-hint>Hint2</app-hint>-->
+    <!--<app-hint>Hint3</app-hint>-->
+  <!--</app-form-field>-->
 
-  <!--<app-app-form-field>-->
-    <!--<app-select placeholder="Select">-->
-      <!--<app-option value="option">Option</app-option>-->
-    <!--</app-select>-->
-  <!--</app-app-form-field>-->
+  <!--<app-form-field hintLabel="Blablabla">-->
+    <!--<textarea appInput></textarea>-->
+  <!--</app-form-field>-->
 
-    <app-form-field>
-      <input appInput placeholder="Enter your email" [formControl]="email" required>
-      <app-error *ngIf="email.invalid">{{getErrorMessage()}}</app-error>
-      <!--<app-error>Error message</app-error>-->
+  <!--&lt;!&ndash;<app-app-form-field>&ndash;&gt;-->
+  <!--&lt;!&ndash;<app-select placeholder="Select">&ndash;&gt;-->
+  <!--&lt;!&ndash;<app-option value="option">Option</app-option>&ndash;&gt;-->
+  <!--&lt;!&ndash;</app-select>&ndash;&gt;-->
+  <!--&lt;!&ndash;</app-app-form-field>&ndash;&gt;-->
 
-    </app-form-field>
-</div>
+  <!--<app-form-field label="Input">-->
+    <!--<select appInput [formControl]="email" required>-->
+      <!--<option value="">none</option>-->
+      <!--<option value="1">1</option>-->
+      <!--<option value="2">2</option>-->
+      <!--<option value="3">3</option>-->
+      <!--<option value="4">4</option>-->
+      <!--<option value="asd@dsfsd">mail</option>-->
+    <!--</select>-->
+    <!--<app-error *ngIf="email.invalid">{{getErrorMessage()}}</app-error>-->
+  <!--</app-form-field>-->
+
+
+  <!--&lt;!&ndash;<app-form-field>&ndash;&gt;-->
+    <!--&lt;!&ndash;<input appInput placeholder="Enter your email" [formControl]="email" required>&ndash;&gt;-->
+    <!--&lt;!&ndash;<app-error *ngIf="email.invalid">{{getErrorMessage()}}</app-error>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;<app-error>Error message</app-error>&ndash;&gt;&ndash;&gt;-->
+  <!--&lt;!&ndash;</app-form-field>&ndash;&gt;-->
+<!--</div>-->

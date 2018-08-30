@@ -131,7 +131,6 @@ export class AppFormFieldComponent implements AfterContentInit, AfterContentChec
 
   /** Determines whether to display hints or errors. */
   _getDisplayedMessages(): 'error' | 'hint' {
-    console.log(this._errorChildren);
     return (this._errorChildren && this._errorChildren.length > 0 &&
       this._control.errorState) ? 'error' : 'hint';
   }

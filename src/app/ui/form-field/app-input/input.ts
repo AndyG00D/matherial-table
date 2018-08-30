@@ -49,7 +49,7 @@ export const _MatInputMixinBase = mixinErrorState(MatInputBase);
 
 /** Directive that allows a native app-input to work inside a `AppFormFieldComponent`. */
 @Directive({
-  selector: `input[appInput], textarea[appInput]`,
+  selector: `input[appInput], textarea[appInput], select[appInput]`,
   exportAs: 'appInput',
   providers: [{provide: AppFormFieldControl, useExisting: AppInputDirective}],
 })
