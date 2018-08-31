@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {Subject} from 'rxjs/internal/Subject';
@@ -7,6 +7,7 @@ import {Product} from '../../core/models/product';
 import {error} from 'selenium-webdriver';
 import {takeUntil} from 'rxjs/operators';
 import {FormControl, Validators} from '@angular/forms';
+import {CustomOption} from '../../ui/custom-select/custom-option.model';
 
 @Component({
   selector: 'app-product-edit',
@@ -19,6 +20,19 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private product: Product;
   public email = new FormControl('',
     [Validators.required, Validators.email]);
+  public options: CustomOption[] = [{
+    title: 'one',
+    isLabel: false,
+    value: 1,
+    disabled: false
+  },
+    {
+      title: 'two',
+      isLabel: false,
+      value: 2,
+      disabled: false
+    }
+  ];
 
   constructor(
     private productsService: ProductsService,

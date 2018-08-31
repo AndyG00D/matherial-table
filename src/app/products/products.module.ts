@@ -35,7 +35,6 @@ import {AppCustomSelectModule} from '../ui/custom-select/custom-select-module';
     // BrowserAnimationsModule,
     MatInputModule,
     AppCustomSelectModule
-
   ],
   declarations: [
     ProductsTableComponent,

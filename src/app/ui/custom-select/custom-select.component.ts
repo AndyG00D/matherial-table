@@ -8,17 +8,17 @@ import {
   Component,
   ContentChild,
   ContentChildren,
-  ElementRef, HostBinding,
-  Input, OnInit,
-  QueryList,
-  ViewChild,
+  ElementRef, EventEmitter, HostBinding,
+  Input, OnDestroy, OnInit, Output,
+  QueryList, TemplateRef,
+  ViewChild, ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import {EMPTY, merge} from 'rxjs';
-import {startWith} from 'rxjs/operators';
+import {EMPTY, merge, Subject} from 'rxjs';
+import {debounceTime, startWith, takeUntil} from 'rxjs/operators';
 import {ControlValueAccessor, FormControl, Validators} from '@angular/forms';
-import {AppErrorDirective} from '../form-field/app-form-field/error';
 import {AppCustomOptionDirective} from './custom-option.directive';
+import {CustomOption, Icon} from './custom-option.model';
 
 
 @Component({
@@ -28,18 +28,74 @@ import {AppCustomOptionDirective} from './custom-option.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class AppCustomSelectComponent implements ControlValueAccessor, OnInit {
-  @ContentChildren(AppCustomOptionDirective) _optionList: QueryList<AppCustomOptionDirective>;
-  public search = new FormControl('', []);
+export class AppCustomSelectComponent
+  implements ControlValueAccessor, OnInit, AfterViewInit, AfterContentInit, AfterContentChecked, OnDestroy {
+  _privateOptionsData: CustomOption[];
+  private destroy: Subject<any>;
+  @Input('options') public optionsData: CustomOption[];
+  isShowOptions = false;
+  // @ContentChildren(AppCustomOptionDirective) _optionList: QueryList<any>;
+  // @ViewChild('optionContainer', {read: ViewContainerRef})
+  // private optionContainer: ViewContainerRef;
+  // @ViewChild('selectOptionContainer', {read: ViewContainerRef})
+  // private selectOptionContainer: ViewContainerRef;
 
-  constructor(public _elementRef: ElementRef,
-              private _changeDetectorRef: ChangeDetectorRef
+  public search = new FormControl('', []);
+  public OptionDataList: CustomOption[] = [];
+
+  // @Input() myTemplate: TemplateRef<any>;
+  constructor(private _changeDetectorRef: ChangeDetectorRef
   ) {
   }
 
   ngOnInit() {
     // this._optionList.forEach(option => console.log(option) );
-    console.log(this._optionList);
+    // console.log(this._optionList);
+  }
+
+  initSearch() {
+    this.search.valueChanges
+      .pipe(
+        takeUntil(this.destroy),
+        debounceTime(1000)
+      )
+      .subscribe((value) => {
+        console.log(value);
+        this._changeDetectorRef.detectChanges();
+      });
+  }
+
+  filterOptions() {
+  }
+
+  ngAfterViewInit() {
+    this._changeDetectorRef.detectChanges();
+    // this._optionList[];
+    // this._optionList.forEach(option => {
+    //   const newOptionData = {
+    //     title: option.title,
+    //     isLabel: option.isLabel,
+    //     value: option.value,
+    //     disable: option.disable,
+    //   };
+    //   this.OptionDataList.push(newOptionData);
+    // });
+    // console.log(this.OptionDataList);
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
+  }
+
+  public ngAfterContentInit() {
+    // this.createOptions();
+    // this.createSelectOption();
+  }
+
+  ngAfterContentChecked() {
+    // this.createOptions();
+    // this.createSelectOption();
   }
 
   isValidOptions() {
@@ -53,6 +109,30 @@ export class AppCustomSelectComponent implements ControlValueAccessor, OnInit {
   searchOptions() {
   }
 
+  // createOptions() {
+  //   this.optionContainer.clear();
+  //   this._optionList.forEach(option => {
+  //     const newOptionData = {
+  //       title: option.title,
+  //       isLabel: option.isLabel,
+  //       value: option.value,
+  //       disable: option.disable,
+  //     };
+  //     console.log(newOptionData);
+  //     this.optionContainer.createEmbeddedView(option.template, newOptionData);
+  //     this._changeDetectorRef.detectChanges();
+  //   });
+  // }
+  //
+  // createSelectOption() {
+  //   this.selectOptionContainer.clear();
+  //   this._optionList.forEach(option => {
+  //     // console.log(option.value);
+  //     // if (option.value === '2') {
+  //     this.selectOptionContainer.createEmbeddedView(option.template);
+  //     this._changeDetectorRef.detectChanges();
+  //   });
+  // }
 
   toggleDropdown() {
 
@@ -62,6 +142,7 @@ export class AppCustomSelectComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(value) {
+
   }
 
   registerOnChange() {
@@ -72,4 +153,16 @@ export class AppCustomSelectComponent implements ControlValueAccessor, OnInit {
 
   }
 
+  hideOptions(){
+    this.isShowOptions = false;
+  }
+
+  showOptions() {
+    this.isShowOptions = true;
+  }
+
+  selectOption(option: CustomOption){
+    console.log(option);
+    this.hideOptions();
+  }
 }

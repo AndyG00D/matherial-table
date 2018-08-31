@@ -7,7 +7,7 @@ export interface CustomOption {
   title: string;
   isLabel: boolean;
   value: any;
-  disable?: boolean;
+  disabled?: boolean;
   icon?: Icon;
 }
 

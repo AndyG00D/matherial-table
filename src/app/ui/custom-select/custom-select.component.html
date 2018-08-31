@@ -1,27 +1,60 @@
-<div class="btn-group">
+<div class="dropdown">
+<div class="btn-group" *ngIf="!isShowOptions">
   <button
     type="button"
     class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-    id="dropdownMenuReference"
+    (click) = "showOptions()"
     data-toggle="dropdown"
     aria-haspopup="true"
     aria-expanded="false"
     data-reference="parent">
-    Value
+    <ng-container #selectOptionContainer></ng-container>
   </button>
 </div>
 
-<div class="btn-group">
-  <input type="text">
+<div class="btn-group" *ngIf="isShowOptions">
+  <input type="text" [formControl]="search">
   <button>
-   x
+    x
   </button>
 </div>
 
-<ng-content></ng-content>
-
-<ng-container #selectContainer></ng-container>
-
-<div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-  <ng-content select="app-custom-option"></ng-content>
+<div class="dropdown-menu" [class.show]="isShowOptions">
+  <!--*ngTemplateOutlet="myTemplate">-->
+  <app-custom-option
+    *ngFor="let option of optionsData"
+    class="dropdown-item"
+    [value]="option.value"
+    [disabled]="option.disabled"
+    (click)="selectOption(option)"
+  >
+    {{option.title}}
+  </app-custom-option>
 </div>
+</div>
+<!--<ng-template #optionContainer>-->
+<!--<app-custom-option-->
+<!--*ngFor="let option of optionsData"-->
+<!--class="dropdown-item"-->
+<!--[value]= "option.value"-->
+<!--[disable] = "option.disable"-->
+<!--(click)="selectOption(option.title)"-->
+<!--&gt;-->
+<!--{{option.title}}-->
+<!--</app-custom-option>-->
+<!--</ng-template>-->
+
+
+<!--<ng-content></ng-content>-->
+<!--<ng-container-->
+<!--*ngTemplateOutlet="myTemplate || default; context: {colors: filters}">-->
+<!--</ng-container>-->
+
+
+<!--<ng-content select="app-custom-option"></ng-content>-->
+
+<!--<ng-container #optionContainer></ng-container>-->
+
+<!--<div class="dropdown-menu" aria-labelledby="dropdownMenuReference">-->
+<!--<ng-content select="app-custom-option"></ng-content>-->
+<!--</div>-->
