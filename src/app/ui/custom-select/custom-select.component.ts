@@ -67,9 +67,10 @@ export class AppCustomSelectComponent
     // this._optionList.forEach(option => console.log(option) );
     // console.log(this._optionList);
     // console.log(this.searchState);
+
     if (this.optionsData) {
-      this.bufferOptionsData.push(...this.optionsData);
-      this.currentOption = this.bufferOptionsData[0];
+      // this.bufferOptionsData.push(...this.optionsData);
+      // this.currentOption = this.bufferOptionsData[0];
     } else {
 
     }
@@ -125,13 +126,8 @@ export class AppCustomSelectComponent
     this._changeDetectorRef.detectChanges();
     // this._optionList[];
     this._optionList.forEach(option => {
-      const newOptionData = {
-        title: option.title,
-        isLabel: option.isLabel,
-        value: option.value,
-        disabled: option.disabled,
-      };
-      this.optionsData.push(newOptionData);
+      console.log(option);
+      this.optionsData.push(option);
     });
   }
 

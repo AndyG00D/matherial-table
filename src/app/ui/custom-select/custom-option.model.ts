@@ -8,6 +8,7 @@ export interface CustomOption {
   isLabel?: boolean;
   value: any;
   disabled?: boolean;
-  icon?: Icon;
+  imgSrc?: string;
+  imgRight?: boolean;
 }
 

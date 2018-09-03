@@ -20,7 +20,8 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private product: Product;
   public email = new FormControl('',
     [Validators.required, Validators.email]);
-  public options: CustomOption[] = [{
+  public options: CustomOption[] = [
+    {
     title: 'one',
     isLabel: false,
     value: 1,
@@ -49,18 +50,14 @@ export class ProductEditComponent implements OnInit, OnDestroy {
       isLabel: false,
       value: 5,
       disabled: false,
-      icon: {
-        position: 'right',
-        src: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
-      }
+      imgRight: true,
+      imgSrc: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
+
     },
     {
       title: 'six',
       value: 6,
-      icon: {
-        position: 'left',
-        src: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
-      }
+      imgSrc: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
     }
   ];
 

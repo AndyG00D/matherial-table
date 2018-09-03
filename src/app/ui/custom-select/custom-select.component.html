@@ -64,14 +64,14 @@
     [value]="option.value"
     [class.disabled]="option.disabled"
     [class.dropdown-header]="option.isLabel"
-    [class.flex-row-reverse]="option?.icon?.position === 'right'"
+    [class.flex-row-reverse]="option?.imgRight"
     (click)=" option.isLabel || option.disabled || writeValue(option)"
   >
-    <div *ngIf="option.icon" class="mr-md-3">
+    <div *ngIf="option.imgSrc" class="mr-md-3">
       <a>
         <img
           class="media-object "
-          [src]="option?.icon?.src"
+          [src]="option?.imgSrc"
           [alt]="option.title"
           height="32px"
           width="32px"
@@ -87,14 +87,14 @@
 <ng-template #currentOptionTemplate let-option="data">
   <li
     class="list-item d-flex justify-content-start align-items-center"
-    [class.flex-row-reverse]="option?.icon?.position === 'right'"
+    [class.flex-row-reverse]="option?.imgRight"
     [value]="option.value"
   >
-    <div *ngIf="option.icon" class="mr-md-3">
+    <div *ngIf="option.imgSrc" class="mr-md-3">
       <a>
         <img
           class="media-object"
-          [src]="option?.icon?.src"
+          [src]="option?.imgSrc"
           [alt]="option.title"
           height="24px"
           width="24px"
