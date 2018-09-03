@@ -1,60 +1,124 @@
-<div class="dropdown">
-<div class="btn-group" *ngIf="!isShowOptions">
-  <button
-    type="button"
-    class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
-    (click) = "showOptions()"
-    data-toggle="dropdown"
-    aria-haspopup="true"
-    aria-expanded="false"
-    data-reference="parent">
-    <ng-container #selectOptionContainer></ng-container>
-  </button>
+<div class="dropdown dropup">
+
+  <div class="input-group" *ngIf="!isShowOptions || !searchState">
+    <div
+      type="button"
+      class="custom-select"
+      (click)="showOptions()"
+      data-toggle="dropdown">
+      <ng-container *ngTemplateOutlet="currentOptionTemplate; context: {data: currentOption}">
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="input-group" *ngIf="isShowOptions && searchState">
+    <input
+      class="form-control"
+      type="text"
+      [formControl]="searchControl"
+      placeholder="Search and Choose option..."
+    >
+    <div class="input-group-append" (click)="clearSearch()">
+      <button class="btn btn-outline-secondary font-weight-bold" type="button">x</button>
+    </div>
+  </div>
+
+  <!--<div class="input-group row col-sm-12" *ngIf="isShowOptions">-->
+  <!--<input-->
+  <!--class="form-control"-->
+  <!--type="text"-->
+  <!--[formControl]="searchControl"-->
+  <!--placeholder="Search and Choose option..."-->
+  <!--&gt;-->
+  <!--<div class="input-group-append" (click)="clearSearch()">-->
+  <!--<button class="btn btn-outline-secondary font-weight-bold" type="button">x</button>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <div class="dropdown-menu row col-sm-12" [class.show]="isShowOptions">
+    <ng-container *ngIf="bufferOptionsData.length; else emptyOptions">
+      <ng-container *ngFor="let option of bufferOptionsData">
+        <ng-container *ngTemplateOutlet="optionTemplate || emptyOptions; context: {data: option}"></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
 </div>
 
-<div class="btn-group" *ngIf="isShowOptions">
-  <input type="text" [formControl]="search">
-  <button>
-    x
-  </button>
-</div>
 
-<div class="dropdown-menu" [class.show]="isShowOptions">
-  <!--*ngTemplateOutlet="myTemplate">-->
-  <app-custom-option
-    *ngFor="let option of optionsData"
-    class="dropdown-item"
-    [value]="option.value"
-    [disabled]="option.disabled"
-    (click)="selectOption(option)"
+<!--Templates-->
+<ng-template #searchField>
+  <input
+    class="form-control"
+    type="text"
+    [formControl]="searchControl"
+    placeholder="Search and Choose option..."
   >
+  <div class="input-group-append" (click)="clearSearch()">
+    <button class="btn btn-outline-secondary font-weight-bold" type="button">x</button>
+  </div>
+</ng-template>
+
+<ng-template #optionTemplate let-option="data">
+  <li
+    class="dropdown-item media d-flex justify-content-start  align-items-center"
+    [value]="option.value"
+    [class.disabled]="option.disabled"
+    [class.dropdown-header]="option.isLabel"
+    [class.flex-row-reverse]="option?.icon?.position === 'right'"
+    (click)=" option.isLabel || option.disabled || writeValue(option)"
+  >
+    <div *ngIf="option.icon" class="mr-md-3">
+      <a>
+        <img
+          class="media-object "
+          [src]="option?.icon?.src"
+          [alt]="option.title"
+          height="32px"
+          width="32px"
+        >
+      </a>
+    </div>
+    <div class="media-body">
+      {{option.title}}
+    </div>
+  </li>
+</ng-template>
+
+<ng-template #currentOptionTemplate let-option="data">
+  <li
+    class="list-item d-flex justify-content-start align-items-center"
+    [class.flex-row-reverse]="option?.icon?.position === 'right'"
+    [value]="option.value"
+  >
+    <div *ngIf="option.icon" class="mr-md-3">
+      <a>
+        <img
+          class="media-object"
+          [src]="option?.icon?.src"
+          [alt]="option.title"
+          height="24px"
+          width="24px"
+        >
+      </a>
+    </div>
     {{option.title}}
-  </app-custom-option>
-</div>
-</div>
-<!--<ng-template #optionContainer>-->
-<!--<app-custom-option-->
-<!--*ngFor="let option of optionsData"-->
-<!--class="dropdown-item"-->
-<!--[value]= "option.value"-->
-<!--[disable] = "option.disable"-->
-<!--(click)="selectOption(option.title)"-->
+  </li>
+</ng-template>
+
+<!--<ng-template #iconOptions let-option>-->
+<!--&lt;!&ndash;<div *ngIf="option.icon" class="mr-md-3">&ndash;&gt;-->
+<!--<a>-->
+<!--<img-->
+<!--class="media-object "-->
+<!--[src]="option?.icon?.src"-->
+<!--[alt]="option.title"-->
+<!--height="32px"-->
+<!--width="32px"-->
 <!--&gt;-->
-<!--{{option.title}}-->
-<!--</app-custom-option>-->
+<!--</a>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
 <!--</ng-template>-->
 
-
-<!--<ng-content></ng-content>-->
-<!--<ng-container-->
-<!--*ngTemplateOutlet="myTemplate || default; context: {colors: filters}">-->
-<!--</ng-container>-->
-
-
-<!--<ng-content select="app-custom-option"></ng-content>-->
-
-<!--<ng-container #optionContainer></ng-container>-->
-
-<!--<div class="dropdown-menu" aria-labelledby="dropdownMenuReference">-->
-<!--<ng-content select="app-custom-option"></ng-content>-->
-<!--</div>-->
+<ng-template #emptyOptions>
+  <li class="list-group-item">No options!</li>
+</ng-template>

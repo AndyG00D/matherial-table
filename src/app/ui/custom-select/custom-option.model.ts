@@ -1,11 +1,11 @@
 export interface Icon {
-  component: string;
+  src: string;
   position: string;
 }
 
 export interface CustomOption {
   title: string;
-  isLabel: boolean;
+  isLabel?: boolean;
   value: any;
   disabled?: boolean;
   icon?: Icon;

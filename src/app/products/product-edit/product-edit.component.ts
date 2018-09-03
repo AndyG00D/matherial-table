@@ -28,9 +28,39 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   },
     {
       title: 'two',
-      isLabel: false,
+      isLabel: true,
       value: 2,
       disabled: false
+    },
+    {
+      title: 'three',
+      isLabel: false,
+      value: 3,
+      disabled: true
+    },
+    {
+      title: 'four',
+      isLabel: false,
+      value: 4,
+      disabled: false
+    },
+    {
+      title: 'five',
+      isLabel: false,
+      value: 5,
+      disabled: false,
+      icon: {
+        position: 'right',
+        src: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
+      }
+    },
+    {
+      title: 'six',
+      value: 6,
+      icon: {
+        position: 'left',
+        src: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
+      }
     }
   ];
 
