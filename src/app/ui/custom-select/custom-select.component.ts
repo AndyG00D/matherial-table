@@ -29,7 +29,7 @@ import {getValidOptionLabelWithoutTittleError, getValidOptionUndefinedValueError
 })
 
 export class AppCustomSelectComponent
-  implements ControlValueAccessor, AfterContentInit, OnDestroy {
+  implements ControlValueAccessor, AfterViewInit, OnDestroy {
   private initOptionsData: CustomOption[] = [];
   bufferOptionsData: CustomOption[] = [];
   currentOption: CustomOption;
@@ -49,19 +49,15 @@ export class AppCustomSelectComponent
   constructor(private _changeDetectorRef: ChangeDetectorRef) {
   }
 
-  ngAfterContentInit() {
+  ngAfterViewInit() {
     // this.getPropsOptionsData();
     this.getContentOptionsData();
     // if (this.isValidOptionsData(this.initOptionsData)) {
+    console.log(this.initOptionsData);
     this.bufferOptionsData.push(...this.initOptionsData);
     this._changeDetectorRef.detectChanges();
     // }
     this.initSearch();
-
-    ['offsetHeight', 'offsetLeft', 'offsetParent', 'offsetTop', 'offsetWidth'].forEach(prop => {
-      console.log(prop + ': ' + this.optionsMenu.nativeElement[prop]);
-      console.log(prop + ': ' + this.valueField.nativeElement[prop]);
-    });
   }
 
   ngOnDestroy() {
@@ -75,14 +71,14 @@ export class AppCustomSelectComponent
 
   getContentOptionsData() {
     this.contentOptionList.forEach((option: CustomOption) => {
-      if (option.value === undefined && option.title !== undefined) {
-        option.value = option.title;
-      }
-      // if (option.selected) {
-        // this.currentOption = option;
-        // this.writeValue(option.value);
+      // if (option.value === undefined && option.title !== undefined) {
+      //   option.value = option.title;
       // }
-      this.initOptionsData.push(option);
+      // if (option.selected) {
+      // this.currentOption = option;
+      // this.writeValue(option.value);
+      // }
+      this.initOptionsData.push(option as CustomOption);
     });
   }
 
@@ -98,15 +94,19 @@ export class AppCustomSelectComponent
   //   return true;
   // }
 
-  markSelectOption(selectOption) {
-    this.initOptionsData.map(option => {
-      if (option.title !== selectOption.title) {
-        option.selected = false;
-      } else {
-        option.selected = true;
-      }
-    });
-    this._changeDetectorRef.checkNoChanges();
+  // markSelectOption(selectOption) {
+  //   this.initOptionsData.map(option => {
+  //     if (option.title !== selectOption.title) {
+  //       option.selected = false;
+  //     } else {
+  //       option.selected = true;
+  //     }
+  //   });
+  //   this._changeDetectorRef.checkNoChanges();
+  // }
+
+  isSelected(option): boolean {
+    return option === this.currentOption;
   }
 
   selectOption(selectOption) {
@@ -159,10 +159,11 @@ export class AppCustomSelectComponent
   }
 
   showOptions() {
-    ['offsetHeight', 'offsetLeft', 'offsetParent', 'offsetTop', 'offsetWidth'].forEach(prop => {
-      console.log(prop + ': ' + this.optionsMenu.nativeElement[prop]);
-      console.log(prop + ': ' + this.valueField.nativeElement[prop]);
-    });
+    // ['offsetHeight', 'offsetLeft', 'offsetParent', 'offsetTop', 'offsetWidth'].forEach(prop => {
+    //   console.log(prop + ': ' + this.optionsMenu.nativeElement[prop]);
+    //   console.log(prop + ': ' + this.valueField.nativeElement[prop]);
+    // });
+
     // console.log(window.innerHeight);
     // console.log(this.optionsMenu.nativeElement.offsetTop);
     // console.log(this.optionsMenu.nativeElement);

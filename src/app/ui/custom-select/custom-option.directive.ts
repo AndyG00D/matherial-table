@@ -7,7 +7,6 @@ import {CustomOption} from './custom-option.model';
 
 export class AppCustomOptionDirective implements CustomOption, AfterViewInit {
   @Input('value') value = '';
-  @Input('selected') selected = false;
   @Input('disabled') disabled = false;
   @Input('isLabel') isLabel = false;
   @Input('imgSrc') imgSrc: string;
@@ -15,9 +14,10 @@ export class AppCustomOptionDirective implements CustomOption, AfterViewInit {
   public title = '';
 
   constructor(private elementRef: ElementRef) {
+    this.title = this.elementRef.nativeElement.textContent;
   }
 
   ngAfterViewInit() {
-    this.title = this.elementRef.nativeElement.textContent;
+    // this.title = this.elementRef.nativeElement.textContent;
   }
 }

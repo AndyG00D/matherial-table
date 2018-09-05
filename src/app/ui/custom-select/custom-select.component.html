@@ -34,7 +34,7 @@
   <!--<button class="btn btn-outline-secondary font-weight-bold" type="button">x</button>-->
   <!--</div>-->
   <!--</div>-->
-
+<ng-content></ng-content>
   <div #optionsMenu class="dropdown-menu row col-sm-12" [class.show]="isShowOptions">
     <ng-container *ngIf="bufferOptionsData.length; else emptyOptions">
       <ng-container *ngFor="let option of bufferOptionsData">
@@ -62,7 +62,7 @@
   <li
     class="dropdown-item media d-flex justify-content-start  align-items-center"
     [value]="option.value"
-    [class.active]="option.selected"
+    [class.active]="isSelected(option)"
     [class.disabled]="option.disabled"
     [class.dropdown-header]="option.isLabel"
     [class.flex-row-reverse]="option?.imgRight"
