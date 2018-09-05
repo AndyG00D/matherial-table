@@ -1,6 +1,6 @@
-<div class="dropdown dropup">
-
-  <div class="input-group" *ngIf="!isShowOptions || !searchState">
+<div class="dropdown ">
+  <!--dropup-->
+  <div #valueField class="input-group" *ngIf="!isShowOptions || !searchState">
     <div
       type="button"
       class="custom-select"
@@ -35,7 +35,7 @@
   <!--</div>-->
   <!--</div>-->
 
-  <div class="dropdown-menu row col-sm-12" [class.show]="isShowOptions">
+  <div #optionsMenu class="dropdown-menu row col-sm-12" [class.show]="isShowOptions">
     <ng-container *ngIf="bufferOptionsData.length; else emptyOptions">
       <ng-container *ngFor="let option of bufferOptionsData">
         <ng-container *ngTemplateOutlet="optionTemplate || emptyOptions; context: {data: option}"></ng-container>
@@ -62,12 +62,13 @@
   <li
     class="dropdown-item media d-flex justify-content-start  align-items-center"
     [value]="option.value"
+    [class.active]="option.selected"
     [class.disabled]="option.disabled"
     [class.dropdown-header]="option.isLabel"
     [class.flex-row-reverse]="option?.imgRight"
-    (click)=" option.isLabel || option.disabled || writeValue(option)"
+    (click)=" option.isLabel || option.disabled || selectOption(option)"
   >
-    <div *ngIf="option.imgSrc" class="mr-md-3">
+    <div *ngIf="option?.imgSrc" class="mr-md-3">
       <a>
         <img
           class="media-object "
@@ -86,11 +87,11 @@
 
 <ng-template #currentOptionTemplate let-option="data">
   <li
-    class="list-item d-flex justify-content-start align-items-center"
+    class="list-item media d-flex justify-content-start align-items-center"
     [class.flex-row-reverse]="option?.imgRight"
     [value]="option.value"
   >
-    <div *ngIf="option.imgSrc" class="mr-md-3">
+    <div *ngIf="option?.imgSrc" class="mr-md-3">
       <a>
         <img
           class="media-object"
@@ -101,7 +102,9 @@
         >
       </a>
     </div>
-    {{option.title}}
+    <div class="media-body">
+      {{option.title}}
+    </div>
   </li>
 </ng-template>
 

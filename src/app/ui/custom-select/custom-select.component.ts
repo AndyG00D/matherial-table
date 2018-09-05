@@ -1,4 +1,3 @@
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {
   AfterContentChecked,
   AfterContentInit,
@@ -19,6 +18,8 @@ import {debounceTime, startWith, takeUntil} from 'rxjs/operators';
 import {ControlValueAccessor, FormControl, Validators} from '@angular/forms';
 import {AppCustomOptionDirective} from './custom-option.directive';
 import {CustomOption, Icon} from './custom-option.model';
+import {getMatSelectDynamicMultipleError} from '../form-field/app-select/select-errors';
+import {getValidOptionLabelWithoutTittleError, getValidOptionUndefinedValueError} from './custom-select-errors';
 
 @Component({
   selector: 'app-custom-select',
@@ -28,79 +29,39 @@ import {CustomOption, Icon} from './custom-option.model';
 })
 
 export class AppCustomSelectComponent
-  implements ControlValueAccessor, OnInit, AfterViewInit, AfterContentInit, AfterContentChecked, OnDestroy {
-  _OptionsData: CustomOption[];
+  implements ControlValueAccessor, AfterContentInit, OnDestroy {
+  private initOptionsData: CustomOption[] = [];
   bufferOptionsData: CustomOption[] = [];
   currentOption: CustomOption;
   isShowOptions = false;
-  private destroy: Subject<any>;
-  @Input('options') optionsData: CustomOption[];
+  private destroy = new Subject();
+  @Input('options') propsOptionsData: CustomOption[];
   @Input('search') searchState = false;
-  // @HostListener('change')_onChange($event.target.value)'
-
-  // get searchState(): boolean {
-  //   return this._searchState;
-  // }
-  //
-  // set searchState(value: boolean) {
-  //   this._searchState = value || true;
-  // }
-  //
-  private _searchState = false;
-
-  @ContentChildren(AppCustomOptionDirective) _optionList: QueryList<any>;
-  @ViewChild('optionContainer', {read: ViewContainerRef})
-  private optionContainer: ViewContainerRef;
-  @ViewChild('selectOptionContainer', {read: ViewContainerRef})
-  private selectOptionContainer: ViewContainerRef;
-
+  @ViewChild('optionsMenu') optionsMenu: ElementRef;
+  @ViewChild('optionsMenu') valueField: ElementRef;
+  @ContentChildren(AppCustomOptionDirective) private contentOptionList: QueryList<any>;
+  // @ViewChild('optionContainer', {read: ViewContainerRef})
+  // private optionContainer: ViewContainerRef;
+  // @ViewChild('selectOptionContainer', {read: ViewContainerRef})
+  // private selectOptionContainer: ViewContainerRef;
   public searchControl = new FormControl('');
-  public OptionDataList: CustomOption[] = [];
 
-  // @Input() myTemplate: TemplateRef<any>;
-  constructor(private _changeDetectorRef: ChangeDetectorRef
-  ) {
-
+  constructor(private _changeDetectorRef: ChangeDetectorRef) {
   }
 
-  ngOnInit() {
-    // this._optionList.forEach(option => console.log(option) );
-    // console.log(this._optionList);
-    // console.log(this.searchState);
+  ngAfterContentInit() {
+    // this.getPropsOptionsData();
+    this.getContentOptionsData();
+    // if (this.isValidOptionsData(this.initOptionsData)) {
+    this.bufferOptionsData.push(...this.initOptionsData);
+    this._changeDetectorRef.detectChanges();
+    // }
+    this.initSearch();
 
-    if (this.optionsData) {
-      // this.bufferOptionsData.push(...this.optionsData);
-      // this.currentOption = this.bufferOptionsData[0];
-    } else {
-
-    }
-
-    if (this.searchState) {
-      this.initSearch();
-    }
-  }
-
-  initSearch() {
-    if (this.searchState) {
-      this.searchControl.valueChanges
-        .pipe(
-          // takeUntil(this.destroy),
-          debounceTime(300)
-        )
-        .subscribe((value) => {
-          console.log(value);
-          this.bufferOptionsData = this.optionsData.filter(option => option.title.includes(value));
-          this._changeDetectorRef.detectChanges();
-        });
-    }
-  }
-
-  filterOptions() {
-  }
-
-  ngAfterViewInit() {
-    this.getOptionsData();
-    // console.log(this.OptionDataList);
+    ['offsetHeight', 'offsetLeft', 'offsetParent', 'offsetTop', 'offsetWidth'].forEach(prop => {
+      console.log(prop + ': ' + this.optionsMenu.nativeElement[prop]);
+      console.log(prop + ': ' + this.valueField.nativeElement[prop]);
+    });
   }
 
   ngOnDestroy() {
@@ -108,48 +69,72 @@ export class AppCustomSelectComponent
     this.destroy.complete();
   }
 
-  public ngAfterContentInit() {
-    // this.createOptions();
-    // this.createSelectOption();
+  getPropsOptionsData() {
+    this.initOptionsData.push(...this.propsOptionsData);
   }
 
-  ngAfterContentChecked() {
-    // this.createOptions();
-    // this.createSelectOption();
-  }
-
-  isValidOptions() {
-
-  }
-
-  getOptionsData() {
-    this._changeDetectorRef.detectChanges();
-    // this._optionList[];
-    this._optionList.forEach(option => {
-      console.log(option);
-      this.optionsData.push(option);
+  getContentOptionsData() {
+    this.contentOptionList.forEach((option: CustomOption) => {
+      if (option.value === undefined && option.title !== undefined) {
+        option.value = option.title;
+      }
+      // if (option.selected) {
+        // this.currentOption = option;
+        // this.writeValue(option.value);
+      // }
+      this.initOptionsData.push(option);
     });
   }
 
-  searchOptions() {
+  // isValidOptionsData(optionsData: CustomOption[]): boolean {
+  //   optionsData.forEach(option => {
+  //     if (!option.isLabel && option.title === undefined && option.value === undefined) {
+  //       getValidOptionUndefinedValueError();
+  //     }
+  //     if (option.isLabel && option.title === undefined) {
+  //       getValidOptionLabelWithoutTittleError();
+  //     }
+  //   });
+  //   return true;
+  // }
+
+  markSelectOption(selectOption) {
+    this.initOptionsData.map(option => {
+      if (option.title !== selectOption.title) {
+        option.selected = false;
+      } else {
+        option.selected = true;
+      }
+    });
+    this._changeDetectorRef.checkNoChanges();
   }
 
-  placingDropdownMenu() {
+  selectOption(selectOption) {
+    this.hideOptions();
+    this.clearSearch();
+    this.currentOption = selectOption;
+    this.writeValue(this.currentOption.value);
+    this._onTouched();
+    // this.markSelectOption(selectOption);
+  }
+
+  initSearch() {
+    if (this.searchState) {
+      this.searchControl.valueChanges
+        .pipe(
+          takeUntil(this.destroy),
+          debounceTime(300)
+        )
+        .subscribe((value) => {
+          this.bufferOptionsData = this.initOptionsData.filter(option => option.title.includes(value));
+          this._changeDetectorRef.detectChanges();
+        });
+    }
   }
 
   writeValue(value) {
-    console.log(value);
-    this.currentOption = value;
-    this.hideOptions();
-    this.clearSearch();
-    this._onChange(this.currentOption.value);
+    this._onChange(value);
   }
-
-  // selectOption(option: CustomOption) {
-  //   console.log(option);
-  //   this.currentOption = option;
-  //   this.hideOptions();
-  // }
 
   registerOnChange(fn: (_: any) => void): void {
     this._onChange = fn;
@@ -164,11 +149,9 @@ export class AppCustomSelectComponent
   }
 
   _onChange(value) {
-
   }
 
   _onTouched() {
-
   }
 
   hideOptions() {
@@ -176,14 +159,18 @@ export class AppCustomSelectComponent
   }
 
   showOptions() {
+    ['offsetHeight', 'offsetLeft', 'offsetParent', 'offsetTop', 'offsetWidth'].forEach(prop => {
+      console.log(prop + ': ' + this.optionsMenu.nativeElement[prop]);
+      console.log(prop + ': ' + this.valueField.nativeElement[prop]);
+    });
+    // console.log(window.innerHeight);
+    // console.log(this.optionsMenu.nativeElement.offsetTop);
+    // console.log(this.optionsMenu.nativeElement);
+    // console.log((window.scrollY);
     this.isShowOptions = true;
   }
 
   clearSearch() {
     this.searchControl.patchValue('');
-  }
-
-  coerceBooleanProperty(value: any): boolean {
-    return value != null && `${value}` !== 'false';
   }
 }

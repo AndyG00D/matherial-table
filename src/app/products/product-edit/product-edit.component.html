@@ -8,13 +8,14 @@
   >
 
     <app-custom-option value="1">simple</app-custom-option>
-    <app-custom-option value="2" disabled = "true" >disabled</app-custom-option>
-    <app-custom-option value="" isLabel="true">Label</app-custom-option>
-    <app-custom-option value="3" imgSrc="https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png">with image left</app-custom-option>
-    <app-custom-option value="4" imgSrc="https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png" imgRight="true">with image right</app-custom-option>
+    <app-custom-option value="2" selected="true">active</app-custom-option>
+    <app-custom-option value="3" disabled = "true" >disabled</app-custom-option>
+    <app-custom-option isLabel="true">Label</app-custom-option>
+    <app-custom-option value="5" imgSrc="https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png">with image left</app-custom-option>
+    <app-custom-option value="6" imgSrc="https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png" imgRight="true">with image right</app-custom-option>
   </app-custom-select>
 </div>
-
+<pre>{{product | json}}</pre>
 <!--<div class="example-container">-->
 <!--<app-form-field label="Input">-->
 <!--<input appInput placeholder="Input" required>-->
