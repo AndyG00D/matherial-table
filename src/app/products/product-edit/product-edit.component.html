@@ -1,17 +1,35 @@
 <p><a href="" routerLink="..">&lt; Back</a></p>
-<pre>{{product | json}}</pre>
+<!--<pre>{{product | json}}</pre>-->
 <div class="row">
   <app-custom-select
+    [formControl] = "selectControl"
     class="col-md-6"
-    [options]="options"
+    value = "3"
     search="true"
   >
-
     <app-custom-option value="1">simple</app-custom-option>
     <app-custom-option value="2" disabled = "true" >disabled</app-custom-option>
     <app-custom-option value="" isLabel="true">Label</app-custom-option>
     <app-custom-option value="3" imgSrc="https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png">with image left</app-custom-option>
     <app-custom-option value="4" imgSrc="https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png" imgRight="true">with image right</app-custom-option>
+    <app-custom-option value="5">5</app-custom-option>
+    <app-custom-option value="6">6</app-custom-option>
+    <app-custom-option value="7">7</app-custom-option>      
+    <app-custom-option value="8">8</app-custom-option>
+    <app-custom-option value="9">9</app-custom-option>
+    <app-custom-option value="10">10</app-custom-option>
+  </app-custom-select>
+</div>
+
+<div class="row">
+  <app-custom-select
+    [formControl] = "selectControl2"
+    class="col-md-6"
+    value = "1"
+    search="true"
+  >
+    <app-custom-option value="1">simple</app-custom-option>
+    <app-custom-option value="2">simple2</app-custom-option>
   </app-custom-select>
 </div>
 

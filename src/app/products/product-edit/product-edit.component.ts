@@ -20,46 +20,48 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   private product: Product;
   public email = new FormControl('',
     [Validators.required, Validators.email]);
-  public options: CustomOption[] = [
-    {
-    title: 'one',
-    isLabel: false,
-    value: 1,
-    disabled: false
-  },
-    {
-      title: 'two',
-      isLabel: true,
-      value: 2,
-      disabled: false
-    },
-    {
-      title: 'three',
-      isLabel: false,
-      value: 3,
-      disabled: true
-    },
-    {
-      title: 'four',
-      isLabel: false,
-      value: 4,
-      disabled: false
-    },
-    {
-      title: 'five',
-      isLabel: false,
-      value: 5,
-      disabled: false,
-      imgRight: true,
-      imgSrc: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
-
-    },
-    {
-      title: 'six',
-      value: 6,
-      imgSrc: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
-    }
-  ];
+  public selectControl = new FormControl('');
+  public selectControl2 = new FormControl({value: '', disabled: true});
+  // public options: CustomOption[] = [
+  //   {
+  //   title: 'one',
+  //   isLabel: false,
+  //   value: 1,
+  //   disabled: false
+  // },
+  //   {
+  //     title: 'two',
+  //     isLabel: true,
+  //     value: 2,
+  //     disabled: false
+  //   },
+  //   {
+  //     title: 'three',
+  //     isLabel: false,
+  //     value: 3,
+  //     disabled: true
+  //   },
+  //   {
+  //     title: 'four',
+  //     isLabel: false,
+  //     value: 4,
+  //     disabled: false
+  //   },
+  //   {
+  //     title: 'five',
+  //     isLabel: false,
+  //     value: 5,
+  //     disabled: false,
+  //     imgRight: true,
+  //     imgSrc: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
+  //
+  //   },
+  //   {
+  //     title: 'six',
+  //     value: 6,
+  //     imgSrc: 'https://cdn-images-1.medium.com/max/800/1*tqxihiRKrbgBKghlBsfoyA.png'
+  //   }
+  // ];
 
   constructor(
     private productsService: ProductsService,
@@ -70,6 +72,9 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getProduct();
+    this.selectControl.valueChanges.subscribe(value =>
+      console.log('select value: ' + value)
+    );
   }
 
   private getProduct() {

@@ -1,7 +1,7 @@
-export interface Icon {
-  src: string;
-  position: string;
-}
+// export interface Icon {
+//   src: string;
+//   position: string;
+// }
 
 export interface CustomOption {
   title: string;

@@ -1,10 +1,12 @@
-<div class="dropdown dropup">
+<div class="dropdown"
+     [class.dropup]="isDropup()"
+>
 
   <div class="input-group" *ngIf="!isShowOptions || !searchState">
     <div
       type="button"
       class="custom-select"
-      (click)="showOptions()"
+      (click)="disabled || showOptions()"
       data-toggle="dropdown">
       <ng-container *ngTemplateOutlet="currentOptionTemplate; context: {data: currentOption}">
       </ng-container>
@@ -22,18 +24,6 @@
       <button class="btn btn-outline-secondary font-weight-bold" type="button">x</button>
     </div>
   </div>
-
-  <!--<div class="input-group row col-sm-12" *ngIf="isShowOptions">-->
-  <!--<input-->
-  <!--class="form-control"-->
-  <!--type="text"-->
-  <!--[formControl]="searchControl"-->
-  <!--placeholder="Search and Choose option..."-->
-  <!--&gt;-->
-  <!--<div class="input-group-append" (click)="clearSearch()">-->
-  <!--<button class="btn btn-outline-secondary font-weight-bold" type="button">x</button>-->
-  <!--</div>-->
-  <!--</div>-->
 
   <div class="dropdown-menu row col-sm-12" [class.show]="isShowOptions">
     <ng-container *ngIf="bufferOptionsData.length; else emptyOptions">
@@ -61,25 +51,26 @@
 <ng-template #optionTemplate let-option="data">
   <li
     class="dropdown-item media d-flex justify-content-start  align-items-center"
-    [value]="option.value"
+    [value]="option?.value"
+    [class.active] = "isSelected(option)"
     [class.disabled]="option.disabled"
     [class.dropdown-header]="option.isLabel"
     [class.flex-row-reverse]="option?.imgRight"
-    (click)=" option.isLabel || option.disabled || writeValue(option)"
+    (click)=" option.isLabel || option.disabled || disabled || writeValue(option)"
   >
-    <div *ngIf="option.imgSrc" class="mr-md-3">
+    <div *ngIf="option?.imgSrc" class="mr-md-3">
       <a>
         <img
           class="media-object "
           [src]="option?.imgSrc"
-          [alt]="option.title"
+          [alt]="option?.title"
           height="32px"
           width="32px"
         >
       </a>
     </div>
     <div class="media-body">
-      {{option.title}}
+      {{option?.title}}
     </div>
   </li>
 </ng-template>
@@ -88,36 +79,24 @@
   <li
     class="list-item d-flex justify-content-start align-items-center"
     [class.flex-row-reverse]="option?.imgRight"
-    [value]="option.value"
+    [value]="option?.value"
   >
-    <div *ngIf="option.imgSrc" class="mr-md-3">
+    <div *ngIf="option?.imgSrc" class="mr-md-3">
       <a>
         <img
           class="media-object"
           [src]="option?.imgSrc"
-          [alt]="option.title"
+          [alt]="option?.title"
           height="24px"
           width="24px"
         >
       </a>
     </div>
-    {{option.title}}
+    <div class="media-body">
+      {{option?.title}}
+    </div>
   </li>
 </ng-template>
-
-<!--<ng-template #iconOptions let-option>-->
-<!--&lt;!&ndash;<div *ngIf="option.icon" class="mr-md-3">&ndash;&gt;-->
-<!--<a>-->
-<!--<img-->
-<!--class="media-object "-->
-<!--[src]="option?.icon?.src"-->
-<!--[alt]="option.title"-->
-<!--height="32px"-->
-<!--width="32px"-->
-<!--&gt;-->
-<!--</a>-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--</ng-template>-->
 
 <ng-template #emptyOptions>
   <li class="list-group-item">No options!</li>
